@@ -12,24 +12,34 @@ const revealOnScroll = new IntersectionObserver(function(entries, observer) {
 
 revealElements.forEach(el => revealOnScroll.observe(el));
 
-// 2. NAVBAR BLUR ON SCROLL
+// 2. NAVBAR BLUR ON SCROLL (Optimized with requestAnimationFrame consideration)
+let lastScrollY = window.scrollY;
 window.addEventListener('scroll', () => {
     const nav = document.getElementById('navbar');
-    if (window.scrollY > 50) { nav.classList.add('scrolled'); } 
-    else { nav.classList.remove('scrolled'); }
-});
+    if (window.scrollY > 50) { 
+        nav.classList.add('scrolled'); 
+    } else { 
+        nav.classList.remove('scrolled'); 
+    }
+    lastScrollY = window.scrollY;
+}, { passive: true }); // Passive listener for better scroll performance
 
-// 3. MAGNETIC BUTTON PHYSICS
+// 3. MAGNETIC BUTTON PHYSICS (Stutter-Free & GPU Accelerated)
 const magneticButtons = document.querySelectorAll('.cta-button');
 magneticButtons.forEach(btn => {
     btn.addEventListener('mousemove', (e) => {
+        // Remove snap-back transition while moving to prevent stutter
+        btn.classList.remove('magnetic-snap'); 
         const rect = btn.getBoundingClientRect();
         const x = e.clientX - rect.left - rect.width / 2;
         const y = e.clientY - rect.top - rect.height / 2;
-        btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px) scale(1.02)`;
+        // translate3d forces hardware acceleration
+        btn.style.transform = `translate3d(${x * 0.2}px, ${y * 0.2}px, 0) scale(1.02)`;
     });
     btn.addEventListener('mouseleave', () => {
-        btn.style.transform = `translate(0px, 0px) scale(1)`;
+        // Re-add the transition class for a smooth return to origin
+        btn.classList.add('magnetic-snap');
+        btn.style.transform = `translate3d(0px, 0px, 0) scale(1)`;
     });
 });
 
@@ -43,10 +53,10 @@ function handleHover(e) {
     card.style.setProperty('--mouse-y', `${y}px`);
 }
 function resetHover(e) {
-    e.currentTarget.style.transform = 'translateY(0) rotateX(0) rotateY(0)';
+    e.currentTarget.style.transform = 'translate3d(0, 0, 0) rotateX(0) rotateY(0)';
 }
 
-// 5. THE MAGIC TRICK: AI SIMULATION ENGINE
+// 5. THE MAGIC TRICK: AI SIMULATION ENGINE (Reflow Optimized)
 const voiceNoteText = '"Uhh yeah, Jake stayed an extra hour closing, register 2 is short 14.50, and we are critically low on napkins for tomorrow..."';
 let typeIndex = 0;
 const typeTarget = document.getElementById('typed-voice');
@@ -54,7 +64,7 @@ const scanLine = document.getElementById('scan-line');
 const jsonOutput = document.getElementById('json-output');
 
 function runSimulation() {
-    typeTarget.innerHTML = '';
+    typeTarget.textContent = ''; // textContent is faster and safer than innerHTML
     jsonOutput.classList.remove('visible');
     scanLine.classList.remove('active');
     typeIndex = 0;
@@ -63,9 +73,9 @@ function runSimulation() {
 
 function typeWriter() {
     if (typeIndex < voiceNoteText.length) {
-        typeTarget.innerHTML += voiceNoteText.charAt(typeIndex);
+        typeTarget.textContent += voiceNoteText.charAt(typeIndex);
         typeIndex++;
-        setTimeout(typeWriter, Math.random() * 40 + 20); // Variable typing speed for realism
+        setTimeout(typeWriter, Math.random() * 35 + 15); // Slightly tightened pacing
     } else {
         setTimeout(() => {
             scanLine.classList.add('active'); // Trigger NLP scan line
@@ -84,11 +94,17 @@ function submitForm(e) {
     e.preventDefault();
     const form = document.getElementById('lead-form');
     const btn = form.querySelector('.cta-button');
+    const originalText = btn.innerHTML;
+    
     btn.innerHTML = 'Processing...';
     btn.style.opacity = '0.7';
+    btn.style.pointerEvents = 'none'; // Prevent double-clicking
     
     // Simulate API Call
     setTimeout(() => {
         document.getElementById('success-state').classList.add('active');
+        btn.innerHTML = originalText;
+        btn.style.opacity = '1';
+        btn.style.pointerEvents = 'all';
     }, 1200);
 }

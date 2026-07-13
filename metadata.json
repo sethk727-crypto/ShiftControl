@@ -1,0 +1,6 @@
+{
+  "name": "ShiftControl",
+  "description": "Advanced Operational Autonomy platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -3,165 +3,356 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SK ShiftControl | Invisible Operational Automation</title>
+    <title>SK ShiftControl | Advanced Operational Autonomy</title>
     <style>
-        /* BASE STYLES & KINESTHETIC ANCHORING */
+        /* ELITE KINESTHETIC ANCHORING & ADVANCED CSS VARIABLES */
         :root {
-            --obsidian: #050505;
-            --platinum: #F5F5F7;
+            --obsidian: #030303;
+            --obsidian-surface: #0a0a0a;
+            --platinum: #FAFAFA;
             --neon-emerald: #00FF66;
-            --dark-gray: #111111;
-            --border-color: #222222;
+            --emerald-glow: rgba(0, 255, 102, 0.15);
+            --border-glass: rgba(255, 255, 255, 0.05);
+            --text-muted: #8E8E93;
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
+
+        /* BASE TYPOGRAPHY & RESET */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background-color: var(--obsidian);
             color: var(--platinum);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, sans-serif;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
         }
+
+        /* STRUCTURAL CONTAINERS */
         .container {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 5vw;
         }
-        
-        /* TYPOGRAPHY & AUDITORY HARMONIZATION */
+
+        /* NAVIGATION & LOGO */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 5vw;
+            background: rgba(3, 3, 3, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-glass);
+            z-index: 1000;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        .logo {
+            height: 28px;
+            width: auto;
+            object-fit: contain;
+            filter: brightness(0) invert(1); /* Ensures logo is platinum-white on dark bg */
+        }
+
+        /* SPATIAL TYPOGRAPHY */
         h1 {
-            font-size: 3.5rem;
-            line-height: 1.1;
-            font-weight: 700;
-            letter-spacing: -0.03em;
+            font-size: clamp(3rem, 6vw, 4.5rem);
+            line-height: 1.05;
+            font-weight: 800;
+            letter-spacing: -0.04em;
             margin-bottom: 1.5rem;
         }
         .comparative-deletion {
             display: block;
-            color: var(--neon-emerald);
-            font-size: 2.5rem;
+            background: linear-gradient(90deg, var(--platinum) 0%, var(--neon-emerald) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: clamp(2rem, 4vw, 3rem);
             margin-top: 0.5rem;
         }
-        h2 { font-size: 2.5rem; margin-bottom: 2rem; }
-        p.subhead {
-            font-size: 1.25rem;
-            color: #A1A1A6;
-            max-width: 700px;
+        h2 { 
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        .subhead {
+            font-size: clamp(1.1rem, 2vw, 1.35rem);
+            color: var(--text-muted);
+            max-width: 650px;
             margin: 0 auto 3rem auto;
-            line-height: 1.8;
+            line-height: 1.7;
+            font-weight: 400;
         }
 
-        /* HIGH-VELOCITY BUTTONS */
+        /* ADVANCED MICRO-INTERACTIONS & HIGH-VELOCITY BUTTONS */
         .cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             background-color: var(--neon-emerald);
             color: var(--obsidian);
             border: none;
-            padding: 20px 40px;
-            font-size: 1.1rem;
+            padding: 22px 48px;
+            font-size: 1.15rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             cursor: pointer;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 20px rgba(0, 255, 102, 0.2);
+            border-radius: 2px;
+            transition: var(--transition-smooth);
+            box-shadow: 0 0 30px var(--emerald-glow);
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-button::after {
+            content: '';
+            position: absolute;
+            top: -50%; right: -50%; bottom: -50%; left: -50%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.4), rgba(255,255,255,0));
+            transform: rotateZ(60deg) translate(-5em, 7.5em);
+            animation: sheen 5s infinite;
+        }
+        @keyframes sheen {
+            100% { transform: rotateZ(60deg) translate(1em, -9em); }
         }
         .cta-button:hover {
-            box-shadow: 0 0 40px rgba(0, 255, 102, 0.4);
-            transform: translateY(-2px);
+            box-shadow: 0 0 50px rgba(0, 255, 102, 0.4);
+            transform: translateY(-3px) scale(1.02);
+            background-color: #1aff75;
         }
 
-        /* SECTIONS & TEMPORAL STACKING */
-        section { padding: 100px 0; border-bottom: 1px solid var(--border-color); }
-        .hero { text-align: center; padding-top: 150px; }
-        
-        /* MAGIC TRICK DEMO */
+        /* SECTION ARCHITECTURE */
+        section { padding: 140px 0; position: relative; }
+        .hero { 
+            text-align: center; 
+            padding-top: 200px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* ADVANCED GLASSMORPHISM MEDIA DEMO */
         .video-placeholder {
             width: 100%;
-            max-width: 800px;
-            height: 450px;
-            background: var(--dark-gray);
-            margin: 40px auto;
-            border: 1px solid var(--border-color);
+            max-width: 900px;
+            aspect-ratio: 16/9;
+            background: var(--obsidian-surface);
+            margin: 60px auto 0;
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #555;
+            color: var(--text-muted);
             font-style: italic;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        .video-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--neon-emerald), transparent);
+            opacity: 0.3;
         }
 
-        /* CONTRAST FRAME GRID */
+        /* COGNITIVE CONTRAST GRID */
+        .contrast-wrapper {
+            background: var(--obsidian-surface);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            overflow: hidden;
+        }
         .contrast-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 2px;
-            background: var(--border-color);
-            border: 1px solid var(--border-color);
+            gap: 1px;
+            background: var(--border-glass);
         }
-        .contrast-column { background: var(--obsidian); padding: 40px; }
-        .contrast-header { font-size: 1.5rem; font-weight: 600; margin-bottom: 2rem; }
-        .bad-state { color: #FF4444; }
+        .contrast-column { 
+            background: var(--obsidian-surface); 
+            padding: 60px 50px; 
+            transition: var(--transition-smooth);
+        }
+        .contrast-column:hover { background: #0c0c0c; }
+        .contrast-header { 
+            font-size: 1.4rem; 
+            font-weight: 600; 
+            margin-bottom: 2.5rem; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .bad-state { color: #555; }
         .good-state { color: var(--neon-emerald); }
-        .contrast-item { margin-bottom: 1.5rem; border-bottom: 1px solid var(--dark-gray); padding-bottom: 1rem;}
-
-        /* VALUE PROPS */
-        .value-props { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
-        .prop-card { background: var(--dark-gray); padding: 40px; border-top: 3px solid var(--neon-emerald); }
-        .prop-card h3 { font-size: 1.2rem; margin-bottom: 1rem; }
-        .prop-card p { color: #A1A1A6; font-size: 0.95rem; }
-
-        /* VELVET ROPE & SOCIAL PROOF */
-        .velvet-rope { text-align: center; font-style: italic; color: #888; margin-bottom: 40px; }
-
-        /* ERICKSONIAN CLOSE & FORM */
-        .closing-section { text-align: center; padding-bottom: 150px; }
-        .hypnotic-copy { max-width: 600px; margin: 0 auto 40px auto; font-size: 1.2rem; color: #E0E0E0; line-height: 1.8;}
-        .form-container { max-width: 400px; margin: 0 auto; background: var(--dark-gray); padding: 40px; border: 1px solid var(--border-color); }
-        input {
-            width: 100%; padding: 15px; margin-bottom: 20px;
-            background: var(--obsidian); border: 1px solid var(--border-color);
-            color: var(--platinum); font-size: 1rem; box-sizing: border-box;
+        .contrast-item { 
+            margin-bottom: 2rem; 
+            font-size: 1.1rem;
+            display: flex;
+            align-items: flex-start;
+            color: var(--platinum);
         }
-        input:focus { outline: none; border-color: var(--neon-emerald); }
-        .guardrail { font-size: 0.75rem; color: #888; margin-top: 20px; line-height: 1.4; }
+        .contrast-item::before {
+            content: '→';
+            margin-right: 15px;
+            color: var(--border-glass);
+        }
+        .good-state-column .contrast-item::before { color: var(--neon-emerald); }
+
+        /* NOMINALIZED VALUE CARDS */
+        .velvet-rope { 
+            text-align: center; 
+            font-style: italic; 
+            color: var(--text-muted); 
+            margin-bottom: 60px;
+            font-size: 1.2rem;
+            letter-spacing: 0.5px;
+        }
+        .value-props { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 30px; 
+        }
+        .prop-card { 
+            background: var(--obsidian-surface); 
+            padding: 50px 40px; 
+            border: 1px solid var(--border-glass);
+            border-radius: 6px;
+            transition: var(--transition-smooth);
+            position: relative;
+        }
+        .prop-card::top {
+            content: ''; position: absolute; top: 0; left: 0; width: 0; height: 2px;
+            background: var(--neon-emerald); transition: var(--transition-smooth);
+        }
+        .prop-card:hover { transform: translateY(-5px); border-color: rgba(0, 255, 102, 0.2); }
+        .prop-card:hover::top { width: 100%; }
+        .prop-card h3 { font-size: 1.3rem; margin-bottom: 1.5rem; color: var(--platinum); }
+        .prop-card p { color: var(--text-muted); font-size: 1rem; line-height: 1.7; }
+
+        /* ERICKSONIAN CLOSING & FRICTIONLESS FORM */
+        .closing-section { 
+            text-align: center; 
+            padding-bottom: 180px; 
+            background: radial-gradient(circle at center top, rgba(0, 255, 102, 0.03) 0%, var(--obsidian) 70%);
+        }
+        .hypnotic-copy { 
+            max-width: 650px; 
+            margin: 0 auto 60px auto; 
+            font-size: 1.3rem; 
+            color: #D1D1D6; 
+            line-height: 1.8;
+            font-weight: 300;
+        }
+        .form-container { 
+            max-width: 450px; 
+            margin: 0 auto; 
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 50px; 
+            border: 1px solid var(--border-glass); 
+            border-radius: 8px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+        }
+        .input-group { margin-bottom: 25px; position: relative; }
+        input {
+            width: 100%; 
+            padding: 18px 20px; 
+            background: var(--obsidian); 
+            border: 1px solid var(--border-glass);
+            color: var(--platinum); 
+            font-size: 1.05rem; 
+            box-sizing: border-box;
+            border-radius: 4px;
+            transition: var(--transition-smooth);
+        }
+        input::placeholder { color: #555; }
+        input:focus { 
+            outline: none; 
+            border-color: var(--neon-emerald); 
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.1);
+        }
+        .guardrail { 
+            font-size: 0.85rem; 
+            color: #666; 
+            margin-top: 25px; 
+            line-height: 1.5; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .guardrail::before {
+            content: ''; display: block; width: 8px; height: 8px; 
+            background: var(--neon-emerald); border-radius: 50%;
+            box-shadow: 0 0 8px var(--neon-emerald);
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 768px) {
+            .contrast-grid { grid-template-columns: 1fr; }
+            .contrast-column { padding: 40px 30px; }
+            .video-placeholder { height: 250px; }
+            section { padding: 80px 0; }
+            .hero { padding-top: 150px; min-height: auto; }
+        }
     </style>
 </head>
 <body>
 
+    <!-- NAV BAR WITH GITHUB LOGO REFERENCE -->
+    <nav>
+        <img src="logo.png" alt="SK ShiftControl Logo" class="logo">
+    </nav>
+
+    <!-- THE HERO SECTION (SURFACE STRUCTURE PACE) -->
     <section class="hero">
         <div class="container">
             <h1>The Midnight Logbook Is Dead.<br>
             <span class="comparative-deletion">Scale faster. Operate more securely.</span></h1>
-            <p class="subhead">You hear the final lock click. You see the empty floor. But you still feel the weight of the variance reports and shift notes waiting in the back office. It stops tonight. We build invisible internal ecosystems that completely eliminate late-night administrative paperwork.</p>
             
-            <div class="video-placeholder">
-                [Borderless real-time simulation: 60-second chaotic voice note instantly organizing into a structured POS balance sheet]
-            </div>
-
+            <p class="subhead">You hear the final lock click. You see the empty floor. But you still feel the weight of the variance reports and shift notes waiting in the back office. It stops tonight. We build invisible internal tech that completely eliminates late-night administrative paperwork.</p>
+            
             <button class="cta-button">Request a Risk-Free 7-Day Pilot Run</button>
+
+            <div class="video-placeholder">
+                [Borderless real-time simulation: A chaotic 60-second voice note organizing perfectly into a structured closing sheet within milliseconds]
+            </div>
         </div>
     </section>
 
+    <!-- THE CONTRAST FRAME (PROCESS NOMINALIZATION & SPATIAL ANCHORING) -->
     <section class="contrast">
         <div class="container">
-            <h2 style="text-align: center;">The Transition of Power</h2>
-            <div class="contrast-grid">
-                <div class="contrast-column">
-                    <div class="contrast-header bad-state">The Manual Nightmare</div>
-                    <div class="contrast-item">Chasing down missing timecards and unapproved overtime</div>
-                    <div class="contrast-item">Fighting register variances and cross-referencing Toast/Square data</div>
-                    <div class="contrast-item">Typing up exhausting, subjective late-night manager logbooks</div>
-                </div>
-                <div class="contrast-column">
-                    <div class="contrast-header good-state">The ShiftControl Reality</div>
-                    <div class="contrast-item">Seamless Roster Reconciliation</div>
-                    <div class="contrast-item">Instant Error Detection & Variance Flagging</div>
-                    <div class="contrast-item">Voice-to-Text Closeout Pipelines</div>
+            <h2>The Transition of Power</h2>
+            <div class="contrast-wrapper">
+                <div class="contrast-grid">
+                    <div class="contrast-column">
+                        <div class="contrast-header bad-state">The Manual Nightmare</div>
+                        <div class="contrast-item">Chasing down missing timecards and unapproved overtime</div>
+                        <div class="contrast-item">Fighting register variances and manually cross-referencing POS data</div>
+                        <div class="contrast-item">Typing up exhausting, subjective late-night manager logbooks</div>
+                    </div>
+                    <div class="contrast-column good-state-column">
+                        <div class="contrast-header good-state">The ShiftControl Reality</div>
+                        <div class="contrast-item">Seamless Roster Reconciliation</div>
+                        <div class="contrast-item">Instant Error Detection & Variance Flagging</div>
+                        <div class="contrast-item">Voice-to-Text Closeout Pipelines</div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- THE VALUE PROP SECTION (NOMINAL DATA REDUCTION) -->
     <section class="value">
         <div class="container">
             <div class="velvet-rope">"Every forward-thinking hospitality leader has already abandoned manual closeouts."</div>
@@ -172,7 +363,7 @@
                 </div>
                 <div class="prop-card">
                     <h3>Milestone & Anniversary Automation</h3>
-                    <p>An invisible backend line naturally and easily connects to your reservation systems. High-value guests are reactivated hands-free exactly 11 months later, filling your books without a single marketing meeting.</p>
+                    <p>An invisible backend line naturally and easily connects to your tracking apps. High-value guests are reactivated hands-free exactly 11 months later, filling your books without a single marketing meeting.</p>
                 </div>
                 <div class="prop-card">
                     <h3>High-Status Partner Report</h3>
@@ -182,6 +373,7 @@
         </div>
     </section>
 
+    <!-- THE ERICKSONIAN RISK-REMOVAL CLOSING SECTION -->
     <section class="closing-section">
         <div class="container">
             <div class="hypnotic-copy">
@@ -190,9 +382,16 @@
 
             <div class="form-container">
                 <form action="#" method="POST">
-                    <input type="text" placeholder="Your Name" required>
-                    <input type="text" placeholder="Venue Name" required>
-                    <input type="tel" placeholder="Mobile Number" required>
+                    <div class="input-group">
+                        <input type="text" placeholder="Your Name" required>
+                    </div>
+                    <div class="input-group">
+                        <!-- Contextually optimized placeholder -->
+                        <input type="text" placeholder="Venue Name (e.g., Champs)" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="tel" placeholder="Mobile Number" required>
+                    </div>
                     <button type="submit" style="width: 100%;" class="cta-button">Initiate Protocol</button>
                 </form>
                 <div class="guardrail">

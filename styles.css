@@ -1,0 +1,395 @@
+/* ==========================================================================
+   ELITE KINESTHETIC ANCHORING & ADVANCED CSS VARIABLES
+   ========================================================================== */
+:root {
+    --obsidian: #030303;
+    --obsidian-surface: #0a0a0a;
+    --obsidian-elevated: #121212;
+    --platinum: #FAFAFA;
+    --neon-emerald: #00FF66;
+    --emerald-glow: rgba(0, 255, 102, 0.2);
+    --emerald-dim: rgba(0, 255, 102, 0.05);
+    --border-glass: rgba(255, 255, 255, 0.08);
+    --text-muted: #8E8E93;
+    --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-bounce: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ==========================================================================
+   BASE TYPOGRAPHY & SMOOTH SCROLL RESET
+   ========================================================================== */
+html {
+    scroll-behavior: smooth;
+}
+* { 
+    margin: 0; padding: 0; box-sizing: border-box; 
+}
+body {
+    background-color: var(--obsidian);
+    color: var(--platinum);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+}
+
+/* Custom Scrollbar for High-End Feel */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--obsidian); }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--neon-emerald); }
+
+/* ==========================================================================
+   STRUCTURAL CONTAINERS & NAVIGATION
+   ========================================================================== */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 5vw;
+}
+nav {
+    position: fixed;
+    top: 0; left: 0; width: 100%;
+    padding: 20px 5vw;
+    background: rgba(3, 3, 3, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid transparent;
+    z-index: 1000;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    transition: var(--transition-smooth);
+}
+nav.scrolled {
+    border-bottom: 1px solid var(--border-glass);
+    padding: 15px 5vw;
+    background: rgba(3, 3, 3, 0.9);
+}
+.logo {
+    height: 28px;
+    width: auto;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+    cursor: pointer;
+}
+
+/* ==========================================================================
+   SPATIAL TYPOGRAPHY & GRADIENTS
+   ========================================================================== */
+h1 {
+    font-size: clamp(3rem, 6.5vw, 5rem);
+    line-height: 1.05;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    margin-bottom: 1.5rem;
+    will-change: transform, opacity;
+}
+.comparative-deletion {
+    display: block;
+    background: linear-gradient(90deg, var(--platinum) 0%, var(--neon-emerald) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% auto;
+    animation: shine 4s linear infinite;
+}
+@keyframes shine {
+    to { background-position: 200% center; }
+}
+h2 { 
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 3rem;
+    text-align: center;
+}
+.subhead {
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    color: var(--text-muted);
+    max-width: 680px;
+    margin: 0 auto 3rem auto;
+    line-height: 1.7;
+    font-weight: 400;
+}
+
+/* ==========================================================================
+   ADVANCED MICRO-INTERACTIONS (MAGNETIC BUTTONS)
+   ========================================================================== */
+.cta-wrapper {
+    display: inline-block;
+    perspective: 1000px;
+}
+.cta-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--neon-emerald);
+    color: var(--obsidian);
+    border: none;
+    padding: 22px 48px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.1s ease-out;
+    box-shadow: 0 0 30px var(--emerald-glow);
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+.cta-button::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transition: left 0.5s ease;
+}
+.cta-button:hover::before { left: 100%; }
+.cta-button:hover { background-color: #1aff75; box-shadow: 0 0 50px rgba(0, 255, 102, 0.4); }
+
+/* ==========================================================================
+   SECTION ARCHITECTURE & SCROLL REVEAL UTILS
+   ========================================================================== */
+section { padding: 160px 0; position: relative; }
+.hero { 
+    text-align: center; 
+    padding-top: 220px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: radial-gradient(circle at 50% -20%, var(--emerald-dim), transparent 60%);
+}
+
+/* Scroll Reveal Classes */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: var(--transition-smooth);
+}
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+/* ==========================================================================
+   DYNAMIC AI DEMO UI (THE MAGIC TRICK)
+   ========================================================================== */
+.demo-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 60px auto 0;
+    background: var(--obsidian-elevated);
+    border: 1px solid var(--border-glass);
+    border-radius: 12px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 0 1px inset rgba(255,255,255,0.05);
+    overflow: hidden;
+    position: relative;
+}
+.demo-header {
+    background: #1a1a1a;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--border-glass);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+.demo-dots {
+    display: flex; gap: 6px; margin-right: 15px;
+}
+.dot { width: 10px; height: 10px; border-radius: 50%; background: #444; }
+.demo-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 300px;
+}
+.demo-input {
+    padding: 40px;
+    border-right: 1px solid var(--border-glass);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.demo-output {
+    padding: 40px;
+    background: var(--obsidian-surface);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+}
+.typing-text { font-size: 1.1rem; color: var(--text-muted); font-style: italic; }
+.cursor { display: inline-block; width: 2px; height: 1.1em; background: var(--neon-emerald); animation: blink 1s step-end infinite; vertical-align: text-bottom;}
+@keyframes blink { 50% { opacity: 0; } }
+
+.structured-data { opacity: 0; transform: scale(0.95); transition: var(--transition-bounce); }
+.structured-data.visible { opacity: 1; transform: scale(1); }
+.data-row {
+    display: flex; justify-content: space-between;
+    padding: 15px; border-bottom: 1px solid var(--border-glass);
+    font-family: monospace; font-size: 0.95rem;
+}
+.data-key { color: var(--text-muted); }
+.data-val { color: var(--neon-emerald); font-weight: bold; }
+
+.ai-scanning-line {
+    position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+    background: var(--neon-emerald); box-shadow: 0 0 10px var(--neon-emerald);
+    opacity: 0; z-index: 10;
+}
+.ai-scanning-line.active { animation: scan 1.5s ease-in-out forwards; opacity: 1; }
+@keyframes scan {
+    0% { top: 0; opacity: 1; }
+    90% { top: 100%; opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+}
+
+/* ==========================================================================
+   COGNITIVE CONTRAST GRID
+   ========================================================================== */
+.contrast-wrapper {
+    background: var(--obsidian-elevated);
+    border: 1px solid var(--border-glass);
+    border-radius: 12px;
+    overflow: hidden;
+}
+.contrast-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+    background: var(--border-glass);
+}
+.contrast-column { 
+    background: var(--obsidian-surface); 
+    padding: 70px 50px; 
+    transition: var(--transition-smooth);
+    position: relative;
+}
+.good-state-column:hover { background: #0c0f0d; }
+.contrast-header { 
+    font-size: 1.5rem; font-weight: 600; margin-bottom: 3rem; 
+    text-transform: uppercase; letter-spacing: 2px;
+}
+.bad-state { color: #555; }
+.good-state { color: var(--neon-emerald); }
+.contrast-item { 
+    margin-bottom: 2.5rem; font-size: 1.15rem;
+    display: flex; align-items: flex-start; color: var(--platinum);
+    opacity: 0.8; transition: var(--transition-smooth);
+}
+.contrast-column:hover .contrast-item { opacity: 1; }
+.contrast-item::before {
+    content: '×'; margin-right: 18px; color: #444; font-weight: bold; font-size: 1.4rem; line-height: 1;
+}
+.good-state-column .contrast-item::before { content: '→'; color: var(--neon-emerald); }
+
+/* ==========================================================================
+   NOMINALIZED VALUE CARDS (3D HOVER)
+   ========================================================================== */
+.velvet-rope { 
+    text-align: center; font-style: italic; color: var(--text-muted); 
+    margin-bottom: 70px; font-size: 1.25rem; letter-spacing: 0.5px;
+}
+.value-props { 
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; perspective: 1000px;
+}
+.prop-card { 
+    background: var(--obsidian-elevated); padding: 50px 40px; 
+    border: 1px solid var(--border-glass); border-radius: 8px;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    position: relative; overflow: hidden;
+    transform-style: preserve-3d;
+}
+.prop-card::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.06), transparent 40%);
+    z-index: 1; pointer-events: none; opacity: 0; transition: opacity 0.3s;
+}
+.prop-card:hover::before { opacity: 1; }
+.prop-card:hover { 
+    transform: translateY(-10px) rotateX(2deg) rotateY(-2deg); 
+    box-shadow: 20px 20px 60px rgba(0,0,0,0.5), 0 0 20px var(--emerald-dim);
+    border-color: rgba(0,255,102,0.3);
+}
+.prop-card h3 { font-size: 1.35rem; margin-bottom: 1.5rem; color: var(--platinum); z-index: 2; position: relative;}
+.prop-card p { color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; z-index: 2; position: relative;}
+
+/* ==========================================================================
+   ERICKSONIAN CLOSING & FRICTIONLESS FORM
+   ========================================================================== */
+.closing-section { 
+    text-align: center; padding-bottom: 180px; 
+    background: radial-gradient(circle at center bottom, var(--emerald-dim) 0%, var(--obsidian) 70%);
+}
+.hypnotic-copy { 
+    max-width: 700px; margin: 0 auto 60px auto; font-size: 1.35rem; 
+    color: #D1D1D6; line-height: 1.8; font-weight: 300;
+}
+.form-container { 
+    max-width: 480px; margin: 0 auto; 
+    background: rgba(18, 18, 18, 0.7); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+    padding: 60px; border: 1px solid var(--border-glass); border-radius: 12px;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.8), 0 0 0 1px inset rgba(255,255,255,0.05);
+    position: relative; overflow: hidden;
+}
+/* Success State Overlay */
+.form-success {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: var(--obsidian-elevated); z-index: 10;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    opacity: 0; pointer-events: none; transition: var(--transition-smooth);
+}
+.form-success.active { opacity: 1; pointer-events: all; }
+.success-icon { font-size: 3rem; color: var(--neon-emerald); margin-bottom: 20px; }
+
+.input-group { margin-bottom: 30px; position: relative; text-align: left; }
+.input-group label {
+    display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px;
+    text-transform: uppercase; letter-spacing: 1px; font-weight: 600;
+    transition: var(--transition-smooth);
+}
+input {
+    width: 100%; padding: 0 0 12px 0; background: transparent; 
+    border: none; border-bottom: 2px solid var(--border-glass);
+    color: var(--platinum); font-size: 1.2rem; box-sizing: border-box;
+    transition: var(--transition-smooth);
+}
+input::placeholder { color: #444; font-weight: 300; }
+input:focus { outline: none; border-bottom-color: var(--neon-emerald); }
+input:focus + .input-highlight { width: 100%; }
+.input-highlight {
+    position: absolute; bottom: 0; left: 0; height: 2px; width: 0;
+    background: var(--neon-emerald); transition: width 0.4s ease;
+}
+.guardrail { 
+    font-size: 0.85rem; color: #777; margin-top: 30px; line-height: 1.6; 
+    display: flex; align-items: flex-start; justify-content: center; gap: 12px;
+    text-align: left;
+}
+.guardrail::before {
+    content: ''; display: block; width: 6px; height: 6px; margin-top: 6px;
+    background: var(--neon-emerald); border-radius: 50%; flex-shrink: 0;
+    box-shadow: 0 0 10px var(--neon-emerald);
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+@media (max-width: 900px) {
+    .demo-body { grid-template-columns: 1fr; }
+    .demo-input { border-right: none; border-bottom: 1px solid var(--border-glass); padding: 30px; min-height: 150px;}
+    .demo-output { padding: 30px; min-height: 200px; }
+}
+@media (max-width: 768px) {
+    .contrast-grid { grid-template-columns: 1fr; }
+    .contrast-column { padding: 50px 30px; }
+    section { padding: 100px 0; }
+    .hero { padding-top: 160px; min-height: auto; }
+    .form-container { padding: 40px 25px; }
+}

@@ -1,483 +1,1743 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SK ShiftControl | Advanced Operational Autonomy</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SK ShiftControl | Operational Automation</title>
     <style>
-        /* ==========================================================================
-           ELITE KINESTHETIC ANCHORING & ADVANCED CSS VARIABLES
+      /* ==========================================================================
+           CORE VARIABLES & RESET
            ========================================================================== */
-        :root {
-            --obsidian: #030303;
-            --obsidian-surface: #0a0a0a;
-            --obsidian-elevated: #121212;
-            --platinum: #FAFAFA;
-            --neon-emerald: #00FF66;
-            --emerald-glow: rgba(0, 255, 102, 0.2);
-            --emerald-dim: rgba(0, 255, 102, 0.05);
-            --border-glass: rgba(255, 255, 255, 0.08);
-            --text-muted: #8E8E93;
-            --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            --transition-bounce: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
+      :root {
+        --obsidian: #030303;
+        --obsidian-surface: #0f0f0f;
+        --obsidian-elevated: #1a1a1a;
+        --platinum: #fafafa;
+        --neon-emerald: #00ff66;
+        --emerald-glow: rgba(0, 255, 102, 0.2);
+        --emerald-dim: rgba(0, 255, 102, 0.05);
+        --border-glass: rgba(255, 255, 255, 0.1);
+        --text-muted: #a1a1aa;
+        --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
 
-        /* ==========================================================================
-           BASE TYPOGRAPHY & SMOOTH SCROLL RESET
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background-color: var(--obsidian);
+        color: var(--platinum);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        overflow-x: hidden;
+      }
+
+      button,
+      a {
+        touch-action: manipulation;
+      }
+
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 24px;
+        width: 100%;
+      }
+
+      /* ==========================================================================
+           FIXED HEADER & LOGO
            ========================================================================== */
-        html { scroll-behavior: smooth; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background-color: var(--obsidian);
-            color: var(--platinum);
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, sans-serif;
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            overflow-x: hidden;
-        }
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 80px;
+        background: rgba(3, 3, 3, 0.8);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border-glass);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+      }
 
-        /* Custom Scrollbar for High-End Feel */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--obsidian); }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--neon-emerald); }
+      nav .container {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+      }
 
-        /* ==========================================================================
-           STRUCTURAL CONTAINERS & NAVIGATION
+      .logo-container {
+        height: 30px;
+        display: flex;
+        align-items: center;
+      }
+
+      .logo {
+        height: 100%;
+        width: auto;
+        object-fit: contain;
+        display: block;
+      }
+
+      .fallback-logo {
+        display: none;
+        font-size: 1.4rem;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        color: var(--platinum);
+        line-height: 1;
+      }
+
+      .fallback-logo span {
+        color: var(--neon-emerald);
+      }
+
+      /* ==========================================================================
+           BUTTONS & TYPOGRAPHY
            ========================================================================== */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 5vw;
-        }
-        nav {
-            position: fixed;
-            top: 0; left: 0; width: 100%;
-            padding: 20px 5vw;
-            background: rgba(3, 3, 3, 0.7);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid transparent;
-            z-index: 1000;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            transition: var(--transition-smooth);
-        }
-        nav.scrolled {
-            border-bottom: 1px solid var(--border-glass);
-            padding: 15px 5vw;
-            background: rgba(3, 3, 3, 0.9);
-        }
-        .logo {
-            height: 28px;
-            width: auto;
-            object-fit: contain;
-            cursor: pointer;
-            /* If your original logo file is black, UNCOMMENT the line below to turn it white */
-            /* filter: brightness(0) invert(1); */
-        }
+      h1,
+      h2,
+      h3 {
+        font-weight: 700;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+      }
 
-        /* ==========================================================================
-           SPATIAL TYPOGRAPHY & GRADIENTS
+      .cta-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--neon-emerald);
+        color: var(--obsidian);
+        border: none;
+        padding: 18px 36px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: var(--transition-smooth);
+        text-decoration: none;
+        box-shadow: 0 4px 15px var(--emerald-glow);
+      }
+
+      .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 255, 102, 0.4);
+        background-color: #1aff75;
+      }
+
+      /* ==========================================================================
+           HERO SECTION
            ========================================================================== */
-        h1 {
-            font-size: clamp(3rem, 6.5vw, 5rem);
-            line-height: 1.05;
-            font-weight: 800;
-            letter-spacing: -0.04em;
-            margin-bottom: 1.5rem;
-            will-change: transform, opacity;
-        }
-        .comparative-deletion {
-            display: block;
-            background: linear-gradient(90deg, var(--platinum) 0%, var(--neon-emerald) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-size: 200% auto;
-            animation: shine 4s linear infinite;
-        }
-        @keyframes shine { to { background-position: 200% center; } }
-        h2 { 
-            font-size: clamp(2rem, 4vw, 3.5rem);
-            font-weight: 700;
-            letter-spacing: -0.03em;
-            margin-bottom: 3rem;
-            text-align: center;
-        }
-        .subhead {
-            font-size: clamp(1.1rem, 2vw, 1.35rem);
-            color: var(--text-muted);
-            max-width: 680px;
-            margin: 0 auto 3rem auto;
-            line-height: 1.7;
-            font-weight: 400;
-        }
+      .hero {
+        padding: 180px 0 120px 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+      }
 
-        /* ==========================================================================
-           ADVANCED MICRO-INTERACTIONS (MAGNETIC BUTTONS)
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
+      }
+
+      .hero-content h1 {
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        margin-bottom: 24px;
+      }
+
+      .hero-content p {
+        font-size: 1.2rem;
+        color: var(--text-muted);
+        margin-bottom: 40px;
+        line-height: 1.7;
+      }
+
+      /* Interactive Voice Simulation */
+      .accelerator {
+        padding: 100px 0;
+        background-color: var(--obsidian-surface);
+        border-bottom: 1px solid var(--border-glass);
+      }
+      .accelerator h2 {
+        text-align: center;
+        margin-bottom: 60px;
+        font-size: clamp(2rem, 4vw, 2.5rem);
+      }
+      .dashboard {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        background: var(--obsidian-elevated);
+        border: 1px solid var(--border-glass);
+        border-radius: 12px;
+        padding: 50px;
+      }
+      .dashboard-inputs {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .dashboard-inputs label {
+        font-size: 1.1rem;
+        color: var(--platinum);
+        margin-bottom: 15px;
+        font-weight: 600;
+        display: flex;
+        justify-content: space-between;
+      }
+      .dashboard-inputs input[type="range"] {
+        -webkit-appearance: none;
+        width: 100%;
+        background: var(--obsidian);
+        height: 8px;
+        border-radius: 4px;
+        outline: none;
+        margin-bottom: 40px;
+        border: 1px solid var(--border-glass);
+      }
+      .dashboard-inputs input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 24px;
+        height: 24px;
+        background: var(--neon-emerald);
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 0 10px var(--emerald-glow);
+        transition: transform 0.2s;
+      }
+      .dashboard-inputs input[type="range"]::-webkit-slider-thumb:hover {
+        transform: scale(1.2);
+      }
+      .dashboard-outputs {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .dash-card {
+        background: var(--obsidian);
+        border: 1px solid var(--border-glass);
+        padding: 25px;
+        border-radius: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: var(--transition-smooth);
+      }
+      .dash-card:hover {
+        border-color: var(--emerald-dim);
+        box-shadow: inset 0 0 20px var(--emerald-dim);
+      }
+      .dash-card.highlight {
+        border-color: var(--neon-emerald);
+        background: rgba(0, 255, 102, 0.03);
+      }
+      .dash-label {
+        font-size: 1.05rem;
+        color: var(--text-muted);
+      }
+      .dash-card.highlight .dash-label {
+        color: var(--platinum);
+        font-weight: 700;
+      }
+      .dash-value {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: var(--neon-emerald);
+        font-variant-numeric: tabular-nums;
+      }
+
+      /* Interactive Voice Simulation */
+      .sim-box {
+        background: var(--obsidian-surface);
+        border: 1px solid var(--border-glass);
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        min-height: 340px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .sim-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        border-bottom: 1px solid var(--border-glass);
+        padding-bottom: 15px;
+      }
+
+      .recording-dot {
+        width: 10px;
+        height: 10px;
+        background: #ff4444;
+        border-radius: 50%;
+        animation: pulse-record 1.5s infinite;
+      }
+
+      @keyframes pulse-record {
+        0% {
+          box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.7);
+        }
+        70% {
+          box-shadow: 0 0 0 10px rgba(255, 68, 68, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(255, 68, 68, 0);
+        }
+      }
+
+      .sim-input {
+        color: var(--text-muted);
+        font-style: italic;
+        font-size: 1.1rem;
+        margin-bottom: 25px;
+        min-height: 80px;
+      }
+
+      .sim-cursor {
+        display: inline-block;
+        width: 2px;
+        height: 1.1em;
+        background: var(--neon-emerald);
+        animation: blink 1s step-end infinite;
+        vertical-align: text-bottom;
+      }
+
+      @keyframes blink {
+        50% {
+          opacity: 0;
+        }
+      }
+
+      .sim-output {
+        background: var(--obsidian-elevated);
+        border-radius: 8px;
+        padding: 20px;
+        font-family: monospace;
+        font-size: 0.95rem;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: var(--transition-smooth);
+        border-left: 3px solid var(--neon-emerald);
+      }
+
+      .sim-output.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .sim-row {
+        margin-bottom: 10px;
+      }
+      .sim-row:last-child {
+        margin-bottom: 0;
+      }
+      .sim-label {
+        color: var(--text-muted);
+        display: inline-block;
+        width: 140px;
+      }
+      .sim-val {
+        color: var(--platinum);
+      }
+      .sim-alert {
+        color: #ff4444;
+      }
+
+      /* ==========================================================================
+           TABS CONTROL CENTER
            ========================================================================== */
-        .cta-wrapper { display: inline-block; perspective: 1000px; }
-        .cta-button {
-            display: inline-flex; align-items: center; justify-content: center;
-            background-color: var(--neon-emerald); color: var(--obsidian);
-            border: none; padding: 22px 48px; font-size: 1.15rem; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 1.5px; cursor: pointer;
-            border-radius: 2px; transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.1s ease-out;
-            box-shadow: 0 0 30px var(--emerald-glow); position: relative;
-            overflow: hidden; transform-style: preserve-3d; will-change: transform;
-        }
-        .cta-button::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: left 0.5s ease;
-        }
-        .cta-button:hover::before { left: 100%; }
-        .cta-button:hover { background-color: #1aff75; box-shadow: 0 0 50px rgba(0, 255, 102, 0.4); }
+      .control-center {
+        padding: 100px 0;
+        background: var(--obsidian-surface);
+        border-top: 1px solid var(--border-glass);
+        border-bottom: 1px solid var(--border-glass);
+      }
 
-        /* ==========================================================================
-           SECTION ARCHITECTURE & SCROLL REVEAL UTILS
+      .control-center h2 {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 60px;
+      }
+
+      .tabs-nav {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 50px;
+        flex-wrap: wrap;
+      }
+
+      .tab-btn {
+        background: var(--obsidian-elevated);
+        color: var(--text-muted);
+        border: 1px solid var(--border-glass);
+        padding: 12px 24px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        border-radius: 40px;
+        cursor: pointer;
+        transition: var(--transition-smooth);
+      }
+
+      .tab-btn:hover {
+        color: var(--platinum);
+        border-color: rgba(255, 255, 255, 0.3);
+      }
+
+      .tab-btn.active {
+        background: var(--emerald-dim);
+        color: var(--neon-emerald);
+        border-color: var(--neon-emerald);
+      }
+
+      .tab-content-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        position: relative;
+        min-height: 400px;
+      }
+
+      .tab-panel {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: var(--obsidian);
+        border: 1px solid var(--border-glass);
+        padding: 40px;
+        border-radius: 12px;
+        text-align: left;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(15px);
+        transition: var(--transition-smooth);
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        align-items: center;
+      }
+
+      .tab-panel.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        position: relative;
+      }
+
+      .tab-text p {
+        font-size: 1.15rem;
+        line-height: 1.8;
+        color: var(--platinum);
+      }
+
+      .tab-demo {
+        background: var(--obsidian-surface);
+        border: 1px solid var(--border-glass);
+        border-radius: 8px;
+        padding: 30px;
+        min-height: 300px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .demo-title {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid var(--border-glass);
+        padding-bottom: 10px;
+      }
+
+      /* Animation utilities for demos */
+      .demo-item {
+        opacity: 0;
+        transform: translateX(20px);
+        transition: all 0.5s ease;
+      }
+      .tab-panel.active .demo-item {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .tab-panel.active .demo-item:nth-child(1) {
+        transition-delay: 0.2s;
+      }
+      .tab-panel.active .demo-item:nth-child(2) {
+        transition-delay: 0.4s;
+      }
+      .tab-panel.active .demo-item:nth-child(3) {
+        transition-delay: 0.6s;
+      }
+      .tab-panel.active .demo-item:nth-child(4) {
+        transition-delay: 0.8s;
+      }
+      .tab-panel.active .demo-item:nth-child(5) {
+        transition-delay: 1s;
+      }
+
+      .demo-code-line {
+        font-family: monospace;
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+        color: var(--text-muted);
+      }
+      .demo-code-highlight {
+        color: var(--neon-emerald);
+      }
+      .demo-bar-chart {
+        display: flex;
+        align-items: flex-end;
+        gap: 15px;
+        height: 150px;
+        margin-top: 20px;
+      }
+      .demo-bar {
+        flex: 1;
+        background: var(--border-glass);
+        border-radius: 4px 4px 0 0;
+        position: relative;
+        transition: height 1s ease 0.5s;
+        height: 10%;
+      }
+      .tab-panel.active .demo-bar.bar-1 {
+        height: 60%;
+      }
+      .tab-panel.active .demo-bar.bar-2 {
+        height: 80%;
+      }
+      .tab-panel.active .demo-bar.bar-3 {
+        height: 40%;
+        background: var(--neon-emerald);
+      }
+      .tab-panel.active .demo-bar.bar-4 {
+        height: 90%;
+      }
+
+      .demo-pulse {
+        width: 12px;
+        height: 12px;
+        background: var(--neon-emerald);
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 10px;
+        box-shadow: 0 0 10px var(--neon-emerald);
+        animation: pulse-emerald 2s infinite;
+      }
+      @keyframes pulse-emerald {
+        0% {
+          box-shadow: 0 0 0 0 rgba(0, 255, 102, 0.4);
+        }
+        70% {
+          box-shadow: 0 0 0 10px rgba(0, 255, 102, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(0, 255, 102, 0);
+        }
+      }
+
+      /* ==========================================================================
+           REALITY COMPARE GRID
            ========================================================================== */
-        section { padding: 160px 0; position: relative; }
-        .hero { 
-            text-align: center; padding-top: 220px; min-height: 100vh;
-            display: flex; flex-direction: column; justify-content: center;
-            background: radial-gradient(circle at 50% -20%, var(--emerald-dim), transparent 60%);
-        }
-        .reveal { opacity: 0; transform: translateY(40px); transition: var(--transition-smooth); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-        .reveal-delay-1 { transition-delay: 0.1s; }
-        .reveal-delay-2 { transition-delay: 0.2s; }
-        .reveal-delay-3 { transition-delay: 0.3s; }
+      .compare-section {
+        padding: 120px 0;
+      }
 
-        /* ==========================================================================
-           DYNAMIC AI DEMO UI (THE MAGIC TRICK)
+      .compare-section h2 {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 60px;
+      }
+
+      .compare-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+      }
+
+      .compare-col {
+        background: var(--obsidian-surface);
+        border: 1px solid var(--border-glass);
+        border-radius: 12px;
+        padding: 50px;
+      }
+
+      .compare-col.highlight {
+        background: var(--obsidian-elevated);
+        border-color: rgba(0, 255, 102, 0.3);
+        position: relative;
+        box-shadow: 0 10px 40px var(--emerald-dim);
+      }
+
+      .compare-header {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--border-glass);
+      }
+
+      .compare-col.highlight .compare-header {
+        color: var(--neon-emerald);
+      }
+
+      .compare-list {
+        list-style: none;
+      }
+
+      .compare-list li {
+        font-size: 1.15rem;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: flex-start;
+        color: var(--text-muted);
+      }
+
+      .compare-col.highlight .compare-list li {
+        color: var(--platinum);
+      }
+
+      .compare-list li::before {
+        content: "✕";
+        margin-right: 15px;
+        color: #ff4444;
+        font-weight: bold;
+      }
+
+      .compare-col.highlight .compare-list li::before {
+        content: "✓";
+        color: var(--neon-emerald);
+      }
+
+      /* ==========================================================================
+           ABOUT US (STRATEGIC EXPERIENCE)
            ========================================================================== */
-        .demo-container {
-            width: 100%; max-width: 900px; margin: 60px auto 0;
-            background: var(--obsidian-elevated); border: 1px solid var(--border-glass);
-            border-radius: 12px; box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 0 1px inset rgba(255,255,255,0.05);
-            overflow: hidden; position: relative;
-        }
-        .demo-header {
-            background: #1a1a1a; padding: 12px 20px; display: flex; align-items: center;
-            border-bottom: 1px solid var(--border-glass); font-size: 0.85rem; color: var(--text-muted);
-        }
-        .demo-dots { display: flex; gap: 6px; margin-right: 15px; }
-        .dot { width: 10px; height: 10px; border-radius: 50%; background: #444; }
-        .demo-body { display: grid; grid-template-columns: 1fr 1fr; min-height: 300px; }
-        .demo-input { padding: 40px; border-right: 1px solid var(--border-glass); display: flex; flex-direction: column; justify-content: center; }
-        .demo-output { padding: 40px; background: var(--obsidian-surface); display: flex; flex-direction: column; justify-content: center; position: relative; }
-        .typing-text { font-size: 1.1rem; color: var(--text-muted); font-style: italic; }
-        .cursor { display: inline-block; width: 2px; height: 1.1em; background: var(--neon-emerald); animation: blink 1s step-end infinite; vertical-align: text-bottom;}
-        @keyframes blink { 50% { opacity: 0; } }
-        .structured-data { opacity: 0; transform: scale(0.95); transition: var(--transition-bounce); }
-        .structured-data.visible { opacity: 1; transform: scale(1); }
-        .data-row {
-            display: flex; justify-content: space-between; padding: 15px;
-            border-bottom: 1px solid var(--border-glass); font-family: monospace; font-size: 0.95rem;
-        }
-        .data-key { color: var(--text-muted); }
-        .data-val { color: var(--neon-emerald); font-weight: bold; }
-        .ai-scanning-line {
-            position: absolute; top: 0; left: 0; width: 100%; height: 2px;
-            background: var(--neon-emerald); box-shadow: 0 0 10px var(--neon-emerald);
-            opacity: 0; z-index: 10;
-        }
-        .ai-scanning-line.active { animation: scan 1.5s ease-in-out forwards; opacity: 1; }
-        @keyframes scan { 0% { top: 0; opacity: 1; } 90% { top: 100%; opacity: 1; } 100% { top: 100%; opacity: 0; } }
+      .about-section {
+        padding: 100px 0;
+        background: var(--obsidian-surface);
+        border-top: 1px solid var(--border-glass);
+        border-bottom: 1px solid var(--border-glass);
+      }
 
-        /* ==========================================================================
-           COGNITIVE CONTRAST GRID
+      .about-content {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .about-content h2 {
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+      }
+
+      .about-content p {
+        font-size: 1.2rem;
+        color: var(--text-muted);
+        margin-bottom: 25px;
+        line-height: 1.8;
+      }
+
+      /* ==========================================================================
+           FRICTIONLESS SIGNUP
            ========================================================================== */
-        .contrast-wrapper { background: var(--obsidian-elevated); border: 1px solid var(--border-glass); border-radius: 12px; overflow: hidden; }
-        .contrast-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border-glass); }
-        .contrast-column { background: var(--obsidian-surface); padding: 70px 50px; transition: var(--transition-smooth); position: relative; }
-        .good-state-column:hover { background: #0c0f0d; }
-        .contrast-header { font-size: 1.5rem; font-weight: 600; margin-bottom: 3rem; text-transform: uppercase; letter-spacing: 2px; }
-        .bad-state { color: #555; }
-        .good-state { color: var(--neon-emerald); }
-        .contrast-item { 
-            margin-bottom: 2.5rem; font-size: 1.15rem; display: flex; align-items: flex-start; 
-            color: var(--platinum); opacity: 0.8; transition: var(--transition-smooth);
-        }
-        .contrast-column:hover .contrast-item { opacity: 1; }
-        .contrast-item::before { content: '×'; margin-right: 18px; color: #444; font-weight: bold; font-size: 1.4rem; line-height: 1; }
-        .good-state-column .contrast-item::before { content: '→'; color: var(--neon-emerald); }
+      .signup-section {
+        padding: 120px 0;
+        text-align: center;
+      }
 
-        /* ==========================================================================
-           NOMINALIZED VALUE CARDS
+      .signup-section h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+      }
+
+      .form-wrapper {
+        max-width: 450px;
+        margin: 40px auto 0;
+        background: var(--obsidian-elevated);
+        padding: 40px;
+        border-radius: 12px;
+        border: 1px solid var(--border-glass);
+        position: relative;
+      }
+
+      .input-group {
+        margin-bottom: 20px;
+        text-align: left;
+      }
+
+      .input-group input {
+        width: 100%;
+        background: var(--obsidian);
+        border: 1px solid var(--border-glass);
+        color: var(--platinum);
+        padding: 16px;
+        font-size: 1.1rem;
+        border-radius: 6px;
+        transition: var(--transition-smooth);
+      }
+
+      .input-group input:focus {
+        outline: none;
+        border-color: var(--neon-emerald);
+        box-shadow: 0 0 0 1px var(--neon-emerald);
+      }
+
+      .form-success {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--obsidian-elevated);
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--transition-smooth);
+        z-index: 10;
+      }
+
+      .form-success.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .success-icon {
+        font-size: 3rem;
+        color: var(--neon-emerald);
+        margin-bottom: 15px;
+      }
+
+      .guardrail {
+        margin-top: 25px;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        line-height: 1.5;
+      }
+
+      /* ==========================================================================
+           MODALS
            ========================================================================== */
-        .velvet-rope { text-align: center; font-style: italic; color: var(--text-muted); margin-bottom: 70px; font-size: 1.25rem; letter-spacing: 0.5px; }
-        .value-props { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; perspective: 1000px; }
-        .prop-card { 
-            background: var(--obsidian-elevated); padding: 50px 40px; border: 1px solid var(--border-glass); 
-            border-radius: 8px; transition: transform 0.4s ease, box-shadow 0.4s ease; position: relative; overflow: hidden; transform-style: preserve-3d;
-        }
-        .prop-card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.06), transparent 40%);
-            z-index: 1; pointer-events: none; opacity: 0; transition: opacity 0.3s;
-        }
-        .prop-card:hover::before { opacity: 1; }
-        .prop-card:hover { 
-            transform: translateY(-10px) rotateX(2deg) rotateY(-2deg); 
-            box-shadow: 20px 20px 60px rgba(0,0,0,0.5), 0 0 20px var(--emerald-dim); border-color: rgba(0,255,102,0.3);
-        }
-        .prop-card h3 { font-size: 1.35rem; margin-bottom: 1.5rem; color: var(--platinum); z-index: 2; position: relative;}
-        .prop-card p { color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; z-index: 2; position: relative;}
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(3, 3, 3, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        z-index: 2000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--transition-smooth);
+      }
+      .modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+      .modal-container {
+        background: var(--obsidian-elevated);
+        border: 1px solid var(--border-glass);
+        border-radius: 12px;
+        width: 90%;
+        max-width: 800px;
+        max-height: 85vh;
+        overflow-y: auto;
+        padding: 50px;
+        position: relative;
+        transform: translateY(20px);
+        transition: var(--transition-smooth);
+      }
+      .modal-overlay.active .modal-container {
+        transform: translateY(0);
+      }
+      .modal-close {
+        position: absolute;
+        top: 25px;
+        right: 25px;
+        background: transparent;
+        border: none;
+        color: var(--text-muted);
+        font-size: 1.8rem;
+        cursor: pointer;
+        transition: color 0.3s;
+        line-height: 1;
+      }
+      .modal-close:hover {
+        color: var(--platinum);
+      }
+      .modal-body h2 {
+        font-size: 2rem;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid var(--border-glass);
+      }
+      .modal-body h3 {
+        font-size: 1.3rem;
+        margin-top: 35px;
+        margin-bottom: 15px;
+        color: var(--platinum);
+      }
+      .modal-body p {
+        color: var(--text-muted);
+        margin-bottom: 15px;
+        font-size: 1.05rem;
+        line-height: 1.7;
+      }
+      .modal-body ul {
+        color: var(--text-muted);
+        margin-bottom: 20px;
+        padding-left: 25px;
+        font-size: 1.05rem;
+      }
+      .modal-body li {
+        margin-bottom: 10px;
+      }
 
-        /* ==========================================================================
-           ERICKSONIAN CLOSING & FORM
+      /* ==========================================================================
+           NAVIGATION & FOOTER
            ========================================================================== */
-        .closing-section { text-align: center; padding-bottom: 180px; background: radial-gradient(circle at center bottom, var(--emerald-dim) 0%, var(--obsidian) 70%); }
-        .hypnotic-copy { max-width: 700px; margin: 0 auto 60px auto; font-size: 1.35rem; color: #D1D1D6; line-height: 1.8; font-weight: 300; }
-        .form-container { 
-            max-width: 480px; margin: 0 auto; background: rgba(18, 18, 18, 0.7); backdrop-filter: blur(24px); 
-            -webkit-backdrop-filter: blur(24px); padding: 60px; border: 1px solid var(--border-glass); 
-            border-radius: 12px; box-shadow: 0 40px 80px rgba(0,0,0,0.8), 0 0 0 1px inset rgba(255,255,255,0.05); position: relative; overflow: hidden;
-        }
-        .form-success {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--obsidian-elevated); z-index: 10;
-            display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: var(--transition-smooth);
-        }
-        .form-success.active { opacity: 1; pointer-events: all; }
-        .success-icon { font-size: 3rem; color: var(--neon-emerald); margin-bottom: 20px; }
-        .input-group { margin-bottom: 30px; position: relative; text-align: left; }
-        .input-group label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; transition: var(--transition-smooth); }
-        input {
-            width: 100%; padding: 0 0 12px 0; background: transparent; border: none; border-bottom: 2px solid var(--border-glass);
-            color: var(--platinum); font-size: 1.2rem; box-sizing: border-box; transition: var(--transition-smooth);
-        }
-        input::placeholder { color: #444; font-weight: 300; }
-        input:focus { outline: none; border-bottom-color: var(--neon-emerald); }
-        input:focus + .input-highlight { width: 100%; }
-        .input-highlight { position: absolute; bottom: 0; left: 0; height: 2px; width: 0; background: var(--neon-emerald); transition: width 0.4s ease; }
-        .guardrail { font-size: 0.85rem; color: #777; margin-top: 30px; line-height: 1.6; display: flex; align-items: flex-start; justify-content: center; gap: 12px; text-align: left; }
-        .guardrail::before { content: ''; display: block; width: 6px; height: 6px; margin-top: 6px; background: var(--neon-emerald); border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 10px var(--neon-emerald); }
+      nav .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .logo-container {
+        display: flex;
+        align-items: center;
+      }
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+      }
+      .nav-links a {
+        color: var(--text-muted);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: var(--transition-smooth);
+      }
+      .nav-links a:hover {
+        color: var(--platinum);
+      }
+      .nav-links a.nav-cta {
+        color: var(--neon-emerald);
+        border: 1px solid var(--neon-emerald);
+        padding: 8px 16px;
+        border-radius: 4px;
+      }
+      .nav-links a.nav-cta:hover {
+        background: var(--emerald-dim);
+      }
 
-        /* RESPONSIVE DESIGN */
-        @media (max-width: 900px) { .demo-body { grid-template-columns: 1fr; } .demo-input { border-right: none; border-bottom: 1px solid var(--border-glass); padding: 30px; min-height: 150px;} .demo-output { padding: 30px; min-height: 200px; } }
-        @media (max-width: 768px) { .contrast-grid { grid-template-columns: 1fr; } .contrast-column { padding: 50px 30px; } section { padding: 100px 0; } .hero { padding-top: 160px; min-height: auto; } .form-container { padding: 40px 25px; } }
+      /* Hamburger Button */
+      .hamburger {
+        display: none;
+        background: transparent;
+        border: none;
+        color: var(--platinum);
+        font-size: 1.8rem;
+        cursor: pointer;
+        z-index: 1001;
+      }
+
+      /* Mobile Menu Overlay */
+      .mobile-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 100%;
+        height: 100vh;
+        background: rgba(3, 3, 3, 0.9);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .mobile-menu.open {
+        right: 0;
+      }
+      .mobile-menu-links {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 25px;
+      }
+      .mobile-menu-links a {
+        color: var(--platinum);
+        text-decoration: none;
+        font-size: 1.5rem;
+        font-weight: 600;
+        transition: var(--transition-smooth);
+      }
+      .mobile-menu-links a:hover {
+        color: var(--neon-emerald);
+      }
+      .mobile-menu-links .sub-links {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        margin-top: 20px;
+        border-top: 1px solid var(--border-glass);
+        padding-top: 25px;
+      }
+      .mobile-menu-links .sub-links a {
+        font-size: 1.1rem;
+        color: var(--text-muted);
+      }
+      .mobile-menu-links .sub-links a:hover {
+        color: var(--platinum);
+      }
+
+      footer {
+        background: var(--obsidian-surface);
+        border-top: 1px solid var(--border-glass);
+        padding: 60px 0 30px 0;
+      }
+      .footer-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 40px;
+        flex-wrap: wrap;
+        gap: 30px;
+      }
+      .footer-brand p {
+        color: var(--text-muted);
+        margin-top: 10px;
+        font-size: 0.95rem;
+      }
+      .footer-brand .fallback-logo {
+        display: block;
+      }
+      .footer-links {
+        display: flex;
+        gap: 20px;
+      }
+      .footer-links a {
+        color: var(--text-muted);
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: var(--transition-smooth);
+      }
+      .footer-links a:hover {
+        color: var(--platinum);
+      }
+      .footer-bottom {
+        text-align: center;
+        color: var(--text-muted);
+        font-size: 0.85rem;
+        border-top: 1px solid var(--border-glass);
+        padding-top: 30px;
+      }
+
+      /* ==========================================================================
+           RESPONSIVE
+           ========================================================================== */
+      @media (max-width: 900px) {
+        .nav-links {
+          display: none;
+        }
+        .hamburger {
+          display: block;
+        }
+        .hero-grid {
+          grid-template-columns: 1fr;
+          gap: 40px;
+          text-align: center;
+        }
+        .sim-box {
+          margin: 0 auto;
+          width: 100%;
+          max-width: 500px;
+          text-align: left;
+        }
+        .compare-grid {
+          grid-template-columns: 1fr;
+        }
+        .dashboard {
+          grid-template-columns: 1fr;
+          gap: 40px;
+          padding: 30px 20px;
+        }
+        .dash-card {
+          flex-direction: column;
+          text-align: center;
+          gap: 10px;
+        }
+        .tab-panel {
+          grid-template-columns: 1fr;
+          text-align: center;
+          gap: 30px;
+        }
+        .tab-demo {
+          text-align: left;
+        }
+      }
+      @media (max-width: 600px) {
+        .hero {
+          padding: 140px 0 80px 0;
+        }
+        .hero-content h1 {
+          font-size: 2.2rem;
+        }
+        .tab-btn {
+          width: 100%;
+          text-align: center;
+          padding: 16px 20px;
+        }
+        .tab-panel {
+          padding: 30px 20px;
+        }
+        .compare-col {
+          padding: 30px 20px;
+        }
+        .form-wrapper {
+          padding: 30px 20px;
+        }
+        .modal-container {
+          padding: 30px 20px;
+          width: 95%;
+        }
+      }
     </style>
-</head>
-<body>
-
-    <nav id="navbar">
-        <a href="#" style="text-decoration: none; display: flex; align-items: center;" onclick="window.scrollTo(0,0); return false;">
-            
-            <img src="logo.png" alt="SK ShiftControl" class="logo" id="primary-logo" 
-                 onerror="this.style.display='none'; document.getElementById('fallback-logo').style.display='block';">
-            
-            <span id="fallback-logo" style="display: none; font-size: 1.4rem; font-weight: 800; letter-spacing: -0.5px; color: var(--platinum);">
-                SK<span style="color: var(--neon-emerald);">ShiftControl</span>
-            </span>
-            
-        </a>
+  </head>
+  <body>
+    <!-- FIXED HEADER -->
+    <nav>
+      <div class="container">
+        <div class="logo-container">
+          <img
+            src="logo.png"
+            alt="SK ShiftControl"
+            class="logo"
+            id="logo"
+            onerror="
+              this.style.display = 'none';
+              document.getElementById('fallback-logo').style.display = 'block';
+            "
+          />
+          <div class="fallback-logo" id="fallback-logo">
+            SK <span>ShiftControl</span>
+          </div>
+        </div>
+        <div class="nav-links">
+          <a href="#features">How It Works</a>
+          <a href="#compare">Compare</a>
+          <a href="#about">About</a>
+          <a href="#signup" class="nav-cta">Get Started</a>
+        </div>
+        <button class="hamburger" id="hamburger" aria-label="Toggle Menu">
+          ☰
+        </button>
+      </div>
     </nav>
 
+    <!-- MOBILE MENU OVERLAY -->
+    <div class="mobile-menu" id="mobile-menu">
+      <button
+        class="hamburger"
+        id="mobile-menu-close"
+        style="position: absolute; top: 25px; right: 25px; display: block"
+        aria-label="Close Menu"
+      >
+        ✕
+      </button>
+      <div class="mobile-menu-links">
+        <a href="#features" onclick="toggleMobileMenu()">How It Works</a>
+        <a href="#compare" onclick="toggleMobileMenu()">Compare</a>
+        <a href="#about" onclick="toggleMobileMenu()">About</a>
+        <a
+          href="#signup"
+          style="color: var(--neon-emerald)"
+          onclick="toggleMobileMenu()"
+          >Get Started</a
+        >
+
+        <div class="sub-links">
+          <a
+            href="#"
+            onclick="
+              openModal('modal-privacy');
+              toggleMobileMenu();
+              return false;
+            "
+            >Privacy Protocol</a
+          >
+          <a
+            href="#"
+            onclick="
+              openModal('modal-terms');
+              toggleMobileMenu();
+              return false;
+            "
+            >Terms of Service</a
+          >
+          <a
+            href="#"
+            onclick="
+              openModal('modal-status');
+              toggleMobileMenu();
+              return false;
+            "
+            >System Status</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- HERO SECTION -->
     <section class="hero">
-        <div class="container">
-            <h1 class="reveal">The Midnight Logbook Is Dead.<br>
-            <span class="comparative-deletion">Scale faster. Operate more securely.</span></h1>
-            
-            <p class="subhead reveal reveal-delay-1">You hear the final lock click. You see the empty floor. But you still feel the weight of the variance reports and shift notes waiting in the back office. It stops tonight. We build invisible internal tech that completely eliminates late-night administrative paperwork.</p>
-            
-            <div class="cta-wrapper reveal reveal-delay-2">
-                <button class="cta-button" onclick="document.getElementById('capture').scrollIntoView();">Request a Risk-Free 7-Day Pilot Run</button>
-            </div>
-
-            <div class="demo-container reveal reveal-delay-3">
-                <div class="demo-header">
-                    <div class="demo-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-                    Terminal // ShiftControl NLP Core Processing
-                </div>
-                <div class="demo-body">
-                    <div class="demo-input">
-                        <div class="typing-text"><span id="typed-voice"></span><span class="cursor"></span></div>
-                    </div>
-                    <div class="demo-output">
-                        <div class="ai-scanning-line" id="scan-line"></div>
-                        <div class="structured-data" id="json-output">
-                            <div class="data-row"><span class="data-key">Data.Roster_Adjust</span><span class="data-val">"Jake (+1.0h)"</span></div>
-                            <div class="data-row"><span class="data-key">Data.Register_02</span><span class="data-val" style="color:#FF4444;">"- $14.50 (Flagged)"</span></div>
-                            <div class="data-row"><span class="data-key">Data.Inventory_Alert</span><span class="data-val">"Napkins (Critical)"</span></div>
-                            <div class="data-row"><span class="data-key">Action.Exec_Summary</span><span class="data-val">"Sent to Partners"</span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div
+        class="container"
+        style="max-width: 900px; margin: 0 auto; text-align: center"
+      >
+        <div
+          class="hero-content"
+          style="display: flex; flex-direction: column; align-items: center"
+        >
+          <h1
+            style="
+              font-size: clamp(3rem, 6vw, 4.5rem);
+              line-height: 1.1;
+              margin-bottom: 30px;
+            "
+          >
+            Stop Letting Administrative Chaos Eat Your Profits.
+          </h1>
+          <p
+            style="
+              font-size: 1.3rem;
+              max-width: 750px;
+              margin: 0 auto 50px auto;
+            "
+          >
+            You know the heavy feeling of locking the front doors after a brutal
+            shift. The quiet exhaustion of sitting in the back office chasing
+            down missing employee timecards, arguing over register cash
+            differences, and typing up the manager's diary. It stops tonight. We
+            build invisible backend systems that handle your paperwork and plug
+            financial leaks automatically.
+          </p>
+          <a href="#signup" class="cta-button"
+            >Request a Risk-Free 7-Day Pilot Run</a
+          >
         </div>
+      </div>
     </section>
 
-    <section class="contrast">
-        <div class="container">
-            <h2 class="reveal">The Transition of Power</h2>
-            <div class="contrast-wrapper reveal reveal-delay-1">
-                <div class="contrast-grid">
-                    <div class="contrast-column">
-                        <div class="contrast-header bad-state">The Manual Nightmare</div>
-                        <div class="contrast-item">Chasing down missing timecards and unapproved overtime</div>
-                        <div class="contrast-item">Fighting register variances and manually cross-referencing POS data</div>
-                        <div class="contrast-item">Typing up exhausting, subjective late-night manager logbooks</div>
-                    </div>
-                    <div class="contrast-column good-state-column">
-                        <div class="contrast-header good-state">The ShiftControl Reality</div>
-                        <div class="contrast-item">Seamless Roster Reconciliation</div>
-                        <div class="contrast-item">Instant Error Detection & Variance Flagging</div>
-                        <div class="contrast-item">Voice-to-Text Closeout Pipelines</div>
-                    </div>
-                </div>
+    <!-- DYNAMIC PROFIT ACCELERATOR -->
+    <section class="accelerator" id="accelerator">
+      <div class="container">
+        <h2>Live Revenue Recovery Dashboard</h2>
+        <div class="dashboard">
+          <div class="dashboard-inputs">
+            <label
+              >Current Weekly Guest Count
+              <span id="val-guests" style="color: var(--neon-emerald)"
+                >1,500</span
+              ></label
+            >
+            <input
+              type="range"
+              id="slider-guests"
+              min="500"
+              max="5000"
+              value="1500"
+              step="50"
+            />
+
+            <label
+              >Average Guest Bill Size
+              <span id="val-bill" style="color: var(--neon-emerald)"
+                >$45</span
+              ></label
+            >
+            <input
+              type="range"
+              id="slider-bill"
+              min="15"
+              max="100"
+              value="45"
+              step="1"
+            />
+          </div>
+          <div class="dashboard-outputs">
+            <div class="dash-card">
+              <span class="dash-label">Missed Income Captured</span>
+              <span class="dash-value" id="out-income">+$0</span>
             </div>
+            <div class="dash-card">
+              <span class="dash-label">Wasted Labor Dollars Saved</span>
+              <span class="dash-value" id="out-labor">+$0</span>
+            </div>
+            <div class="dash-card highlight">
+              <span class="dash-label">Total Capital Reclaimed</span>
+              <span class="dash-value" id="out-total">+$0</span>
+            </div>
+          </div>
         </div>
+      </div>
     </section>
 
-    <section class="value">
-        <div class="container">
-            <div class="velvet-rope reveal">"Every forward-thinking hospitality leader has already abandoned manual closeouts."</div>
-            <div class="value-props">
-                <div class="prop-card reveal reveal-delay-1" onmousemove="handleHover(event)" onmouseleave="resetHover(event)">
-                    <h3>Voice-to-Text EOD Closeout Engine</h3>
-                    <p>Speak your end-of-day summary as you walk to your car. The system automatically structures your words into pristine, formatted logs, flags urgent maintenance issues, and updates the morning crew before your engine starts.</p>
-                </div>
-                <div class="prop-card reveal reveal-delay-2" onmousemove="handleHover(event)" onmouseleave="resetHover(event)">
-                    <h3>Milestone & Anniversary Automation</h3>
-                    <p>An invisible backend line naturally and easily connects to your tracking apps. High-value guests are reactivated hands-free exactly 11 months later, filling your books without a single marketing meeting.</p>
-                </div>
-                <div class="prop-card reveal reveal-delay-3" onmousemove="handleHover(event)" onmouseleave="resetHover(event)">
-                    <h3>High-Status Partner Report</h3>
-                    <p>Quiet the noise. The system automatically generates and delivers pristine, structured executive summaries straight to silent partners every Monday morning, projecting total operational command.</p>
-                </div>
+    <!-- DYNAMIC PROFIT ACCELERATOR -->
+    <section class="accelerator" id="accelerator">
+      <div class="container">
+        <h2>The Dynamic Profit Accelerator</h2>
+        <div class="dashboard">
+          <div class="dashboard-inputs">
+            <label
+              >Current Weekly Guest Count:
+              <span id="guestCountVal">2500</span></label
+            >
+            <input
+              type="range"
+              id="guestCount"
+              min="500"
+              max="5000"
+              step="50"
+              value="2500"
+            />
+
+            <label
+              >Average Guest Bill Size: $<span id="billSizeVal">45</span></label
+            >
+            <input
+              type="range"
+              id="billSize"
+              min="15"
+              max="100"
+              step="1"
+              value="45"
+            />
+          </div>
+          <div class="dashboard-outputs">
+            <div class="dash-card">
+              <div class="dash-label">Missed Income Captured</div>
+              <div class="dash-value text-neon" id="missedIncome">$0</div>
             </div>
+            <div class="dash-card">
+              <div class="dash-label">Wasted Labor Dollars Saved</div>
+              <div class="dash-value text-neon" id="laborSaved">$0</div>
+            </div>
+            <div class="dash-card highlight">
+              <div class="dash-label">Total Capital Reclaimed</div>
+              <div class="dash-value text-neon" id="totalReclaimed">$0</div>
+            </div>
+          </div>
         </div>
+      </div>
     </section>
 
-    <section class="closing-section" id="capture">
-        <div class="container">
-            <div class="hypnotic-copy reveal">
-                Your unconscious mind already recognizes how much simpler operations become when the back office handles itself. We don't know if you'll value the extra hours most on Friday night or Sunday afternoon, but the logic is entirely handled. Experience the relief, because your time is worth more than data entry.
-            </div>
+    <!-- CONTROL CENTER TABS -->
+    <section class="control-center" id="features">
+      <div class="container">
+        <h2>How It Works</h2>
 
-            <div class="form-container reveal reveal-delay-1">
-                <div class="form-success" id="success-state">
-                    <div class="success-icon">✓</div>
-                    <h3>Protocol Initiated</h3>
-                    <p style="color: var(--text-muted); margin-top: 10px;">Our lead architect will contact you shortly.</p>
-                </div>
-                <form id="lead-form" onsubmit="submitForm(event)">
-                    <div class="input-group">
-                        <label>Lead Operator</label>
-                        <input type="text" placeholder="Your Name" required>
-                        <div class="input-highlight"></div>
-                    </div>
-                    <div class="input-group">
-                        <label>Operation Identity</label>
-                        <input type="text" placeholder="Venue Name (e.g., Champs)" required>
-                        <div class="input-highlight"></div>
-                    </div>
-                    <div class="input-group">
-                        <label>Secure Comm Channel</label>
-                        <input type="tel" placeholder="Mobile Number" required>
-                        <div class="input-highlight"></div>
-                    </div>
-                    <div class="cta-wrapper" style="width: 100%; display: block;">
-                        <button type="submit" style="width: 100%;" class="cta-button">Initiate Protocol</button>
-                    </div>
-                </form>
-                <div class="guardrail">
-                    Zero installation fees. Zero system risk. If the system doesn't buy you back five hours of your life this week, we turn it off and it costs you nothing.
-                </div>
-            </div>
+        <div class="tabs-nav">
+          <button class="tab-btn active" data-target="tab-1">
+            [01 // Automated Marketing]
+          </button>
+          <button class="tab-btn" data-target="tab-2">
+            [02 // Margin Protection]
+          </button>
+          <button class="tab-btn" data-target="tab-3">
+            [03 // Hands-Free Closeouts]
+          </button>
         </div>
+
+        <div class="tab-content-container">
+          <div class="tab-panel active" id="tab-1">
+            <div class="tab-text">
+              <p>
+                The system automatically tracks when high-value guests haven't
+                visited in a while and text messages them personalized rewards
+                to bring them back. It brings in thousands in extra revenue
+                completely hands-free.
+              </p>
+            </div>
+            <div class="tab-demo">
+              <div class="demo-title">Data Payload // Log Structuring</div>
+              <div class="demo-code-line demo-item">
+                > INGEST_AUDIO: "Cooler is warm..."
+              </div>
+              <div class="demo-code-line demo-item">
+                > EXTRACTING VARIABLES...
+              </div>
+              <div
+                class="demo-code-line demo-item"
+                style="color: var(--platinum); margin-left: 15px"
+              >
+                Issue: Cooler Unit 2<br />
+                Status: Temperature Anomaly<br />
+                Action: Dispatch Morning Tech
+              </div>
+              <div class="demo-code-line demo-item">
+                >
+                <span class="demo-code-highlight">MAINTENANCE.ALERT</span>
+                Dispatched
+              </div>
+              <div class="demo-code-line demo-item" style="margin-top: 15px">
+                <span class="demo-pulse"></span> Complete
+              </div>
+            </div>
+          </div>
+          <div class="tab-panel" id="tab-2">
+            <div class="tab-text">
+              <p>
+                The system automatically scans POS registers and schedules to
+                instantly catch hidden cash shortages, inventory waste, and
+                unapproved overtime before it drains your bank account.
+              </p>
+            </div>
+            <div class="tab-demo">
+              <div class="demo-title">Reconciliation // Roster Generation</div>
+              <div class="demo-code-line demo-item">
+                > FORECAST: Next Week Sales [$42,500]
+              </div>
+              <div class="demo-code-line demo-item">> LABOR_CAP: 22%</div>
+              <div
+                class="demo-code-line demo-item"
+                style="color: var(--platinum); margin-left: 15px"
+              >
+                Bartenders Required: 4<br />
+                Barbacks Required: 2<br />
+                Variance: Optimal
+              </div>
+              <div class="demo-code-line demo-item">
+                > <span class="demo-code-highlight">ROSTER.SYNC</span> Generated
+                48 shifts
+              </div>
+              <div class="demo-code-line demo-item" style="margin-top: 15px">
+                <span class="demo-pulse"></span> Output Sent to Staff
+              </div>
+            </div>
+          </div>
+          <div class="tab-panel" id="tab-3">
+            <div class="tab-text">
+              <p>
+                Simply speak a 60-second voice note into your phone as you walk
+                to your car at night. The system automatically structures it
+                into a beautiful manager log and emails a crisp financial
+                summary straight to your partners.
+              </p>
+            </div>
+            <div class="tab-demo">
+              <div class="demo-title">Visual Engine // Financial Yield</div>
+              <div class="demo-code-line demo-item">
+                Generating Partner Brief...
+              </div>
+              <div class="demo-bar-chart demo-item">
+                <div class="demo-bar bar-1"></div>
+                <div class="demo-bar bar-2"></div>
+                <div class="demo-bar bar-3"></div>
+                <div class="demo-bar bar-4"></div>
+              </div>
+              <div
+                class="demo-code-line demo-item"
+                style="margin-top: 15px; text-align: center"
+              >
+                <span class="demo-code-highlight">Net Margin: +14.2%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
+    <!-- REALITY COMPARE GRID -->
+    <section class="compare-section" id="compare">
+      <div class="container">
+        <h2>The Simple Choice</h2>
+        <div class="compare-grid">
+          <div class="compare-col">
+            <div class="compare-header">The Cash Leak Nightmare</div>
+            <ul class="compare-list">
+              <li>Tracking down missing timecards</li>
+              <li>Fighting register variances and cash shortages</li>
+              <li>Losing high-value repeat guests to competitors</li>
+              <li>Exhausting late-night administrative work</li>
+            </ul>
+          </div>
+          <div class="compare-col highlight">
+            <div class="compare-header">The ShiftControl Reality</div>
+            <ul class="compare-list">
+              <li>Automated Roster Syncing</li>
+              <li>Instant Leak Detection</li>
+              <li>Behavior-Triggered Loyalty Loops</li>
+              <li>Voice-to-Text Closeouts</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT US -->
+    <section class="about-section" id="about">
+      <div class="container">
+        <div class="about-content">
+          <h2>Engineered by Operators. Built for Freedom.</h2>
+          <p>
+            We aren't tech nerds. We are experienced venue operators who spent years managing busy, chaotic hospitality and retail floors. We know firsthand the pain of watching hard-earned profit slip through the cracks of a fragmented business.
+          </p>
+          <p>
+            We engineered these tools to ensure independent operators make more money while finally taking back their personal freedom.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FRICTIONLESS SIGNUP -->
+    <section class="signup-section" id="signup">
+      <div class="container">
+        <h2>Ready to reclaim your time?</h2>
+
+        <div class="form-wrapper">
+          <div class="form-success" id="success-message">
+            <div class="success-icon">✓</div>
+            <h3 style="margin-bottom: 10px">Protocol Initiated.</h3>
+            <p style="color: var(--text-muted)">
+              Our lead architect will text you shortly.
+            </p>
+          </div>
+
+          <form id="pilot-form">
+            <div class="input-group">
+              <input type="text" placeholder="Your Name" required />
+            </div>
+            <div class="input-group">
+              <input
+                type="text"
+                placeholder="Venue Name (e.g., Champs)"
+                required
+              />
+            </div>
+            <div class="input-group">
+              <input type="tel" placeholder="Mobile Number" required />
+            </div>
+            <button type="submit" class="cta-button" style="width: 100%">
+              Initiate Protocol
+            </button>
+          </form>
+
+          <div class="guardrail">
+            Zero setup fees. Zero system risk. If the system doesn't buy you
+            back five hours of your life and uncover hidden revenue this week,
+            we turn it off and it costs you nothing.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODALS -->
+    <div class="modal-overlay" id="modal-privacy" onclick="closeModal(event)">
+      <div class="modal-container" onclick="event.stopPropagation()">
+        <button class="modal-close" onclick="closeModal(event)">×</button>
+        <div class="modal-body">
+          <h2>Privacy Protocol</h2>
+          <p>Last Updated: October 2026</p>
+          <p>
+            At SK ShiftControl, we treat your operational data with the same
+            strict security standards as financial institutions. Our entire
+            model is built on protecting your venue's internal mechanics.
+          </p>
+
+          <h3>1. Data Collection</h3>
+          <p>
+            We only collect the essential information required to automate your
+            operations. This includes, but is not limited to: shift logs,
+            schedule parameters, vendor invoice scans, and communication routing
+            numbers.
+          </p>
+
+          <h3>2. Zero-Sell Guarantee</h3>
+          <p>
+            We never sell, rent, or distribute your operational data to third
+            parties, competitors, or marketing agencies. Your venue's
+            performance metrics are strictly confidential and encrypted at rest.
+          </p>
+
+          <h3>3. Data Residency & Encryption</h3>
+          <p>
+            All voice memos, text logs, and employee rosters are encrypted using
+            industry-standard protocols. We utilize robust access controls,
+            ensuring only your authorized personnel can view sensitive outputs.
+          </p>
+
+          <h3>4. Contact</h3>
+          <p>
+            For privacy inquiries, contact our data protection team directly at
+            secure@skshiftcontrol.com.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-terms" onclick="closeModal(event)">
+      <div class="modal-container" onclick="event.stopPropagation()">
+        <button class="modal-close" onclick="closeModal(event)">×</button>
+        <div class="modal-body">
+          <h2>Terms of Service</h2>
+          <p>
+            By deploying the SK ShiftControl platform, you agree to these
+            operational terms.
+          </p>
+
+          <h3>1. Pilot Period & Guarantee</h3>
+          <p>
+            New venues are eligible for a 7-day risk-free pilot. If the system
+            does not demonstrably reduce your administrative workload by at
+            least five hours within this timeframe, the service will be
+            deactivated at zero cost to you.
+          </p>
+
+          <h3>2. Acceptable Use</h3>
+          <p>
+            Our autonomous pipelines are designed strictly for internal venue
+            management. You agree not to reverse-engineer, exploit, or deploy
+            the system for illegal activities, unauthorized surveillance, or
+            non-compliance evasion.
+          </p>
+
+          <h3>3. Service Availability</h3>
+          <p>
+            While we target 99.9% uptime, we are not liable for incidental
+            losses resulting from temporary connectivity issues, third-party API
+            outages, or operator input errors. Always maintain baseline analog
+            protocols for critical emergencies.
+          </p>
+
+          <h3>4. Termination</h3>
+          <p>
+            You may pause or terminate your deployment at any time. Upon
+            termination, your operational data will be archived for 30 days
+            before permanent deletion from our active processing nodes.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-status" onclick="closeModal(event)">
+      <div class="modal-container" onclick="event.stopPropagation()">
+        <button class="modal-close" onclick="closeModal(event)">×</button>
+        <div class="modal-body">
+          <h2>System Status</h2>
+          <p>
+            All core processing pipelines are currently operating nominally.
+          </p>
+
+          <ul>
+            <li>
+              <strong style="color: var(--neon-emerald)">● Online:</strong>
+              Voice-to-Text Processing Engine
+            </li>
+            <li>
+              <strong style="color: var(--neon-emerald)">● Online:</strong>
+              Automated Roster Syncing
+            </li>
+            <li>
+              <strong style="color: var(--neon-emerald)">● Online:</strong>
+              Vendor Invoice OCR
+            </li>
+            <li>
+              <strong style="color: var(--neon-emerald)">● Online:</strong> SMS
+              Notification Gateway
+            </li>
+          </ul>
+
+          <p style="margin-top: 30px; font-size: 0.9rem">
+            Next scheduled maintenance window: Sunday, 3:00 AM EST (Zero
+            downtime expected).
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="container footer-content">
+        <div class="footer-brand">
+          <div class="fallback-logo">SK <span>ShiftControl</span></div>
+          <p>Operational automation for hospitality and retail operators.</p>
+        </div>
+        <div class="footer-links">
+          <a
+            href="#"
+            onclick="
+              openModal('modal-privacy');
+              return false;
+            "
+            >Privacy Protocol</a
+          >
+          <a
+            href="#"
+            onclick="
+              openModal('modal-terms');
+              return false;
+            "
+            >Terms of Service</a
+          >
+          <a
+            href="#"
+            onclick="
+              openModal('modal-status');
+              return false;
+            "
+            >System Status</a
+          >
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; 2026 SK ShiftControl. All rights reserved.
+      </div>
+    </footer>
+
+    <!-- SCRIPTS -->
     <script>
-        // 1. SCROLL REVEAL OBSERVER
-        const revealElements = document.querySelectorAll('.reveal');
-        const revealOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
-        const revealOnScroll = new IntersectionObserver(function(entries, observer) {
-            entries.forEach(entry => {
-                if (!entry.isIntersecting) return;
-                entry.target.classList.add('active');
-                observer.unobserve(entry.target);
-            });
-        }, revealOptions);
-        revealElements.forEach(el => revealOnScroll.observe(el));
+      // Tab Switching Logic
+      const tabBtns = document.querySelectorAll(".tab-btn");
+      const tabPanels = document.querySelectorAll(".tab-panel");
 
-        // 2. NAVBAR BLUR ON SCROLL
-        window.addEventListener('scroll', () => {
-            const nav = document.getElementById('navbar');
-            if (window.scrollY > 50) { nav.classList.add('scrolled'); } 
-            else { nav.classList.remove('scrolled'); }
+      tabBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          // Remove active classes
+          tabBtns.forEach((b) => b.classList.remove("active"));
+          tabPanels.forEach((p) => p.classList.remove("active"));
+
+          // Add active class to clicked button and target panel
+          btn.classList.add("active");
+          const targetId = btn.getAttribute("data-target");
+          document.getElementById(targetId).classList.add("active");
         });
+      });
 
-        // 3. MAGNETIC BUTTON PHYSICS
-        const magneticButtons = document.querySelectorAll('.cta-button');
-        magneticButtons.forEach(btn => {
-            btn.addEventListener('mousemove', (e) => {
-                const rect = btn.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px) scale(1.02)`;
-            });
-            btn.addEventListener('mouseleave', () => {
-                btn.style.transform = `translate(0px, 0px) scale(1)`;
-            });
-        });
+      // Dynamic Profit Accelerator Logic
+      const guestCountSlider = document.getElementById("slider-guests");
+      const billSizeSlider = document.getElementById("slider-bill");
+      const guestCountVal = document.getElementById("val-guests");
+      const billSizeVal = document.getElementById("val-bill");
+      const missedIncomeEl = document.getElementById("out-income");
+      const laborSavedEl = document.getElementById("out-labor");
+      const totalReclaimedEl = document.getElementById("out-total");
 
-        // 4. 3D CARD HOVER TRACKING
-        function handleHover(e) {
-            const card = e.currentTarget;
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            card.style.setProperty('--mouse-x', `${x}px`);
-            card.style.setProperty('--mouse-y', `${y}px`);
+      function calculateProfits() {
+        if (!guestCountSlider) return;
+        const guests = parseInt(guestCountSlider.value);
+        const billSize = parseInt(billSizeSlider.value);
+
+        guestCountVal.textContent = guests.toLocaleString();
+        billSizeVal.textContent = "$" + billSize;
+
+        // Arbitrary business logic for the sake of the demo
+        const weeklyRev = guests * billSize;
+        const missedIncome = weeklyRev * 0.18; // ~18% bump from retention
+        const laborSaved = guests * 0.5; // ~$0.50 saved per guest in error catching
+
+        const totalReclaimed = missedIncome + laborSaved;
+
+        animateValue(missedIncomeEl, missedIncome);
+        animateValue(laborSavedEl, laborSaved);
+        animateValue(totalReclaimedEl, totalReclaimed);
+      }
+
+      function animateValue(obj, end) {
+        // Quick visual update
+        obj.textContent = "+$" + Math.round(end).toLocaleString();
+      }
+
+      if (guestCountSlider && billSizeSlider) {
+        guestCountSlider.addEventListener("input", calculateProfits);
+        billSizeSlider.addEventListener("input", calculateProfits);
+        calculateProfits();
+      }
+
+      // Form Submission Logic
+      const pilotForm = document.getElementById("pilot-form");
+      const successMessage = document.getElementById("success-message");
+
+      pilotForm.addEventListener("submit", (e) => {
+        e.preventDefault(); // Prevent page reload
+        const btn = pilotForm.querySelector("button");
+        btn.innerHTML = "Processing...";
+        btn.style.opacity = "0.8";
+
+        // Simulate network request
+        setTimeout(() => {
+          successMessage.classList.add("active");
+        }, 1000);
+      });
+
+      // Modal Logic
+      function openModal(id) {
+        document.getElementById(id).classList.add("active");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeModal(e) {
+        if (e) e.preventDefault();
+        document
+          .querySelectorAll(".modal-overlay")
+          .forEach((m) => m.classList.remove("active"));
+        document.body.style.overflow = "auto";
+      }
+
+      // Mobile Menu Logic
+      const mobileMenu = document.getElementById("mobile-menu");
+      const hamburger = document.getElementById("hamburger");
+      const mobileMenuClose = document.getElementById("mobile-menu-close");
+
+      function toggleMobileMenu() {
+        mobileMenu.classList.toggle("open");
+        if (mobileMenu.classList.contains("open")) {
+          document.body.style.overflow = "hidden";
+        } else {
+          document.body.style.overflow = "auto";
         }
-        function resetHover(e) { e.currentTarget.style.transform = 'translateY(0) rotateX(0) rotateY(0)'; }
+      }
 
-        // 5. THE MAGIC TRICK: AI SIMULATION ENGINE
-        const voiceNoteText = '"Uhh yeah, Jake stayed an extra hour closing, register 2 is short 14.50, and we are critically low on napkins for tomorrow..."';
-        let typeIndex = 0;
-        const typeTarget = document.getElementById('typed-voice');
-        const scanLine = document.getElementById('scan-line');
-        const jsonOutput = document.getElementById('json-output');
-
-        function runSimulation() {
-            typeTarget.innerHTML = '';
-            jsonOutput.classList.remove('visible');
-            scanLine.classList.remove('active');
-            typeIndex = 0;
-            typeWriter();
-        }
-
-        function typeWriter() {
-            if (typeIndex < voiceNoteText.length) {
-                typeTarget.innerHTML += voiceNoteText.charAt(typeIndex);
-                typeIndex++;
-                setTimeout(typeWriter, Math.random() * 40 + 20); 
-            } else {
-                setTimeout(() => {
-                    scanLine.classList.add('active');
-                    setTimeout(() => {
-                        jsonOutput.classList.add('visible'); 
-                        setTimeout(runSimulation, 6000); 
-                    }, 1000);
-                }, 500);
-            }
-        }
-        setTimeout(runSimulation, 1500);
-
-        // 6. FRICTIONLESS FORM SUBMISSION STATE
-        function submitForm(e) {
-            e.preventDefault();
-            const form = document.getElementById('lead-form');
-            const btn = form.querySelector('.cta-button');
-            btn.innerHTML = 'Processing...';
-            btn.style.opacity = '0.7';
-            setTimeout(() => { document.getElementById('success-state').classList.add('active'); }, 1200);
-        }
+      if (hamburger) {
+        hamburger.addEventListener("click", toggleMobileMenu);
+      }
+      if (mobileMenuClose) {
+        mobileMenuClose.addEventListener("click", toggleMobileMenu);
+      }
     </script>
-</body>
+  </body>
 </html>

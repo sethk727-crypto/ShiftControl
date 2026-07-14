@@ -3,19 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SK ShiftControl | Operational Automation</title>
+    <title>SK ShiftControl | AI Automation Agency — CRM, Data & Custom AI Systems</title>
     <meta
       name="description"
-      content="We build invisible backend systems that handle your paperwork and plug financial leaks automatically. Operational automation for hospitality and retail operators."
+      content="SK ShiftControl engineers custom CRM automation, database consolidation, and AI workflows for mid-market operators — strategy-grounded systems that take manual operations off your payroll."
     />
     <meta name="theme-color" content="#030303" />
 
     <!-- Open Graph / Social -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="SK ShiftControl | Operational Automation" />
+    <meta
+      property="og:title"
+      content="SK ShiftControl | AI Automation Agency"
+    />
     <meta
       property="og:description"
-      content="We build invisible backend systems that handle your paperwork and plug financial leaks automatically."
+      content="Custom CRM, data, and AI systems that take manual operations off your payroll — designed around your competitive strategy."
     />
     <meta property="og:image" content="logo.png" />
     <meta name="twitter:card" content="summary" />
@@ -49,10 +52,11 @@
           </span>
         </a>
         <nav class="nav-links" aria-label="Primary">
-          <a href="#features">How It Works</a>
-          <a href="#compare">Compare</a>
-          <a href="#about">About</a>
-          <a href="#signup" class="nav-cta">Get Started</a>
+          <a href="#services">Services</a>
+          <a href="#edge">The Edge</a>
+          <a href="#process">Process</a>
+          <a href="#stack">Stack</a>
+          <a href="#book" class="nav-cta">Book a Systems Audit</a>
         </nav>
         <button
           class="hamburger"
@@ -72,12 +76,14 @@
         ✕
       </button>
       <nav class="mobile-menu-links" aria-label="Mobile">
-        <a href="#features" data-menu-link>How It Works</a>
-        <a href="#compare" data-menu-link>Compare</a>
-        <a href="#about" data-menu-link>About</a>
-        <a href="#signup" class="menu-cta" data-menu-link>Get Started</a>
+        <a href="#services" data-menu-link>Services</a>
+        <a href="#edge" data-menu-link>The Edge</a>
+        <a href="#process" data-menu-link>Process</a>
+        <a href="#stack" data-menu-link>Stack</a>
+        <a href="#book" class="menu-cta" data-menu-link>Book a Systems Audit</a>
 
         <div class="sub-links">
+          <a href="venues.html">ShiftControl for Venues</a>
           <a href="#" data-modal-open="modal-privacy" data-menu-link
             >Privacy Protocol</a
           >
@@ -92,356 +98,352 @@
     </div>
 
     <main id="main">
-      <!-- HERO SECTION -->
+      <!-- HERO -->
       <section class="hero">
         <div class="container">
           <div class="hero-content">
             <div class="hero-badge">
               <span class="status-dot" aria-hidden="true"></span>
-              Systems Online
+              AI Automation Agency
             </div>
-            <h1>Stop Letting Administrative Chaos Eat Your Profits.</h1>
+            <h1>Your Team Is Too Expensive to Be Doing Data Entry.</h1>
             <p class="hero-lede">
-              You know the heavy feeling of locking the front doors after a
-              brutal shift. The quiet exhaustion of sitting in the back office
-              chasing down missing employee timecards, arguing over register
-              cash differences, and typing up the manager's diary. It stops
-              tonight. We build invisible backend systems that handle your
-              paperwork and plug financial leaks automatically.
+              SK ShiftControl engineers custom CRM, data, and AI systems that
+              take manual operations off your payroll — designed around your
+              competitive strategy, and built so your people actually use
+              them.
             </p>
-            <a href="#signup" class="cta-button"
-              >Request a Risk-Free 7-Day Pilot Run</a
-            >
-          </div>
-        </div>
-      </section>
-
-      <!-- LIVE REVENUE RECOVERY DASHBOARD -->
-      <section class="section section--surface" id="accelerator">
-        <div class="container">
-          <div class="section-head reveal">
-            <span class="eyebrow">// Live Simulation</span>
-            <h2>Live Revenue Recovery Dashboard</h2>
-          </div>
-          <div class="dashboard reveal">
-            <div class="dashboard-inputs">
-              <label for="slider-guests">
-                Current Weekly Guest Count
-                <output id="val-guests" for="slider-guests">1,500</output>
-              </label>
-              <input
-                type="range"
-                id="slider-guests"
-                min="500"
-                max="5000"
-                value="1500"
-                step="50"
-              />
-
-              <label for="slider-bill">
-                Average Guest Bill Size
-                <output id="val-bill" for="slider-bill">$45</output>
-              </label>
-              <input
-                type="range"
-                id="slider-bill"
-                min="15"
-                max="100"
-                value="45"
-                step="1"
-              />
+            <div class="hero-actions">
+              <a href="#book" class="cta-button">Book a Systems Audit</a>
+              <a href="#process" class="ghost-button">Review the process</a>
             </div>
-            <div class="dashboard-outputs" aria-live="polite">
-              <div class="dash-card">
-                <span class="dash-label">Missed Income Captured</span>
-                <span class="dash-value" id="out-income">+$0</span>
-              </div>
-              <div class="dash-card">
-                <span class="dash-label">Wasted Labor Dollars Saved</span>
-                <span class="dash-value" id="out-labor">+$0</span>
-              </div>
-              <div class="dash-card highlight">
-                <span class="dash-label">Total Capital Reclaimed</span>
-                <span class="dash-value" id="out-total">+$0</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- CONTROL CENTER TABS -->
-      <section class="section" id="features">
-        <div class="container">
-          <div class="section-head reveal">
-            <span class="eyebrow">// The System</span>
-            <h2>How It Works</h2>
-          </div>
-
-          <div class="tabs-nav reveal" role="tablist" aria-label="How It Works">
-            <button
-              class="tab-btn active"
-              id="tab-btn-1"
-              role="tab"
-              aria-selected="true"
-              aria-controls="tab-1"
-              data-target="tab-1"
-            >
-              [01 // Automated Marketing]
-            </button>
-            <button
-              class="tab-btn"
-              id="tab-btn-2"
-              role="tab"
-              aria-selected="false"
-              aria-controls="tab-2"
-              data-target="tab-2"
-              tabindex="-1"
-            >
-              [02 // Margin Protection]
-            </button>
-            <button
-              class="tab-btn"
-              id="tab-btn-3"
-              role="tab"
-              aria-selected="false"
-              aria-controls="tab-3"
-              data-target="tab-3"
-              tabindex="-1"
-            >
-              [03 // Hands-Free Closeouts]
-            </button>
-          </div>
-
-          <div class="tab-content-container reveal">
-            <div
-              class="tab-panel active"
-              id="tab-1"
-              role="tabpanel"
-              aria-labelledby="tab-btn-1"
-              tabindex="0"
-            >
-              <div class="tab-text">
-                <p>
-                  The system automatically tracks when high-value guests
-                  haven't visited in a while and text messages them
-                  personalized rewards to bring them back. It brings in
-                  thousands in extra revenue completely hands-free.
-                </p>
-              </div>
-              <div class="tab-demo" aria-hidden="true">
-                <div class="demo-title">Loyalty Engine // Win-Back Sequence</div>
-                <div class="demo-code-line demo-item">
-                  > SCAN: Guest visit gaps [rolling 30 days]
-                </div>
-                <div class="demo-code-line demo-item">
-                  > FLAGGED: High-value guest inactive 24 days
-                </div>
-                <div class="demo-code-line demo-code-block demo-item">
-                  Guest: VIP #0447<br />
-                  Lifetime Spend: $1,840<br />
-                  Reward: Personalized Comp
-                </div>
-                <div class="demo-code-line demo-item">
-                  > <span class="demo-code-highlight">LOYALTY.SMS</span>
-                  Dispatched
-                </div>
-                <div class="demo-code-line demo-item demo-footer">
-                  <span class="demo-pulse"></span> Guest Rebooked
-                </div>
-              </div>
-            </div>
-
-            <div
-              class="tab-panel"
-              id="tab-2"
-              role="tabpanel"
-              aria-labelledby="tab-btn-2"
-              tabindex="0"
-            >
-              <div class="tab-text">
-                <p>
-                  The system automatically scans POS registers and schedules to
-                  instantly catch hidden cash shortages, inventory waste, and
-                  unapproved overtime before it drains your bank account.
-                </p>
-              </div>
-              <div class="tab-demo" aria-hidden="true">
-                <div class="demo-title">Margin Shield // Nightly Audit</div>
-                <div class="demo-code-line demo-item">
-                  > SCAN: POS Registers + Schedules
-                </div>
-                <div class="demo-code-line demo-item">
-                  > CROSS-REF: Clock-ins vs. Roster...
-                </div>
-                <div class="demo-code-line demo-code-block demo-item">
-                  Register 2: <span class="sim-alert">−$14.50</span> Variance<br />
-                  Overtime: 1.5 unapproved hrs<br />
-                  Inventory Drift: 2.1%
-                </div>
-                <div class="demo-code-line demo-item">
-                  > <span class="demo-code-highlight">OWNER.ALERT</span>
-                  Dispatched
-                </div>
-                <div class="demo-code-line demo-item demo-footer">
-                  <span class="demo-pulse"></span> Leak Sealed
-                </div>
-              </div>
-            </div>
-
-            <div
-              class="tab-panel"
-              id="tab-3"
-              role="tabpanel"
-              aria-labelledby="tab-btn-3"
-              tabindex="0"
-            >
-              <div class="tab-text">
-                <p>
-                  Simply speak a 60-second voice note into your phone as you
-                  walk to your car at night. The system automatically
-                  structures it into a beautiful manager log and emails a crisp
-                  financial summary straight to your partners.
-                </p>
-              </div>
-              <div class="tab-demo" aria-hidden="true">
-                <div class="demo-title">Voice Engine // Manager Log</div>
-                <div class="demo-code-line demo-item">
-                  > INGEST_AUDIO: 60s voice note...
-                </div>
-                <div class="demo-code-line demo-code-block demo-item">
-                  Shift Recap: Logged<br />
-                  Incidents: 2 structured<br />
-                  Partner Brief: Emailed
-                </div>
-                <div class="demo-bar-chart demo-item">
-                  <div class="demo-bar bar-1"></div>
-                  <div class="demo-bar bar-2"></div>
-                  <div class="demo-bar bar-3"></div>
-                  <div class="demo-bar bar-4"></div>
-                </div>
-                <div class="demo-code-line demo-item demo-footer">
-                  <span class="demo-code-highlight">Net Margin: +14.2%</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- REALITY COMPARE GRID -->
-      <section class="section" id="compare">
-        <div class="container">
-          <div class="section-head reveal">
-            <span class="eyebrow">// Side by Side</span>
-            <h2>The Simple Choice</h2>
-          </div>
-          <div class="compare-grid">
-            <div class="compare-col reveal">
-              <div class="compare-header">The Cash Leak Nightmare</div>
-              <ul class="compare-list">
-                <li>Tracking down missing timecards</li>
-                <li>Fighting register variances and cash shortages</li>
-                <li>Losing high-value repeat guests to competitors</li>
-                <li>Exhausting late-night administrative work</li>
-              </ul>
-            </div>
-            <div class="compare-col highlight reveal">
-              <div class="compare-header">The ShiftControl Reality</div>
-              <ul class="compare-list">
-                <li>Automated Roster Syncing</li>
-                <li>Instant Leak Detection</li>
-                <li>Behavior-Triggered Loyalty Loops</li>
-                <li>Voice-to-Text Closeouts</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ABOUT US -->
-      <section class="section section--surface" id="about">
-        <div class="container">
-          <div class="about-content reveal">
-            <span class="eyebrow">// The Operators</span>
-            <h2>Engineered by Operators. Built for Freedom.</h2>
-            <p>
-              We aren't tech nerds. We are experienced venue operators who
-              spent years managing busy, chaotic hospitality and retail floors.
-              We know firsthand the pain of watching hard-earned profit slip
-              through the cracks of a fragmented business.
-            </p>
-            <p>
-              We engineered these tools to ensure independent operators make
-              more money while finally taking back their personal freedom.
+            <p class="hero-microtrust">
+              30 minutes. Leave with a map of your operational leaks — keep it
+              either way.
             </p>
           </div>
         </div>
       </section>
 
-      <!-- FRICTIONLESS SIGNUP -->
-      <section class="section signup-section" id="signup">
+      <!-- PROBLEM / AGITATION -->
+      <section class="section section--surface" id="diagnosis">
         <div class="container">
-          <div class="reveal">
-            <span class="eyebrow">// Deployment</span>
-            <h2>Ready to reclaim your time?</h2>
+          <div class="section-head reveal">
+            <span class="eyebrow">// The Diagnosis</span>
+            <h2>
+              Manual Operations Don't Show Up on Your P&amp;L. They Show Up
+              Everywhere Else.
+            </h2>
           </div>
+          <div class="panel-grid panel-grid--2 reveal">
+            <div class="panel-card">
+              <h3 class="panel-title">Re-Keyed Data</h3>
+              <p>
+                The same transaction gets typed into three systems by three
+                people. Every keystroke is payroll spent manufacturing error
+                risk.
+              </p>
+            </div>
+            <div class="panel-card">
+              <h3 class="panel-title">Scattered Databases</h3>
+              <p>
+                Sales lives in the CRM, orders in spreadsheets, invoices in
+                email. Nobody trusts any single number, so decisions wait.
+              </p>
+            </div>
+            <div class="panel-card">
+              <h3 class="panel-title">The Rolodex CRM</h3>
+              <p>
+                You pay monthly for a CRM that stores contacts and does
+                nothing. Follow-ups depend on memory. Deals die quietly.
+              </p>
+            </div>
+            <div class="panel-card">
+              <h3 class="panel-title">Month-End Archaeology</h3>
+              <p>
+                Reporting means excavating last month by hand. You steer the
+                business looking thirty days backward.
+              </p>
+            </div>
+          </div>
+          <p class="section-punch reveal">
+            None of this is a people problem.
+            <span>It's an architecture problem.</span>
+          </p>
+        </div>
+      </section>
 
-          <div class="form-wrapper reveal">
+      <!-- STRATEGIC EDGE -->
+      <section class="section" id="edge">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">// The Strategic Edge</span>
+            <h2>Anyone Can Connect Apps. We Engineer Advantage.</h2>
+            <p class="section-lede">
+              Automation that ignores strategy just helps you do the wrong
+              things faster. Every system we build is grounded in the
+              frameworks serious operators run companies on.
+            </p>
+          </div>
+          <div class="panel-grid panel-grid--3">
+            <div class="panel-card panel-card--tagged reveal">
+              <div class="panel-tag">[A // Strategy]</div>
+              <h3 class="panel-title">Strategy-First Architecture</h3>
+              <p>
+                Before a single workflow is built, your operation is mapped
+                against Hambrick &amp; Fredrickson's Strategic Diamond and
+                Porter's Five Forces. We automate where it compounds your
+                differentiator and hardens your margin — not just where it's
+                easy.
+              </p>
+            </div>
+            <div class="panel-card panel-card--tagged reveal">
+              <div class="panel-tag">[B // Data]</div>
+              <h3 class="panel-title">Data as the Operating System</h3>
+              <p>
+                Scattered transactional records become consolidated master
+                tables with live reporting. You stop arguing about whose
+                spreadsheet is right and start deciding from a single source
+                of truth.
+              </p>
+            </div>
+            <div class="panel-card panel-card--tagged reveal">
+              <div class="panel-tag">[C // Psychology]</div>
+              <h3 class="panel-title">Psychology-Driven Adoption</h3>
+              <p>
+                Systems fail when people route around them. We apply
+                psychological modeling and NLP principles to interface and
+                workflow design, so the automated path is the path of least
+                resistance — for your team and your customers.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CORE SERVICES -->
+      <section class="section section--surface" id="services">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">// Core Systems</span>
+            <h2>Three Ways We Take Work Off Your Payroll.</h2>
+          </div>
+          <div class="panel-grid panel-grid--3">
+            <div class="panel-card panel-card--tagged panel-card--service reveal">
+              <div class="panel-tag">[01 // Revenue Infrastructure]</div>
+              <h3 class="panel-title">CRM Architecture &amp; Automation</h3>
+              <p>
+                Setup, integration, and automation that turns your CRM into
+                the engine of your revenue: pipelines that advance themselves,
+                follow-ups that fire on behavior, and zero leads lost to human
+                memory.
+              </p>
+            </div>
+            <div class="panel-card panel-card--tagged panel-card--service reveal">
+              <div class="panel-tag">[02 // Single Source of Truth]</div>
+              <h3 class="panel-title">
+                Data Entry Automation &amp; Database Consolidation
+              </h3>
+              <p>
+                Manual transactional entry replaced with automated capture.
+                Fragmented records unified into master tables that feed live
+                dashboards — month-end reporting becomes a real-time
+                instrument panel.
+              </p>
+            </div>
+            <div class="panel-card panel-card--tagged panel-card--service reveal">
+              <div class="panel-tag">[03 // Force Multiplication]</div>
+              <h3 class="panel-title">
+                Custom AI Workflows &amp; Bottleneck Removal
+              </h3>
+              <p>
+                Purpose-built AI systems aimed at your slowest, most expensive
+                process steps: document processing, voice-to-structured-data,
+                intelligent routing, decision support. Where off-the-shelf
+                ends, we build.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROOF / CASE FILES -->
+      <section class="section" id="proof">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">// Authority</span>
+            <h2>Measured Outcomes or It Didn't Happen.</h2>
+            <p class="section-lede">
+              Every deployment is instrumented from day one. Hours reclaimed,
+              error rates, adoption, and dollars recovered are tracked against
+              the baseline captured in your audit — and published here as
+              case files.
+            </p>
+          </div>
+          <div class="panel-grid panel-grid--3">
+            <!--
+              CASE-FILE TEMPLATE — duplicate this card and replace the
+              bracketed fields with real, verified client results.
+              Never publish invented metrics.
+            -->
+            <div class="case-card reveal">
+              <div class="panel-tag">CASE FILE 001</div>
+              <h3 class="panel-title">[Client / Industry]</h3>
+              <p class="case-metric">[Headline metric]</p>
+              <p>[One-sentence outcome summary — pending publication.]</p>
+            </div>
+            <div class="case-card reveal">
+              <div class="panel-tag">CASE FILE 002</div>
+              <h3 class="panel-title">[Client / Industry]</h3>
+              <p class="case-metric">[Headline metric]</p>
+              <p>[One-sentence outcome summary — pending publication.]</p>
+            </div>
+            <div class="case-card reveal">
+              <div class="panel-tag">CASE FILE 003</div>
+              <h3 class="panel-title">[Client / Industry]</h3>
+              <p class="case-metric">[Headline metric]</p>
+              <p>[One-sentence outcome summary — pending publication.]</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROCESS -->
+      <section class="section section--surface" id="process">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">// The Protocol</span>
+            <h2>From Audit to Autonomy in Four Moves.</h2>
+          </div>
+          <ol class="process-list">
+            <li class="process-step reveal">
+              <div class="step-num">01</div>
+              <div>
+                <h3 class="panel-title">The Systems Audit</h3>
+                <p>
+                  A structured diagnostic of your tools, data flows, and
+                  process costs. You leave with a bottleneck map and an ROI
+                  model that prices every leak.
+                </p>
+              </div>
+            </li>
+            <li class="process-step reveal">
+              <div class="step-num">02</div>
+              <div>
+                <h3 class="panel-title">Consolidation</h3>
+                <p>
+                  Scattered records are unified into clean master tables —
+                  the foundation layer. Nothing gets automated on top of
+                  dirty data.
+                </p>
+              </div>
+            </li>
+            <li class="process-step reveal">
+              <div class="step-num">03</div>
+              <div>
+                <h3 class="panel-title">Build &amp; Staged Deployment</h3>
+                <p>
+                  Systems are built, tested against your live operation, and
+                  rolled out in stages. Your business never stops while its
+                  backend is being replaced.
+                </p>
+              </div>
+            </li>
+            <li class="process-step reveal">
+              <div class="step-num">04</div>
+              <div>
+                <h3 class="panel-title">Training &amp; Compounding</h3>
+                <p>
+                  Your team is trained on systems designed to be adopted, not
+                  tolerated. Then we monitor, tune, and expand — automation
+                  that compounds instead of decaying.
+                </p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- TECH STACK -->
+      <section class="section" id="stack">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">// Tooling</span>
+            <h2>Vendor-Agnostic. Outcome-Locked.</h2>
+            <p class="section-lede">
+              We integrate what you already run and build what doesn't exist.
+              No platform loyalty — the stack serves the strategy.
+            </p>
+          </div>
+          <div class="stack-grid reveal">
+            <div class="stack-row">
+              <span class="stack-cat">CRM Platforms</span>
+              <span class="stack-items"
+                >HubSpot · Pipedrive · GoHighLevel · Zoho</span
+              >
+            </div>
+            <div class="stack-row">
+              <span class="stack-cat">Orchestration</span>
+              <span class="stack-items">Zapier · Make · n8n</span>
+            </div>
+            <div class="stack-row">
+              <span class="stack-cat">Custom Engineering</span>
+              <span class="stack-items">Python · Node.js · REST APIs</span>
+            </div>
+            <div class="stack-row">
+              <span class="stack-cat">AI Layer</span>
+              <span class="stack-items"
+                >Claude &amp; GPT-class LLM APIs · OCR · Voice-to-Text</span
+              >
+            </div>
+            <div class="stack-row">
+              <span class="stack-cat">Payments &amp; Billing</span>
+              <span class="stack-items">Square · Stripe</span>
+            </div>
+            <div class="stack-row">
+              <span class="stack-cat">Scheduling &amp; Comms</span>
+              <span class="stack-items"
+                >Calendly · Twilio · Slack · Gmail</span
+              >
+            </div>
+            <div class="stack-row">
+              <span class="stack-cat">Data &amp; Reporting</span>
+              <span class="stack-items"
+                >Google Sheets · PostgreSQL · Looker Studio</span
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- BOOKING -->
+      <section class="section section--surface" id="book">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">// Deployment Begins Here</span>
+            <h2>Book the Systems Audit.</h2>
+            <p class="section-lede">
+              Thirty minutes. Bring nothing but a description of how work gets
+              done today. You leave with a map of where your operation leaks
+              time and money — and exactly what we'd build to stop it. Keep
+              the map either way.
+            </p>
+          </div>
+          <div class="calendly-wrap reveal">
             <div
-              class="form-success"
-              id="success-message"
-              role="status"
-              aria-live="polite"
-            >
-              <div class="success-icon" aria-hidden="true">✓</div>
-              <h3>Protocol Initiated.</h3>
-              <p>Our lead architect will text you shortly.</p>
-            </div>
-
-            <form id="pilot-form">
-              <div class="input-group">
-                <label class="sr-only" for="field-name">Your Name</label>
-                <input
-                  type="text"
-                  id="field-name"
-                  name="name"
-                  placeholder="Your Name"
-                  autocomplete="name"
-                  required
-                />
-              </div>
-              <div class="input-group">
-                <label class="sr-only" for="field-venue">Venue Name</label>
-                <input
-                  type="text"
-                  id="field-venue"
-                  name="venue"
-                  placeholder="Venue Name (e.g., Champs)"
-                  autocomplete="organization"
-                  required
-                />
-              </div>
-              <div class="input-group">
-                <label class="sr-only" for="field-phone">Mobile Number</label>
-                <input
-                  type="tel"
-                  id="field-phone"
-                  name="phone"
-                  placeholder="Mobile Number"
-                  autocomplete="tel"
-                  required
-                />
-              </div>
-              <button type="submit" class="cta-button cta-button--block">
-                Initiate Protocol
-              </button>
-            </form>
-
-            <div class="guardrail">
-              Zero setup fees. Zero system risk. If the system doesn't buy you
-              back five hours of your life and uncover hidden revenue this
-              week, we turn it off and it costs you nothing.
-            </div>
+              class="calendly-inline-widget"
+              data-url="https://calendly.com/sethk727?hide_gdpr_banner=1&background_color=141416&text_color=fafafa&primary_color=00ff66"
+              style="min-width: 320px; height: 700px"
+            ></div>
+            <p class="calendly-fallback">
+              Widget not loading?
+              <a
+                href="https://calendly.com/sethk727"
+                target="_blank"
+                rel="noopener"
+                >Open the scheduling page directly →</a
+              >
+            </p>
           </div>
         </div>
       </section>
@@ -597,16 +599,62 @@
 
     <!-- FOOTER -->
     <footer class="site-footer">
-      <div class="container footer-content">
-        <div class="footer-brand">
-          <div class="fallback-logo">SK <span>ShiftControl</span></div>
-          <p>Operational automation for hospitality and retail operators.</p>
+      <div class="container">
+        <div class="footer-capture reveal">
+          <div class="footer-capture-text">
+            <h3>The Operations Leak Checklist</h3>
+            <p>
+              A 12-point self-audit that locates the manual processes silently
+              taxing your margin. One email. No sequence, no spam.
+            </p>
+          </div>
+          <div class="footer-capture-form">
+            <div
+              class="form-success"
+              id="checklist-success"
+              role="status"
+              aria-live="polite"
+            >
+              <div class="success-icon" aria-hidden="true">✓</div>
+              <h3>Checklist inbound.</h3>
+              <p>Check your email.</p>
+            </div>
+            <form id="checklist-form">
+              <div class="input-group">
+                <label class="sr-only" for="field-checklist-email"
+                  >Work email</label
+                >
+                <input
+                  type="email"
+                  id="field-checklist-email"
+                  name="email"
+                  placeholder="Work email"
+                  autocomplete="email"
+                  required
+                />
+              </div>
+              <button type="submit" class="cta-button cta-button--block">
+                Send Me the Checklist
+              </button>
+            </form>
+          </div>
         </div>
-        <nav class="footer-links" aria-label="Legal">
-          <a href="#" data-modal-open="modal-privacy">Privacy Protocol</a>
-          <a href="#" data-modal-open="modal-terms">Terms of Service</a>
-          <a href="#" data-modal-open="modal-status">System Status</a>
-        </nav>
+
+        <div class="footer-content">
+          <div class="footer-brand">
+            <div class="fallback-logo">SK <span>ShiftControl</span></div>
+            <p>Custom CRM, data, and AI systems for operators.</p>
+            <p class="footer-vertical">
+              Industry build:
+              <a href="venues.html">ShiftControl for Venues →</a>
+            </p>
+          </div>
+          <nav class="footer-links" aria-label="Legal">
+            <a href="#" data-modal-open="modal-privacy">Privacy Protocol</a>
+            <a href="#" data-modal-open="modal-terms">Terms of Service</a>
+            <a href="#" data-modal-open="modal-status">System Status</a>
+          </nav>
+        </div>
       </div>
       <div class="footer-bottom">
         &copy; 2026 SK ShiftControl. All rights reserved.

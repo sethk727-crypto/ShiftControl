@@ -228,6 +228,63 @@
   }
 
   /* ------------------------------------------------------------------
+     7b. CHECKLIST OPT-IN — simulated submission with success state
+     ------------------------------------------------------------------ */
+  const checklistForm = document.getElementById("checklist-form");
+  const checklistSuccess = document.getElementById("checklist-success");
+
+  if (checklistForm && checklistSuccess) {
+    checklistForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const btn = checklistForm.querySelector("button[type=submit]");
+      btn.textContent = "Sending...";
+      btn.disabled = true;
+
+      setTimeout(() => {
+        checklistSuccess.classList.add("active");
+      }, 800);
+    });
+  }
+
+  /* ------------------------------------------------------------------
+     7c. CALENDLY — lazy-load the widget script as the booking section
+     approaches the viewport, so it never taxes initial page load
+     ------------------------------------------------------------------ */
+  const calendlyWidget = document.querySelector(".calendly-inline-widget");
+  let calendlyLoaded = false;
+
+  function loadCalendly() {
+    if (calendlyLoaded) return;
+    calendlyLoaded = true;
+    const s = document.createElement("script");
+    s.src = "https://assets.calendly.com/assets/external/widget.js";
+    s.async = true;
+    document.head.appendChild(s);
+  }
+
+  if (calendlyWidget) {
+    if ("IntersectionObserver" in window) {
+      const calendlyObserver = new IntersectionObserver(
+        (entries, observer) => {
+          if (entries.some((entry) => entry.isIntersecting)) {
+            loadCalendly();
+            observer.disconnect();
+          }
+        },
+        { rootMargin: "800px 0px" },
+      );
+      calendlyObserver.observe(calendlyWidget);
+    } else {
+      loadCalendly();
+    }
+    // Any "book" CTA click loads it immediately so the calendar is
+    // rendering while the smooth-scroll travels down the page
+    document.querySelectorAll('a[href="#book"]').forEach((cta) => {
+      cta.addEventListener("click", loadCalendly);
+    });
+  }
+
+  /* ------------------------------------------------------------------
      8. MODALS — focus-managed dialogs (backdrop click + Escape close)
      ------------------------------------------------------------------ */
   let lastFocused = null;

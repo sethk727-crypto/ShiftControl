@@ -1,1477 +1,466 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="no-js">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SK ShiftControl | Operational Automation</title>
-    <style>
-      /* ==========================================================================
-           CORE VARIABLES & RESET
-           ========================================================================== */
-      :root {
-        --obsidian: #030303;
-        --obsidian-surface: #0f0f0f;
-        --obsidian-elevated: #1a1a1a;
-        --platinum: #fafafa;
-        --neon-emerald: #00ff66;
-        --emerald-glow: rgba(0, 255, 102, 0.2);
-        --emerald-dim: rgba(0, 255, 102, 0.05);
-        --border-glass: rgba(255, 255, 255, 0.1);
-        --text-muted: #a1a1aa;
-        --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      }
-
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        -webkit-tap-highlight-color: transparent;
-      }
-
-      html {
-        scroll-behavior: smooth;
-      }
-
-      body {
-        background-color: var(--obsidian);
-        color: var(--platinum);
-        font-family:
-          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-          Arial, sans-serif;
-        line-height: 1.6;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        overflow-x: hidden;
-      }
-
-      button,
-      a {
-        touch-action: manipulation;
-      }
-
-      .container {
-        max-width: 1100px;
-        margin: 0 auto;
-        padding: 0 24px;
-        width: 100%;
-      }
-
-      /* ==========================================================================
-           FIXED HEADER & LOGO
-           ========================================================================== */
-      nav {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 80px;
-        background: rgba(3, 3, 3, 0.8);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-bottom: 1px solid var(--border-glass);
-        z-index: 1000;
-        display: flex;
-        align-items: center;
-      }
-
-      nav .container {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-      }
-
-      .logo-container {
-        height: 30px;
-        display: flex;
-        align-items: center;
-      }
-
-      .logo {
-        height: 100%;
-        width: auto;
-        object-fit: contain;
-        display: block;
-      }
-
-      .fallback-logo {
-        display: none;
-        font-size: 1.4rem;
-        font-weight: 800;
-        letter-spacing: -0.5px;
-        color: var(--platinum);
-        line-height: 1;
-      }
-
-      .fallback-logo span {
-        color: var(--neon-emerald);
-      }
-
-      /* ==========================================================================
-           BUTTONS & TYPOGRAPHY
-           ========================================================================== */
-      h1,
-      h2,
-      h3 {
-        font-weight: 700;
-        line-height: 1.15;
-        letter-spacing: -0.02em;
-      }
-
-      .cta-button {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        background-color: var(--neon-emerald);
-        color: var(--obsidian);
-        border: none;
-        padding: 18px 36px;
-        font-size: 1.1rem;
-        font-weight: 700;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: var(--transition-smooth);
-        text-decoration: none;
-        box-shadow: 0 4px 15px var(--emerald-glow);
-      }
-
-      .cta-button:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(0, 255, 102, 0.4);
-        background-color: #1aff75;
-      }
-
-      /* ==========================================================================
-           HERO SECTION
-           ========================================================================== */
-      .hero {
-        padding: 180px 0 120px 0;
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-      }
-
-      .hero-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 60px;
-        align-items: center;
-      }
-
-      .hero-content h1 {
-        font-size: clamp(2.5rem, 5vw, 4rem);
-        margin-bottom: 24px;
-      }
-
-      .hero-content p {
-        font-size: 1.2rem;
-        color: var(--text-muted);
-        margin-bottom: 40px;
-        line-height: 1.7;
-      }
-
-      /* Interactive Voice Simulation */
-      .accelerator {
-        padding: 100px 0;
-        background-color: var(--obsidian-surface);
-        border-bottom: 1px solid var(--border-glass);
-      }
-      .accelerator h2 {
-        text-align: center;
-        margin-bottom: 60px;
-        font-size: clamp(2rem, 4vw, 2.5rem);
-      }
-      .dashboard {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 60px;
-        background: var(--obsidian-elevated);
-        border: 1px solid var(--border-glass);
-        border-radius: 12px;
-        padding: 50px;
-      }
-      .dashboard-inputs {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
-      .dashboard-inputs label {
-        font-size: 1.1rem;
-        color: var(--platinum);
-        margin-bottom: 15px;
-        font-weight: 600;
-        display: flex;
-        justify-content: space-between;
-      }
-      .dashboard-inputs input[type="range"] {
-        -webkit-appearance: none;
-        width: 100%;
-        background: var(--obsidian);
-        height: 8px;
-        border-radius: 4px;
-        outline: none;
-        margin-bottom: 40px;
-        border: 1px solid var(--border-glass);
-      }
-      .dashboard-inputs input[type="range"]::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        width: 24px;
-        height: 24px;
-        background: var(--neon-emerald);
-        border-radius: 50%;
-        cursor: pointer;
-        box-shadow: 0 0 10px var(--emerald-glow);
-        transition: transform 0.2s;
-      }
-      .dashboard-inputs input[type="range"]::-webkit-slider-thumb:hover {
-        transform: scale(1.2);
-      }
-      .dashboard-outputs {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-      }
-      .dash-card {
-        background: var(--obsidian);
-        border: 1px solid var(--border-glass);
-        padding: 25px;
-        border-radius: 8px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        transition: var(--transition-smooth);
-      }
-      .dash-card:hover {
-        border-color: var(--emerald-dim);
-        box-shadow: inset 0 0 20px var(--emerald-dim);
-      }
-      .dash-card.highlight {
-        border-color: var(--neon-emerald);
-        background: rgba(0, 255, 102, 0.03);
-      }
-      .dash-label {
-        font-size: 1.05rem;
-        color: var(--text-muted);
-      }
-      .dash-card.highlight .dash-label {
-        color: var(--platinum);
-        font-weight: 700;
-      }
-      .dash-value {
-        font-size: 1.8rem;
-        font-weight: 800;
-        color: var(--neon-emerald);
-        font-variant-numeric: tabular-nums;
-      }
-
-      /* Interactive Voice Simulation */
-      .sim-box {
-        background: var(--obsidian-surface);
-        border: 1px solid var(--border-glass);
-        border-radius: 12px;
-        padding: 30px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-        min-height: 340px;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .sim-header {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 20px;
-        color: var(--text-muted);
-        font-size: 0.9rem;
-        border-bottom: 1px solid var(--border-glass);
-        padding-bottom: 15px;
-      }
-
-      .recording-dot {
-        width: 10px;
-        height: 10px;
-        background: #ff4444;
-        border-radius: 50%;
-        animation: pulse-record 1.5s infinite;
-      }
-
-      @keyframes pulse-record {
-        0% {
-          box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.7);
-        }
-        70% {
-          box-shadow: 0 0 0 10px rgba(255, 68, 68, 0);
-        }
-        100% {
-          box-shadow: 0 0 0 0 rgba(255, 68, 68, 0);
-        }
-      }
-
-      .sim-input {
-        color: var(--text-muted);
-        font-style: italic;
-        font-size: 1.1rem;
-        margin-bottom: 25px;
-        min-height: 80px;
-      }
-
-      .sim-cursor {
-        display: inline-block;
-        width: 2px;
-        height: 1.1em;
-        background: var(--neon-emerald);
-        animation: blink 1s step-end infinite;
-        vertical-align: text-bottom;
-      }
-
-      @keyframes blink {
-        50% {
-          opacity: 0;
-        }
-      }
-
-      .sim-output {
-        background: var(--obsidian-elevated);
-        border-radius: 8px;
-        padding: 20px;
-        font-family: monospace;
-        font-size: 0.95rem;
-        opacity: 0;
-        transform: translateY(10px);
-        transition: var(--transition-smooth);
-        border-left: 3px solid var(--neon-emerald);
-      }
-
-      .sim-output.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      .sim-row {
-        margin-bottom: 10px;
-      }
-      .sim-row:last-child {
-        margin-bottom: 0;
-      }
-      .sim-label {
-        color: var(--text-muted);
-        display: inline-block;
-        width: 140px;
-      }
-      .sim-val {
-        color: var(--platinum);
-      }
-      .sim-alert {
-        color: #ff4444;
-      }
-
-      /* ==========================================================================
-           TABS CONTROL CENTER
-           ========================================================================== */
-      .control-center {
-        padding: 100px 0;
-        background: var(--obsidian-surface);
-        border-top: 1px solid var(--border-glass);
-        border-bottom: 1px solid var(--border-glass);
-      }
-
-      .control-center h2 {
-        text-align: center;
-        font-size: 2.5rem;
-        margin-bottom: 60px;
-      }
-
-      .tabs-nav {
-        display: flex;
-        justify-content: center;
-        gap: 15px;
-        margin-bottom: 50px;
-        flex-wrap: wrap;
-      }
-
-      .tab-btn {
-        background: var(--obsidian-elevated);
-        color: var(--text-muted);
-        border: 1px solid var(--border-glass);
-        padding: 12px 24px;
-        font-size: 0.95rem;
-        font-weight: 600;
-        border-radius: 40px;
-        cursor: pointer;
-        transition: var(--transition-smooth);
-      }
-
-      .tab-btn:hover {
-        color: var(--platinum);
-        border-color: rgba(255, 255, 255, 0.3);
-      }
-
-      .tab-btn.active {
-        background: var(--emerald-dim);
-        color: var(--neon-emerald);
-        border-color: var(--neon-emerald);
-      }
-
-      .tab-content-container {
-        max-width: 1000px;
-        margin: 0 auto;
-        position: relative;
-        min-height: 400px;
-      }
-
-      .tab-panel {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        background: var(--obsidian);
-        border: 1px solid var(--border-glass);
-        padding: 40px;
-        border-radius: 12px;
-        text-align: left;
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(15px);
-        transition: var(--transition-smooth);
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 40px;
-        align-items: center;
-      }
-
-      .tab-panel.active {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-        position: relative;
-      }
-
-      .tab-text p {
-        font-size: 1.15rem;
-        line-height: 1.8;
-        color: var(--platinum);
-      }
-
-      .tab-demo {
-        background: var(--obsidian-surface);
-        border: 1px solid var(--border-glass);
-        border-radius: 8px;
-        padding: 30px;
-        min-height: 300px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .demo-title {
-        font-size: 0.85rem;
-        color: var(--text-muted);
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-bottom: 20px;
-        border-bottom: 1px solid var(--border-glass);
-        padding-bottom: 10px;
-      }
-
-      /* Animation utilities for demos */
-      .demo-item {
-        opacity: 0;
-        transform: translateX(20px);
-        transition: all 0.5s ease;
-      }
-      .tab-panel.active .demo-item {
-        opacity: 1;
-        transform: translateX(0);
-      }
-      .tab-panel.active .demo-item:nth-child(1) {
-        transition-delay: 0.2s;
-      }
-      .tab-panel.active .demo-item:nth-child(2) {
-        transition-delay: 0.4s;
-      }
-      .tab-panel.active .demo-item:nth-child(3) {
-        transition-delay: 0.6s;
-      }
-      .tab-panel.active .demo-item:nth-child(4) {
-        transition-delay: 0.8s;
-      }
-      .tab-panel.active .demo-item:nth-child(5) {
-        transition-delay: 1s;
-      }
-
-      .demo-code-line {
-        font-family: monospace;
-        font-size: 0.9rem;
-        margin-bottom: 10px;
-        color: var(--text-muted);
-      }
-      .demo-code-highlight {
-        color: var(--neon-emerald);
-      }
-      .demo-bar-chart {
-        display: flex;
-        align-items: flex-end;
-        gap: 15px;
-        height: 150px;
-        margin-top: 20px;
-      }
-      .demo-bar {
-        flex: 1;
-        background: var(--border-glass);
-        border-radius: 4px 4px 0 0;
-        position: relative;
-        transition: height 1s ease 0.5s;
-        height: 10%;
-      }
-      .tab-panel.active .demo-bar.bar-1 {
-        height: 60%;
-      }
-      .tab-panel.active .demo-bar.bar-2 {
-        height: 80%;
-      }
-      .tab-panel.active .demo-bar.bar-3 {
-        height: 40%;
-        background: var(--neon-emerald);
-      }
-      .tab-panel.active .demo-bar.bar-4 {
-        height: 90%;
-      }
-
-      .demo-pulse {
-        width: 12px;
-        height: 12px;
-        background: var(--neon-emerald);
-        border-radius: 50%;
-        display: inline-block;
-        margin-right: 10px;
-        box-shadow: 0 0 10px var(--neon-emerald);
-        animation: pulse-emerald 2s infinite;
-      }
-      @keyframes pulse-emerald {
-        0% {
-          box-shadow: 0 0 0 0 rgba(0, 255, 102, 0.4);
-        }
-        70% {
-          box-shadow: 0 0 0 10px rgba(0, 255, 102, 0);
-        }
-        100% {
-          box-shadow: 0 0 0 0 rgba(0, 255, 102, 0);
-        }
-      }
-
-      /* ==========================================================================
-           REALITY COMPARE GRID
-           ========================================================================== */
-      .compare-section {
-        padding: 120px 0;
-      }
-
-      .compare-section h2 {
-        text-align: center;
-        font-size: 2.5rem;
-        margin-bottom: 60px;
-      }
-
-      .compare-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 30px;
-      }
-
-      .compare-col {
-        background: var(--obsidian-surface);
-        border: 1px solid var(--border-glass);
-        border-radius: 12px;
-        padding: 50px;
-      }
-
-      .compare-col.highlight {
-        background: var(--obsidian-elevated);
-        border-color: rgba(0, 255, 102, 0.3);
-        position: relative;
-        box-shadow: 0 10px 40px var(--emerald-dim);
-      }
-
-      .compare-header {
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin-bottom: 30px;
-        padding-bottom: 20px;
-        border-bottom: 1px solid var(--border-glass);
-      }
-
-      .compare-col.highlight .compare-header {
-        color: var(--neon-emerald);
-      }
-
-      .compare-list {
-        list-style: none;
-      }
-
-      .compare-list li {
-        font-size: 1.15rem;
-        margin-bottom: 20px;
-        display: flex;
-        align-items: flex-start;
-        color: var(--text-muted);
-      }
-
-      .compare-col.highlight .compare-list li {
-        color: var(--platinum);
-      }
-
-      .compare-list li::before {
-        content: "✕";
-        margin-right: 15px;
-        color: #ff4444;
-        font-weight: bold;
-      }
-
-      .compare-col.highlight .compare-list li::before {
-        content: "✓";
-        color: var(--neon-emerald);
-      }
-
-      /* ==========================================================================
-           ABOUT US (STRATEGIC EXPERIENCE)
-           ========================================================================== */
-      .about-section {
-        padding: 100px 0;
-        background: var(--obsidian-surface);
-        border-top: 1px solid var(--border-glass);
-        border-bottom: 1px solid var(--border-glass);
-      }
-
-      .about-content {
-        max-width: 800px;
-        margin: 0 auto;
-        text-align: center;
-      }
-
-      .about-content h2 {
-        font-size: 2.5rem;
-        margin-bottom: 30px;
-      }
-
-      .about-content p {
-        font-size: 1.2rem;
-        color: var(--text-muted);
-        margin-bottom: 25px;
-        line-height: 1.8;
-      }
-
-      /* ==========================================================================
-           FRICTIONLESS SIGNUP
-           ========================================================================== */
-      .signup-section {
-        padding: 120px 0;
-        text-align: center;
-      }
-
-      .signup-section h2 {
-        font-size: 2.5rem;
-        margin-bottom: 20px;
-      }
-
-      .form-wrapper {
-        max-width: 450px;
-        margin: 40px auto 0;
-        background: var(--obsidian-elevated);
-        padding: 40px;
-        border-radius: 12px;
-        border: 1px solid var(--border-glass);
-        position: relative;
-      }
-
-      .input-group {
-        margin-bottom: 20px;
-        text-align: left;
-      }
-
-      .input-group input {
-        width: 100%;
-        background: var(--obsidian);
-        border: 1px solid var(--border-glass);
-        color: var(--platinum);
-        padding: 16px;
-        font-size: 1.1rem;
-        border-radius: 6px;
-        transition: var(--transition-smooth);
-      }
-
-      .input-group input:focus {
-        outline: none;
-        border-color: var(--neon-emerald);
-        box-shadow: 0 0 0 1px var(--neon-emerald);
-      }
-
-      .form-success {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: var(--obsidian-elevated);
-        border-radius: 12px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        opacity: 0;
-        visibility: hidden;
-        transition: var(--transition-smooth);
-        z-index: 10;
-      }
-
-      .form-success.active {
-        opacity: 1;
-        visibility: visible;
-      }
-
-      .success-icon {
-        font-size: 3rem;
-        color: var(--neon-emerald);
-        margin-bottom: 15px;
-      }
-
-      .guardrail {
-        margin-top: 25px;
-        font-size: 0.85rem;
-        color: var(--text-muted);
-        line-height: 1.5;
-      }
-
-      /* ==========================================================================
-           MODALS
-           ========================================================================== */
-      .modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(3, 3, 3, 0.85);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        z-index: 2000;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        opacity: 0;
-        visibility: hidden;
-        transition: var(--transition-smooth);
-      }
-      .modal-overlay.active {
-        opacity: 1;
-        visibility: visible;
-      }
-      .modal-container {
-        background: var(--obsidian-elevated);
-        border: 1px solid var(--border-glass);
-        border-radius: 12px;
-        width: 90%;
-        max-width: 800px;
-        max-height: 85vh;
-        overflow-y: auto;
-        padding: 50px;
-        position: relative;
-        transform: translateY(20px);
-        transition: var(--transition-smooth);
-      }
-      .modal-overlay.active .modal-container {
-        transform: translateY(0);
-      }
-      .modal-close {
-        position: absolute;
-        top: 25px;
-        right: 25px;
-        background: transparent;
-        border: none;
-        color: var(--text-muted);
-        font-size: 1.8rem;
-        cursor: pointer;
-        transition: color 0.3s;
-        line-height: 1;
-      }
-      .modal-close:hover {
-        color: var(--platinum);
-      }
-      .modal-body h2 {
-        font-size: 2rem;
-        margin-bottom: 25px;
-        padding-bottom: 15px;
-        border-bottom: 1px solid var(--border-glass);
-      }
-      .modal-body h3 {
-        font-size: 1.3rem;
-        margin-top: 35px;
-        margin-bottom: 15px;
-        color: var(--platinum);
-      }
-      .modal-body p {
-        color: var(--text-muted);
-        margin-bottom: 15px;
-        font-size: 1.05rem;
-        line-height: 1.7;
-      }
-      .modal-body ul {
-        color: var(--text-muted);
-        margin-bottom: 20px;
-        padding-left: 25px;
-        font-size: 1.05rem;
-      }
-      .modal-body li {
-        margin-bottom: 10px;
-      }
-
-      /* ==========================================================================
-           NAVIGATION & FOOTER
-           ========================================================================== */
-      nav .container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-      .logo-container {
-        display: flex;
-        align-items: center;
-      }
-      .nav-links {
-        display: flex;
-        align-items: center;
-        gap: 30px;
-      }
-      .nav-links a {
-        color: var(--text-muted);
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 0.95rem;
-        transition: var(--transition-smooth);
-      }
-      .nav-links a:hover {
-        color: var(--platinum);
-      }
-      .nav-links a.nav-cta {
-        color: var(--neon-emerald);
-        border: 1px solid var(--neon-emerald);
-        padding: 8px 16px;
-        border-radius: 4px;
-      }
-      .nav-links a.nav-cta:hover {
-        background: var(--emerald-dim);
-      }
-
-      /* Hamburger Button */
-      .hamburger {
-        display: none;
-        background: transparent;
-        border: none;
-        color: var(--platinum);
-        font-size: 1.8rem;
-        cursor: pointer;
-        z-index: 1001;
-      }
-
-      /* Mobile Menu Overlay */
-      .mobile-menu {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 100%;
-        height: 100vh;
-        background: rgba(3, 3, 3, 0.9);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        z-index: 1000;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      }
-      .mobile-menu.open {
-        right: 0;
-      }
-      .mobile-menu-links {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 25px;
-      }
-      .mobile-menu-links a {
-        color: var(--platinum);
-        text-decoration: none;
-        font-size: 1.5rem;
-        font-weight: 600;
-        transition: var(--transition-smooth);
-      }
-      .mobile-menu-links a:hover {
-        color: var(--neon-emerald);
-      }
-      .mobile-menu-links .sub-links {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 15px;
-        margin-top: 20px;
-        border-top: 1px solid var(--border-glass);
-        padding-top: 25px;
-      }
-      .mobile-menu-links .sub-links a {
-        font-size: 1.1rem;
-        color: var(--text-muted);
-      }
-      .mobile-menu-links .sub-links a:hover {
-        color: var(--platinum);
-      }
-
-      footer {
-        background: var(--obsidian-surface);
-        border-top: 1px solid var(--border-glass);
-        padding: 60px 0 30px 0;
-      }
-      .footer-content {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 40px;
-        flex-wrap: wrap;
-        gap: 30px;
-      }
-      .footer-brand p {
-        color: var(--text-muted);
-        margin-top: 10px;
-        font-size: 0.95rem;
-      }
-      .footer-brand .fallback-logo {
-        display: block;
-      }
-      .footer-links {
-        display: flex;
-        gap: 20px;
-      }
-      .footer-links a {
-        color: var(--text-muted);
-        text-decoration: none;
-        font-size: 0.9rem;
-        transition: var(--transition-smooth);
-      }
-      .footer-links a:hover {
-        color: var(--platinum);
-      }
-      .footer-bottom {
-        text-align: center;
-        color: var(--text-muted);
-        font-size: 0.85rem;
-        border-top: 1px solid var(--border-glass);
-        padding-top: 30px;
-      }
-
-      /* ==========================================================================
-           RESPONSIVE
-           ========================================================================== */
-      @media (max-width: 900px) {
-        .nav-links {
-          display: none;
-        }
-        .hamburger {
-          display: block;
-        }
-        .hero-grid {
-          grid-template-columns: 1fr;
-          gap: 40px;
-          text-align: center;
-        }
-        .sim-box {
-          margin: 0 auto;
-          width: 100%;
-          max-width: 500px;
-          text-align: left;
-        }
-        .compare-grid {
-          grid-template-columns: 1fr;
-        }
-        .dashboard {
-          grid-template-columns: 1fr;
-          gap: 40px;
-          padding: 30px 20px;
-        }
-        .dash-card {
-          flex-direction: column;
-          text-align: center;
-          gap: 10px;
-        }
-        .tab-panel {
-          grid-template-columns: 1fr;
-          text-align: center;
-          gap: 30px;
-        }
-        .tab-demo {
-          text-align: left;
-        }
-      }
-      @media (max-width: 600px) {
-        .hero {
-          padding: 140px 0 80px 0;
-        }
-        .hero-content h1 {
-          font-size: 2.2rem;
-        }
-        .tab-btn {
-          width: 100%;
-          text-align: center;
-          padding: 16px 20px;
-        }
-        .tab-panel {
-          padding: 30px 20px;
-        }
-        .compare-col {
-          padding: 30px 20px;
-        }
-        .form-wrapper {
-          padding: 30px 20px;
-        }
-        .modal-container {
-          padding: 30px 20px;
-          width: 95%;
-        }
-      }
-    </style>
+    <meta
+      name="description"
+      content="We build invisible backend systems that handle your paperwork and plug financial leaks automatically. Operational automation for hospitality and retail operators."
+    />
+    <meta name="theme-color" content="#030303" />
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SK ShiftControl | Operational Automation" />
+    <meta
+      property="og:description"
+      content="We build invisible backend systems that handle your paperwork and plug financial leaks automatically."
+    />
+    <meta property="og:image" content="logo.png" />
+    <meta name="twitter:card" content="summary" />
+
+    <link rel="icon" type="image/png" href="logo.png" />
+    <link rel="apple-touch-icon" href="logo.png" />
+    <link rel="stylesheet" href="styles.css" />
+    <script>
+      document.documentElement.classList.replace("no-js", "js");
+    </script>
+    <script src="script.js" defer></script>
   </head>
   <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
     <!-- FIXED HEADER -->
-    <nav>
+    <header class="site-nav" id="site-nav">
       <div class="container">
-        <div class="logo-container">
+        <a href="#" class="logo-link" aria-label="SK ShiftControl — Home">
           <img
             src="logo.png"
             alt="SK ShiftControl"
             class="logo"
             id="logo"
-            onerror="
-              this.style.display = 'none';
-              document.getElementById('fallback-logo').style.display = 'block';
-            "
+            width="168"
+            height="160"
+            fetchpriority="high"
           />
-          <div class="fallback-logo" id="fallback-logo">
+          <span class="fallback-logo" id="fallback-logo" aria-hidden="true">
             SK <span>ShiftControl</span>
-          </div>
-        </div>
-        <div class="nav-links">
+          </span>
+        </a>
+        <nav class="nav-links" aria-label="Primary">
           <a href="#features">How It Works</a>
           <a href="#compare">Compare</a>
           <a href="#about">About</a>
           <a href="#signup" class="nav-cta">Get Started</a>
-        </div>
-        <button class="hamburger" id="hamburger" aria-label="Toggle Menu">
+        </nav>
+        <button
+          class="hamburger"
+          id="hamburger"
+          aria-label="Open menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
           ☰
         </button>
       </div>
-    </nav>
+    </header>
 
     <!-- MOBILE MENU OVERLAY -->
     <div class="mobile-menu" id="mobile-menu">
-      <button
-        class="hamburger"
-        id="mobile-menu-close"
-        style="position: absolute; top: 25px; right: 25px; display: block"
-        aria-label="Close Menu"
-      >
+      <button class="hamburger" id="mobile-menu-close" aria-label="Close menu">
         ✕
       </button>
-      <div class="mobile-menu-links">
-        <a href="#features" onclick="toggleMobileMenu()">How It Works</a>
-        <a href="#compare" onclick="toggleMobileMenu()">Compare</a>
-        <a href="#about" onclick="toggleMobileMenu()">About</a>
-        <a
-          href="#signup"
-          style="color: var(--neon-emerald)"
-          onclick="toggleMobileMenu()"
-          >Get Started</a
-        >
+      <nav class="mobile-menu-links" aria-label="Mobile">
+        <a href="#features" data-menu-link>How It Works</a>
+        <a href="#compare" data-menu-link>Compare</a>
+        <a href="#about" data-menu-link>About</a>
+        <a href="#signup" class="menu-cta" data-menu-link>Get Started</a>
 
         <div class="sub-links">
-          <a
-            href="#"
-            onclick="
-              openModal('modal-privacy');
-              toggleMobileMenu();
-              return false;
-            "
+          <a href="#" data-modal-open="modal-privacy" data-menu-link
             >Privacy Protocol</a
           >
-          <a
-            href="#"
-            onclick="
-              openModal('modal-terms');
-              toggleMobileMenu();
-              return false;
-            "
+          <a href="#" data-modal-open="modal-terms" data-menu-link
             >Terms of Service</a
           >
-          <a
-            href="#"
-            onclick="
-              openModal('modal-status');
-              toggleMobileMenu();
-              return false;
-            "
+          <a href="#" data-modal-open="modal-status" data-menu-link
             >System Status</a
           >
         </div>
-      </div>
+      </nav>
     </div>
 
-    <!-- HERO SECTION -->
-    <section class="hero">
-      <div
-        class="container"
-        style="max-width: 900px; margin: 0 auto; text-align: center"
-      >
-        <div
-          class="hero-content"
-          style="display: flex; flex-direction: column; align-items: center"
-        >
-          <h1
-            style="
-              font-size: clamp(3rem, 6vw, 4.5rem);
-              line-height: 1.1;
-              margin-bottom: 30px;
-            "
-          >
-            Stop Letting Administrative Chaos Eat Your Profits.
-          </h1>
-          <p
-            style="
-              font-size: 1.3rem;
-              max-width: 750px;
-              margin: 0 auto 50px auto;
-            "
-          >
-            You know the heavy feeling of locking the front doors after a brutal
-            shift. The quiet exhaustion of sitting in the back office chasing
-            down missing employee timecards, arguing over register cash
-            differences, and typing up the manager's diary. It stops tonight. We
-            build invisible backend systems that handle your paperwork and plug
-            financial leaks automatically.
-          </p>
-          <a href="#signup" class="cta-button"
-            >Request a Risk-Free 7-Day Pilot Run</a
-          >
-        </div>
-      </div>
-    </section>
-
-    <!-- DYNAMIC PROFIT ACCELERATOR -->
-    <section class="accelerator" id="accelerator">
-      <div class="container">
-        <h2>Live Revenue Recovery Dashboard</h2>
-        <div class="dashboard">
-          <div class="dashboard-inputs">
-            <label
-              >Current Weekly Guest Count
-              <span id="val-guests" style="color: var(--neon-emerald)"
-                >1,500</span
-              ></label
-            >
-            <input
-              type="range"
-              id="slider-guests"
-              min="500"
-              max="5000"
-              value="1500"
-              step="50"
-            />
-
-            <label
-              >Average Guest Bill Size
-              <span id="val-bill" style="color: var(--neon-emerald)"
-                >$45</span
-              ></label
-            >
-            <input
-              type="range"
-              id="slider-bill"
-              min="15"
-              max="100"
-              value="45"
-              step="1"
-            />
-          </div>
-          <div class="dashboard-outputs">
-            <div class="dash-card">
-              <span class="dash-label">Missed Income Captured</span>
-              <span class="dash-value" id="out-income">+$0</span>
+    <main id="main">
+      <!-- HERO SECTION -->
+      <section class="hero">
+        <div class="container">
+          <div class="hero-content">
+            <div class="hero-badge">
+              <span class="status-dot" aria-hidden="true"></span>
+              Systems Online
             </div>
-            <div class="dash-card">
-              <span class="dash-label">Wasted Labor Dollars Saved</span>
-              <span class="dash-value" id="out-labor">+$0</span>
-            </div>
-            <div class="dash-card highlight">
-              <span class="dash-label">Total Capital Reclaimed</span>
-              <span class="dash-value" id="out-total">+$0</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- DYNAMIC PROFIT ACCELERATOR -->
-    <section class="accelerator" id="accelerator">
-      <div class="container">
-        <h2>The Dynamic Profit Accelerator</h2>
-        <div class="dashboard">
-          <div class="dashboard-inputs">
-            <label
-              >Current Weekly Guest Count:
-              <span id="guestCountVal">2500</span></label
-            >
-            <input
-              type="range"
-              id="guestCount"
-              min="500"
-              max="5000"
-              step="50"
-              value="2500"
-            />
-
-            <label
-              >Average Guest Bill Size: $<span id="billSizeVal">45</span></label
-            >
-            <input
-              type="range"
-              id="billSize"
-              min="15"
-              max="100"
-              step="1"
-              value="45"
-            />
-          </div>
-          <div class="dashboard-outputs">
-            <div class="dash-card">
-              <div class="dash-label">Missed Income Captured</div>
-              <div class="dash-value text-neon" id="missedIncome">$0</div>
-            </div>
-            <div class="dash-card">
-              <div class="dash-label">Wasted Labor Dollars Saved</div>
-              <div class="dash-value text-neon" id="laborSaved">$0</div>
-            </div>
-            <div class="dash-card highlight">
-              <div class="dash-label">Total Capital Reclaimed</div>
-              <div class="dash-value text-neon" id="totalReclaimed">$0</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTROL CENTER TABS -->
-    <section class="control-center" id="features">
-      <div class="container">
-        <h2>How It Works</h2>
-
-        <div class="tabs-nav">
-          <button class="tab-btn active" data-target="tab-1">
-            [01 // Automated Marketing]
-          </button>
-          <button class="tab-btn" data-target="tab-2">
-            [02 // Margin Protection]
-          </button>
-          <button class="tab-btn" data-target="tab-3">
-            [03 // Hands-Free Closeouts]
-          </button>
-        </div>
-
-        <div class="tab-content-container">
-          <div class="tab-panel active" id="tab-1">
-            <div class="tab-text">
-              <p>
-                The system automatically tracks when high-value guests haven't
-                visited in a while and text messages them personalized rewards
-                to bring them back. It brings in thousands in extra revenue
-                completely hands-free.
-              </p>
-            </div>
-            <div class="tab-demo">
-              <div class="demo-title">Data Payload // Log Structuring</div>
-              <div class="demo-code-line demo-item">
-                > INGEST_AUDIO: "Cooler is warm..."
-              </div>
-              <div class="demo-code-line demo-item">
-                > EXTRACTING VARIABLES...
-              </div>
-              <div
-                class="demo-code-line demo-item"
-                style="color: var(--platinum); margin-left: 15px"
-              >
-                Issue: Cooler Unit 2<br />
-                Status: Temperature Anomaly<br />
-                Action: Dispatch Morning Tech
-              </div>
-              <div class="demo-code-line demo-item">
-                >
-                <span class="demo-code-highlight">MAINTENANCE.ALERT</span>
-                Dispatched
-              </div>
-              <div class="demo-code-line demo-item" style="margin-top: 15px">
-                <span class="demo-pulse"></span> Complete
-              </div>
-            </div>
-          </div>
-          <div class="tab-panel" id="tab-2">
-            <div class="tab-text">
-              <p>
-                The system automatically scans POS registers and schedules to
-                instantly catch hidden cash shortages, inventory waste, and
-                unapproved overtime before it drains your bank account.
-              </p>
-            </div>
-            <div class="tab-demo">
-              <div class="demo-title">Reconciliation // Roster Generation</div>
-              <div class="demo-code-line demo-item">
-                > FORECAST: Next Week Sales [$42,500]
-              </div>
-              <div class="demo-code-line demo-item">> LABOR_CAP: 22%</div>
-              <div
-                class="demo-code-line demo-item"
-                style="color: var(--platinum); margin-left: 15px"
-              >
-                Bartenders Required: 4<br />
-                Barbacks Required: 2<br />
-                Variance: Optimal
-              </div>
-              <div class="demo-code-line demo-item">
-                > <span class="demo-code-highlight">ROSTER.SYNC</span> Generated
-                48 shifts
-              </div>
-              <div class="demo-code-line demo-item" style="margin-top: 15px">
-                <span class="demo-pulse"></span> Output Sent to Staff
-              </div>
-            </div>
-          </div>
-          <div class="tab-panel" id="tab-3">
-            <div class="tab-text">
-              <p>
-                Simply speak a 60-second voice note into your phone as you walk
-                to your car at night. The system automatically structures it
-                into a beautiful manager log and emails a crisp financial
-                summary straight to your partners.
-              </p>
-            </div>
-            <div class="tab-demo">
-              <div class="demo-title">Visual Engine // Financial Yield</div>
-              <div class="demo-code-line demo-item">
-                Generating Partner Brief...
-              </div>
-              <div class="demo-bar-chart demo-item">
-                <div class="demo-bar bar-1"></div>
-                <div class="demo-bar bar-2"></div>
-                <div class="demo-bar bar-3"></div>
-                <div class="demo-bar bar-4"></div>
-              </div>
-              <div
-                class="demo-code-line demo-item"
-                style="margin-top: 15px; text-align: center"
-              >
-                <span class="demo-code-highlight">Net Margin: +14.2%</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- REALITY COMPARE GRID -->
-    <section class="compare-section" id="compare">
-      <div class="container">
-        <h2>The Simple Choice</h2>
-        <div class="compare-grid">
-          <div class="compare-col">
-            <div class="compare-header">The Cash Leak Nightmare</div>
-            <ul class="compare-list">
-              <li>Tracking down missing timecards</li>
-              <li>Fighting register variances and cash shortages</li>
-              <li>Losing high-value repeat guests to competitors</li>
-              <li>Exhausting late-night administrative work</li>
-            </ul>
-          </div>
-          <div class="compare-col highlight">
-            <div class="compare-header">The ShiftControl Reality</div>
-            <ul class="compare-list">
-              <li>Automated Roster Syncing</li>
-              <li>Instant Leak Detection</li>
-              <li>Behavior-Triggered Loyalty Loops</li>
-              <li>Voice-to-Text Closeouts</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ABOUT US -->
-    <section class="about-section" id="about">
-      <div class="container">
-        <div class="about-content">
-          <h2>Engineered by Operators. Built for Freedom.</h2>
-          <p>
-            We aren't tech nerds. We are experienced venue operators who spent years managing busy, chaotic hospitality and retail floors. We know firsthand the pain of watching hard-earned profit slip through the cracks of a fragmented business.
-          </p>
-          <p>
-            We engineered these tools to ensure independent operators make more money while finally taking back their personal freedom.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- FRICTIONLESS SIGNUP -->
-    <section class="signup-section" id="signup">
-      <div class="container">
-        <h2>Ready to reclaim your time?</h2>
-
-        <div class="form-wrapper">
-          <div class="form-success" id="success-message">
-            <div class="success-icon">✓</div>
-            <h3 style="margin-bottom: 10px">Protocol Initiated.</h3>
-            <p style="color: var(--text-muted)">
-              Our lead architect will text you shortly.
+            <h1>Stop Letting Administrative Chaos Eat Your Profits.</h1>
+            <p class="hero-lede">
+              You know the heavy feeling of locking the front doors after a
+              brutal shift. The quiet exhaustion of sitting in the back office
+              chasing down missing employee timecards, arguing over register
+              cash differences, and typing up the manager's diary. It stops
+              tonight. We build invisible backend systems that handle your
+              paperwork and plug financial leaks automatically.
             </p>
+            <a href="#signup" class="cta-button"
+              >Request a Risk-Free 7-Day Pilot Run</a
+            >
           </div>
+        </div>
+      </section>
 
-          <form id="pilot-form">
-            <div class="input-group">
-              <input type="text" placeholder="Your Name" required />
-            </div>
-            <div class="input-group">
+      <!-- LIVE REVENUE RECOVERY DASHBOARD -->
+      <section class="section section--surface" id="accelerator">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">// Live Simulation</span>
+            <h2>Live Revenue Recovery Dashboard</h2>
+          </div>
+          <div class="dashboard reveal">
+            <div class="dashboard-inputs">
+              <label for="slider-guests">
+                Current Weekly Guest Count
+                <output id="val-guests" for="slider-guests">1,500</output>
+              </label>
               <input
-                type="text"
-                placeholder="Venue Name (e.g., Champs)"
-                required
+                type="range"
+                id="slider-guests"
+                min="500"
+                max="5000"
+                value="1500"
+                step="50"
+              />
+
+              <label for="slider-bill">
+                Average Guest Bill Size
+                <output id="val-bill" for="slider-bill">$45</output>
+              </label>
+              <input
+                type="range"
+                id="slider-bill"
+                min="15"
+                max="100"
+                value="45"
+                step="1"
               />
             </div>
-            <div class="input-group">
-              <input type="tel" placeholder="Mobile Number" required />
+            <div class="dashboard-outputs" aria-live="polite">
+              <div class="dash-card">
+                <span class="dash-label">Missed Income Captured</span>
+                <span class="dash-value" id="out-income">+$0</span>
+              </div>
+              <div class="dash-card">
+                <span class="dash-label">Wasted Labor Dollars Saved</span>
+                <span class="dash-value" id="out-labor">+$0</span>
+              </div>
+              <div class="dash-card highlight">
+                <span class="dash-label">Total Capital Reclaimed</span>
+                <span class="dash-value" id="out-total">+$0</span>
+              </div>
             </div>
-            <button type="submit" class="cta-button" style="width: 100%">
-              Initiate Protocol
-            </button>
-          </form>
-
-          <div class="guardrail">
-            Zero setup fees. Zero system risk. If the system doesn't buy you
-            back five hours of your life and uncover hidden revenue this week,
-            we turn it off and it costs you nothing.
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <!-- CONTROL CENTER TABS -->
+      <section class="section" id="features">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">// The System</span>
+            <h2>How It Works</h2>
+          </div>
+
+          <div class="tabs-nav reveal" role="tablist" aria-label="How It Works">
+            <button
+              class="tab-btn active"
+              id="tab-btn-1"
+              role="tab"
+              aria-selected="true"
+              aria-controls="tab-1"
+              data-target="tab-1"
+            >
+              [01 // Automated Marketing]
+            </button>
+            <button
+              class="tab-btn"
+              id="tab-btn-2"
+              role="tab"
+              aria-selected="false"
+              aria-controls="tab-2"
+              data-target="tab-2"
+              tabindex="-1"
+            >
+              [02 // Margin Protection]
+            </button>
+            <button
+              class="tab-btn"
+              id="tab-btn-3"
+              role="tab"
+              aria-selected="false"
+              aria-controls="tab-3"
+              data-target="tab-3"
+              tabindex="-1"
+            >
+              [03 // Hands-Free Closeouts]
+            </button>
+          </div>
+
+          <div class="tab-content-container reveal">
+            <div
+              class="tab-panel active"
+              id="tab-1"
+              role="tabpanel"
+              aria-labelledby="tab-btn-1"
+              tabindex="0"
+            >
+              <div class="tab-text">
+                <p>
+                  The system automatically tracks when high-value guests
+                  haven't visited in a while and text messages them
+                  personalized rewards to bring them back. It brings in
+                  thousands in extra revenue completely hands-free.
+                </p>
+              </div>
+              <div class="tab-demo" aria-hidden="true">
+                <div class="demo-title">Loyalty Engine // Win-Back Sequence</div>
+                <div class="demo-code-line demo-item">
+                  > SCAN: Guest visit gaps [rolling 30 days]
+                </div>
+                <div class="demo-code-line demo-item">
+                  > FLAGGED: High-value guest inactive 24 days
+                </div>
+                <div class="demo-code-line demo-code-block demo-item">
+                  Guest: VIP #0447<br />
+                  Lifetime Spend: $1,840<br />
+                  Reward: Personalized Comp
+                </div>
+                <div class="demo-code-line demo-item">
+                  > <span class="demo-code-highlight">LOYALTY.SMS</span>
+                  Dispatched
+                </div>
+                <div class="demo-code-line demo-item demo-footer">
+                  <span class="demo-pulse"></span> Guest Rebooked
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="tab-panel"
+              id="tab-2"
+              role="tabpanel"
+              aria-labelledby="tab-btn-2"
+              tabindex="0"
+            >
+              <div class="tab-text">
+                <p>
+                  The system automatically scans POS registers and schedules to
+                  instantly catch hidden cash shortages, inventory waste, and
+                  unapproved overtime before it drains your bank account.
+                </p>
+              </div>
+              <div class="tab-demo" aria-hidden="true">
+                <div class="demo-title">Margin Shield // Nightly Audit</div>
+                <div class="demo-code-line demo-item">
+                  > SCAN: POS Registers + Schedules
+                </div>
+                <div class="demo-code-line demo-item">
+                  > CROSS-REF: Clock-ins vs. Roster...
+                </div>
+                <div class="demo-code-line demo-code-block demo-item">
+                  Register 2: <span class="sim-alert">−$14.50</span> Variance<br />
+                  Overtime: 1.5 unapproved hrs<br />
+                  Inventory Drift: 2.1%
+                </div>
+                <div class="demo-code-line demo-item">
+                  > <span class="demo-code-highlight">OWNER.ALERT</span>
+                  Dispatched
+                </div>
+                <div class="demo-code-line demo-item demo-footer">
+                  <span class="demo-pulse"></span> Leak Sealed
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="tab-panel"
+              id="tab-3"
+              role="tabpanel"
+              aria-labelledby="tab-btn-3"
+              tabindex="0"
+            >
+              <div class="tab-text">
+                <p>
+                  Simply speak a 60-second voice note into your phone as you
+                  walk to your car at night. The system automatically
+                  structures it into a beautiful manager log and emails a crisp
+                  financial summary straight to your partners.
+                </p>
+              </div>
+              <div class="tab-demo" aria-hidden="true">
+                <div class="demo-title">Voice Engine // Manager Log</div>
+                <div class="demo-code-line demo-item">
+                  > INGEST_AUDIO: 60s voice note...
+                </div>
+                <div class="demo-code-line demo-code-block demo-item">
+                  Shift Recap: Logged<br />
+                  Incidents: 2 structured<br />
+                  Partner Brief: Emailed
+                </div>
+                <div class="demo-bar-chart demo-item">
+                  <div class="demo-bar bar-1"></div>
+                  <div class="demo-bar bar-2"></div>
+                  <div class="demo-bar bar-3"></div>
+                  <div class="demo-bar bar-4"></div>
+                </div>
+                <div class="demo-code-line demo-item demo-footer">
+                  <span class="demo-code-highlight">Net Margin: +14.2%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- REALITY COMPARE GRID -->
+      <section class="section" id="compare">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">// Side by Side</span>
+            <h2>The Simple Choice</h2>
+          </div>
+          <div class="compare-grid">
+            <div class="compare-col reveal">
+              <div class="compare-header">The Cash Leak Nightmare</div>
+              <ul class="compare-list">
+                <li>Tracking down missing timecards</li>
+                <li>Fighting register variances and cash shortages</li>
+                <li>Losing high-value repeat guests to competitors</li>
+                <li>Exhausting late-night administrative work</li>
+              </ul>
+            </div>
+            <div class="compare-col highlight reveal">
+              <div class="compare-header">The ShiftControl Reality</div>
+              <ul class="compare-list">
+                <li>Automated Roster Syncing</li>
+                <li>Instant Leak Detection</li>
+                <li>Behavior-Triggered Loyalty Loops</li>
+                <li>Voice-to-Text Closeouts</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABOUT US -->
+      <section class="section section--surface" id="about">
+        <div class="container">
+          <div class="about-content reveal">
+            <span class="eyebrow">// The Operators</span>
+            <h2>Engineered by Operators. Built for Freedom.</h2>
+            <p>
+              We aren't tech nerds. We are experienced venue operators who
+              spent years managing busy, chaotic hospitality and retail floors.
+              We know firsthand the pain of watching hard-earned profit slip
+              through the cracks of a fragmented business.
+            </p>
+            <p>
+              We engineered these tools to ensure independent operators make
+              more money while finally taking back their personal freedom.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FRICTIONLESS SIGNUP -->
+      <section class="section signup-section" id="signup">
+        <div class="container">
+          <div class="reveal">
+            <span class="eyebrow">// Deployment</span>
+            <h2>Ready to reclaim your time?</h2>
+          </div>
+
+          <div class="form-wrapper reveal">
+            <div
+              class="form-success"
+              id="success-message"
+              role="status"
+              aria-live="polite"
+            >
+              <div class="success-icon" aria-hidden="true">✓</div>
+              <h3>Protocol Initiated.</h3>
+              <p>Our lead architect will text you shortly.</p>
+            </div>
+
+            <form id="pilot-form">
+              <div class="input-group">
+                <label class="sr-only" for="field-name">Your Name</label>
+                <input
+                  type="text"
+                  id="field-name"
+                  name="name"
+                  placeholder="Your Name"
+                  autocomplete="name"
+                  required
+                />
+              </div>
+              <div class="input-group">
+                <label class="sr-only" for="field-venue">Venue Name</label>
+                <input
+                  type="text"
+                  id="field-venue"
+                  name="venue"
+                  placeholder="Venue Name (e.g., Champs)"
+                  autocomplete="organization"
+                  required
+                />
+              </div>
+              <div class="input-group">
+                <label class="sr-only" for="field-phone">Mobile Number</label>
+                <input
+                  type="tel"
+                  id="field-phone"
+                  name="phone"
+                  placeholder="Mobile Number"
+                  autocomplete="tel"
+                  required
+                />
+              </div>
+              <button type="submit" class="cta-button cta-button--block">
+                Initiate Protocol
+              </button>
+            </form>
+
+            <div class="guardrail">
+              Zero setup fees. Zero system risk. If the system doesn't buy you
+              back five hours of your life and uncover hidden revenue this
+              week, we turn it off and it costs you nothing.
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
 
     <!-- MODALS -->
-    <div class="modal-overlay" id="modal-privacy" onclick="closeModal(event)">
-      <div class="modal-container" onclick="event.stopPropagation()">
-        <button class="modal-close" onclick="closeModal(event)">×</button>
+    <div
+      class="modal-overlay"
+      id="modal-privacy"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-privacy-title"
+    >
+      <div class="modal-container">
+        <button class="modal-close" data-modal-close aria-label="Close dialog">
+          ×
+        </button>
         <div class="modal-body">
-          <h2>Privacy Protocol</h2>
+          <h2 id="modal-privacy-title">Privacy Protocol</h2>
           <p>Last Updated: October 2026</p>
           <p>
             At SK ShiftControl, we treat your operational data with the same
@@ -1481,46 +470,56 @@
 
           <h3>1. Data Collection</h3>
           <p>
-            We only collect the essential information required to automate your
-            operations. This includes, but is not limited to: shift logs,
-            schedule parameters, vendor invoice scans, and communication routing
-            numbers.
+            We only collect the essential information required to automate
+            your operations. This includes, but is not limited to: shift logs,
+            schedule parameters, vendor invoice scans, and communication
+            routing numbers.
           </p>
 
           <h3>2. Zero-Sell Guarantee</h3>
           <p>
             We never sell, rent, or distribute your operational data to third
             parties, competitors, or marketing agencies. Your venue's
-            performance metrics are strictly confidential and encrypted at rest.
+            performance metrics are strictly confidential and encrypted at
+            rest.
           </p>
 
-          <h3>3. Data Residency & Encryption</h3>
+          <h3>3. Data Residency &amp; Encryption</h3>
           <p>
-            All voice memos, text logs, and employee rosters are encrypted using
-            industry-standard protocols. We utilize robust access controls,
-            ensuring only your authorized personnel can view sensitive outputs.
+            All voice memos, text logs, and employee rosters are encrypted
+            using industry-standard protocols. We utilize robust access
+            controls, ensuring only your authorized personnel can view
+            sensitive outputs.
           </p>
 
           <h3>4. Contact</h3>
           <p>
-            For privacy inquiries, contact our data protection team directly at
-            secure@skshiftcontrol.com.
+            For privacy inquiries, contact our data protection team directly
+            at secure@skshiftcontrol.com.
           </p>
         </div>
       </div>
     </div>
 
-    <div class="modal-overlay" id="modal-terms" onclick="closeModal(event)">
-      <div class="modal-container" onclick="event.stopPropagation()">
-        <button class="modal-close" onclick="closeModal(event)">×</button>
+    <div
+      class="modal-overlay"
+      id="modal-terms"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-terms-title"
+    >
+      <div class="modal-container">
+        <button class="modal-close" data-modal-close aria-label="Close dialog">
+          ×
+        </button>
         <div class="modal-body">
-          <h2>Terms of Service</h2>
+          <h2 id="modal-terms-title">Terms of Service</h2>
           <p>
             By deploying the SK ShiftControl platform, you agree to these
             operational terms.
           </p>
 
-          <h3>1. Pilot Period & Guarantee</h3>
+          <h3>1. Pilot Period &amp; Guarantee</h3>
           <p>
             New venues are eligible for a 7-day risk-free pilot. If the system
             does not demonstrably reduce your administrative workload by at
@@ -1539,9 +538,9 @@
           <h3>3. Service Availability</h3>
           <p>
             While we target 99.9% uptime, we are not liable for incidental
-            losses resulting from temporary connectivity issues, third-party API
-            outages, or operator input errors. Always maintain baseline analog
-            protocols for critical emergencies.
+            losses resulting from temporary connectivity issues, third-party
+            API outages, or operator input errors. Always maintain baseline
+            analog protocols for critical emergencies.
           </p>
 
           <h3>4. Termination</h3>
@@ -1554,35 +553,41 @@
       </div>
     </div>
 
-    <div class="modal-overlay" id="modal-status" onclick="closeModal(event)">
-      <div class="modal-container" onclick="event.stopPropagation()">
-        <button class="modal-close" onclick="closeModal(event)">×</button>
+    <div
+      class="modal-overlay"
+      id="modal-status"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-status-title"
+    >
+      <div class="modal-container">
+        <button class="modal-close" data-modal-close aria-label="Close dialog">
+          ×
+        </button>
         <div class="modal-body">
-          <h2>System Status</h2>
-          <p>
-            All core processing pipelines are currently operating nominally.
-          </p>
+          <h2 id="modal-status-title">System Status</h2>
+          <p>All core processing pipelines are currently operating nominally.</p>
 
           <ul>
             <li>
-              <strong style="color: var(--neon-emerald)">● Online:</strong>
-              Voice-to-Text Processing Engine
+              <strong class="status-online">● Online:</strong> Voice-to-Text
+              Processing Engine
             </li>
             <li>
-              <strong style="color: var(--neon-emerald)">● Online:</strong>
-              Automated Roster Syncing
+              <strong class="status-online">● Online:</strong> Automated
+              Roster Syncing
             </li>
             <li>
-              <strong style="color: var(--neon-emerald)">● Online:</strong>
-              Vendor Invoice OCR
+              <strong class="status-online">● Online:</strong> Vendor Invoice
+              OCR
             </li>
             <li>
-              <strong style="color: var(--neon-emerald)">● Online:</strong> SMS
+              <strong class="status-online">● Online:</strong> SMS
               Notification Gateway
             </li>
           </ul>
 
-          <p style="margin-top: 30px; font-size: 0.9rem">
+          <p class="status-note">
             Next scheduled maintenance window: Sunday, 3:00 AM EST (Zero
             downtime expected).
           </p>
@@ -1591,153 +596,21 @@
     </div>
 
     <!-- FOOTER -->
-    <footer>
+    <footer class="site-footer">
       <div class="container footer-content">
         <div class="footer-brand">
           <div class="fallback-logo">SK <span>ShiftControl</span></div>
           <p>Operational automation for hospitality and retail operators.</p>
         </div>
-        <div class="footer-links">
-          <a
-            href="#"
-            onclick="
-              openModal('modal-privacy');
-              return false;
-            "
-            >Privacy Protocol</a
-          >
-          <a
-            href="#"
-            onclick="
-              openModal('modal-terms');
-              return false;
-            "
-            >Terms of Service</a
-          >
-          <a
-            href="#"
-            onclick="
-              openModal('modal-status');
-              return false;
-            "
-            >System Status</a
-          >
-        </div>
+        <nav class="footer-links" aria-label="Legal">
+          <a href="#" data-modal-open="modal-privacy">Privacy Protocol</a>
+          <a href="#" data-modal-open="modal-terms">Terms of Service</a>
+          <a href="#" data-modal-open="modal-status">System Status</a>
+        </nav>
       </div>
       <div class="footer-bottom">
         &copy; 2026 SK ShiftControl. All rights reserved.
       </div>
     </footer>
-
-    <!-- SCRIPTS -->
-    <script>
-      // Tab Switching Logic
-      const tabBtns = document.querySelectorAll(".tab-btn");
-      const tabPanels = document.querySelectorAll(".tab-panel");
-
-      tabBtns.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          // Remove active classes
-          tabBtns.forEach((b) => b.classList.remove("active"));
-          tabPanels.forEach((p) => p.classList.remove("active"));
-
-          // Add active class to clicked button and target panel
-          btn.classList.add("active");
-          const targetId = btn.getAttribute("data-target");
-          document.getElementById(targetId).classList.add("active");
-        });
-      });
-
-      // Dynamic Profit Accelerator Logic
-      const guestCountSlider = document.getElementById("slider-guests");
-      const billSizeSlider = document.getElementById("slider-bill");
-      const guestCountVal = document.getElementById("val-guests");
-      const billSizeVal = document.getElementById("val-bill");
-      const missedIncomeEl = document.getElementById("out-income");
-      const laborSavedEl = document.getElementById("out-labor");
-      const totalReclaimedEl = document.getElementById("out-total");
-
-      function calculateProfits() {
-        if (!guestCountSlider) return;
-        const guests = parseInt(guestCountSlider.value);
-        const billSize = parseInt(billSizeSlider.value);
-
-        guestCountVal.textContent = guests.toLocaleString();
-        billSizeVal.textContent = "$" + billSize;
-
-        // Arbitrary business logic for the sake of the demo
-        const weeklyRev = guests * billSize;
-        const missedIncome = weeklyRev * 0.18; // ~18% bump from retention
-        const laborSaved = guests * 0.5; // ~$0.50 saved per guest in error catching
-
-        const totalReclaimed = missedIncome + laborSaved;
-
-        animateValue(missedIncomeEl, missedIncome);
-        animateValue(laborSavedEl, laborSaved);
-        animateValue(totalReclaimedEl, totalReclaimed);
-      }
-
-      function animateValue(obj, end) {
-        // Quick visual update
-        obj.textContent = "+$" + Math.round(end).toLocaleString();
-      }
-
-      if (guestCountSlider && billSizeSlider) {
-        guestCountSlider.addEventListener("input", calculateProfits);
-        billSizeSlider.addEventListener("input", calculateProfits);
-        calculateProfits();
-      }
-
-      // Form Submission Logic
-      const pilotForm = document.getElementById("pilot-form");
-      const successMessage = document.getElementById("success-message");
-
-      pilotForm.addEventListener("submit", (e) => {
-        e.preventDefault(); // Prevent page reload
-        const btn = pilotForm.querySelector("button");
-        btn.innerHTML = "Processing...";
-        btn.style.opacity = "0.8";
-
-        // Simulate network request
-        setTimeout(() => {
-          successMessage.classList.add("active");
-        }, 1000);
-      });
-
-      // Modal Logic
-      function openModal(id) {
-        document.getElementById(id).classList.add("active");
-        document.body.style.overflow = "hidden";
-      }
-
-      function closeModal(e) {
-        if (e) e.preventDefault();
-        document
-          .querySelectorAll(".modal-overlay")
-          .forEach((m) => m.classList.remove("active"));
-        document.body.style.overflow = "auto";
-      }
-
-      // Mobile Menu Logic
-      const mobileMenu = document.getElementById("mobile-menu");
-      const hamburger = document.getElementById("hamburger");
-      const mobileMenuClose = document.getElementById("mobile-menu-close");
-
-      function toggleMobileMenu() {
-        mobileMenu.classList.toggle("open");
-        if (mobileMenu.classList.contains("open")) {
-          document.body.style.overflow = "hidden";
-        } else {
-          document.body.style.overflow = "auto";
-        }
-      }
-
-      if (hamburger) {
-        hamburger.addEventListener("click", toggleMobileMenu);
-      }
-      if (mobileMenuClose) {
-        mobileMenuClose.addEventListener("click", toggleMobileMenu);
-      }
-    </script>
   </body>
 </html>

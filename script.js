@@ -228,6 +228,58 @@
   }
 
   /* ------------------------------------------------------------------
+     5b. BEFORE/AFTER SWITCHER — the interactive reality engine
+     ------------------------------------------------------------------ */
+  const baTabs = Array.from(document.querySelectorAll(".ba-tab"));
+  const baPanes = Array.from(document.querySelectorAll(".ba-pane"));
+
+  function activateBaTab(btn) {
+    baTabs.forEach((b) => {
+      const selected = b === btn;
+      b.setAttribute("aria-selected", String(selected));
+      b.tabIndex = selected ? 0 : -1;
+    });
+    baPanes.forEach((p) => {
+      p.classList.toggle("active", p.id === btn.dataset.baTarget);
+    });
+  }
+
+  baTabs.forEach((btn, index) => {
+    btn.addEventListener("click", () => activateBaTab(btn));
+    btn.addEventListener("keydown", (e) => {
+      let next = null;
+      if (e.key === "ArrowRight") next = baTabs[(index + 1) % baTabs.length];
+      if (e.key === "ArrowLeft")
+        next = baTabs[(index - 1 + baTabs.length) % baTabs.length];
+      if (next) {
+        e.preventDefault();
+        next.focus();
+        activateBaTab(next);
+      }
+    });
+  });
+
+  /* ------------------------------------------------------------------
+     7a2. INSTANT CALLBACK — simulated capture; wire to the real
+     callback queue (e.g., n8n webhook + voice API) before launch
+     ------------------------------------------------------------------ */
+  const callbackForm = document.getElementById("callback-form");
+  const callbackSuccess = document.getElementById("callback-success");
+
+  if (callbackForm && callbackSuccess) {
+    callbackForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const btn = callbackForm.querySelector("button[type=submit]");
+      btn.textContent = "Queuing...";
+      btn.disabled = true;
+
+      setTimeout(() => {
+        callbackSuccess.classList.add("active");
+      }, 800);
+    });
+  }
+
+  /* ------------------------------------------------------------------
      7b. CHECKLIST OPT-IN — simulated submission with success state
      ------------------------------------------------------------------ */
   const checklistForm = document.getElementById("checklist-form");

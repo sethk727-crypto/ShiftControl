@@ -56,6 +56,11 @@
           <a href="#engagement">Engagement</a>
           <a href="#process">Process</a>
           <a href="#proof">Proof</a>
+          <!-- Replace with your real number before launch (also in the mobile menu) -->
+          <a href="tel:+15550198472" class="nav-hotline">
+            <span class="ping-dot" aria-hidden="true"><span class="ping"></span></span>
+            Direct Hotline: (555) 019-8472
+          </a>
           <a href="#book" class="nav-cta">Book the Systems Audit</a>
         </nav>
         <button
@@ -85,6 +90,7 @@
         >
 
         <div class="sub-links">
+          <a href="tel:+15550198472">Direct Hotline: (555) 019-8472</a>
           <a href="venues.html">ShiftControl for Venues</a>
           <a href="#" data-modal-open="modal-privacy" data-menu-link
             >Privacy Protocol</a
@@ -108,7 +114,11 @@
               <span class="status-dot" aria-hidden="true"></span>
               Advanced AI Agents // Deployed
             </div>
-            <h1>Scale Faster. See Clearer. Carry&nbsp;Less.</h1>
+            <h1>
+              <span class="h1-line"><span class="h1-line-inner">Scale Faster.</span></span>
+              <span class="h1-line"><span class="h1-line-inner">See Clearer.</span></span>
+              <span class="h1-line"><span class="h1-line-inner">Carry Less.</span></span>
+            </h1>
             <p class="hero-lede">
               Every serious operator eventually makes the same quiet decision:
               stop running the business by hand. SK ShiftControl deploys
@@ -127,6 +137,38 @@
               Because the map of your operational leaks is yours to keep —
               either way.
             </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ENTERPRISE SECURITY & PRIVACY ANCHOR -->
+      <section class="section--zdr" id="security">
+        <div class="container">
+          <div class="zdr-card reveal">
+            <div class="zdr-shield" aria-hidden="true">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M12 2l8 4v6c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10V6l8-4z"
+                />
+                <path d="M9 12l2 2 4-4" />
+              </svg>
+            </div>
+            <div>
+              <h3>🔒 Enterprise Security &amp; Client Confidentiality Protocols</h3>
+              <p>
+                <strong>Zero-Data Retention (ZDR) Architecture:</strong> All
+                client file streams are processed strictly in-memory. Data is
+                never cached, stored on backend servers, or utilized for
+                public training models. Your proprietary business data is
+                completely vaporized the millisecond execution completes.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -287,6 +329,97 @@
             and data stack — because the architecture serves the outcome, not
             the other way around.
           </p>
+        </div>
+      </section>
+
+      <!-- BEFORE VS. AFTER — the interactive reality engine (slab) -->
+      <section class="section slab" id="reality">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">// The State Change, Live</span>
+            <h2>The Reality of an Automated Business</h2>
+            <p class="section-lede">
+              Drag your operations out of the past and into frictionless
+              execution.
+            </p>
+          </div>
+          <div class="ba-switcher reveal">
+            <div class="ba-tabs" role="tablist" aria-label="Before and after">
+              <button
+                class="ba-tab ba-tab--before"
+                id="ba-tab-before"
+                role="tab"
+                aria-selected="false"
+                aria-controls="ba-before"
+                data-ba-target="ba-before"
+                tabindex="-1"
+              >
+                Before (Manual Operations)
+              </button>
+              <button
+                class="ba-tab ba-tab--after"
+                id="ba-tab-after"
+                role="tab"
+                aria-selected="true"
+                aria-controls="ba-after"
+                data-ba-target="ba-after"
+              >
+                After (ShiftControl Active)
+              </button>
+            </div>
+            <div class="ba-panes">
+              <div
+                class="ba-pane ba-pane--before"
+                id="ba-before"
+                role="tabpanel"
+                aria-labelledby="ba-tab-before"
+                tabindex="0"
+              >
+                <svg
+                  class="ba-icon ba-icon--x"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  aria-hidden="true"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M15 9l-6 6M9 9l6 6" />
+                </svg>
+                <p>
+                  55+ WPM manual typists transcribing invoices, human error
+                  risks, heavy administrative overhead, missed filing
+                  deadlines, and entirely diluted billable hours.
+                </p>
+              </div>
+              <div
+                class="ba-pane ba-pane--after active"
+                id="ba-after"
+                role="tabpanel"
+                aria-labelledby="ba-tab-after"
+                tabindex="0"
+              >
+                <svg
+                  class="ba-icon ba-icon--check"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M8 12.5l3 3 5-6" />
+                </svg>
+                <p>
+                  <span class="glow">n8n pipeline</span> processes incoming
+                  PDFs in 2.3 seconds, enterprise LLMs structure metadata
+                  in-memory, automatic database syncs, and custom document
+                  templates drafted instantly with 0% data leakage.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -477,6 +610,63 @@
                 rel="noopener"
                 >Open the scheduling page directly →</a
               >
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- INSTANT TELEMETRY CALLBACK -->
+      <section class="section" id="callback">
+        <div class="container">
+          <div class="callback-wrap">
+            <div class="reveal">
+              <span class="eyebrow">// Frictionless Alternative</span>
+              <h2>Speak with a Systems Architect</h2>
+              <p class="section-lede">
+                Do not schedule a calendar link if your schedule is fluid.
+                Enter your priority business number below, and our automated
+                queue will initiate an instant voice callback to audit your
+                bottlenecks within 5 minutes.
+              </p>
+            </div>
+            <div class="callback-form-shell reveal">
+              <div
+                class="form-success"
+                id="callback-success"
+                role="status"
+                aria-live="polite"
+              >
+                <div class="success-icon" aria-hidden="true">✓</div>
+                <h3>Callback initiated.</h3>
+                <p>Keep your line open — you're in the queue.</p>
+              </div>
+              <!--
+                WIRE BEFORE LAUNCH: point this form at your real callback
+                system (e.g., an n8n webhook driving a Twilio voice flow).
+                The success state is front-end only until then.
+              -->
+              <form id="callback-form">
+                <div class="input-group">
+                  <label class="sr-only" for="field-callback-phone"
+                    >Priority business number</label
+                  >
+                  <input
+                    type="tel"
+                    id="field-callback-phone"
+                    name="phone"
+                    placeholder="Priority business number"
+                    autocomplete="tel"
+                    required
+                  />
+                </div>
+                <button type="submit" class="cta-button cta-button--block">
+                  Initiate Instant Callback
+                </button>
+              </form>
+            </div>
+            <p class="callback-note">
+              Voice line answered by the intake agent — every callback is
+              logged, structured, and routed.
             </p>
           </div>
         </div>

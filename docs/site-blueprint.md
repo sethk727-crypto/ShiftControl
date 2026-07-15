@@ -1,5 +1,7 @@
 # SK ShiftControl — Agency Website Blueprint
 
+> **Revision 2 (perception-engineering pass):** The live homepage has evolved past v1 of this document. It now runs a bright "panoramic" light theme with obsidian slab anchors, sells three named AI-Agent transformations (Current State → Future State), presents a three-tier "Choice of Yeses" engagement section, and uses VAK/comparative-deletion copy patterns throughout. The seller-side framework (why-ladder, ROI pricing, proposal structure) lives in `docs/sales-playbook.md`. Sections below remain valid for structure and for the bracketed fill-in slots (case studies, Calendly event URL, checklist wiring).
+
 **Positioning:** AI Automation Agency (AIAA) for mid-market operators.
 **Conversion goal:** One goal per page — a booked Calendly consultation (the Systems Audit).
 **Architecture decision:** Single-scroll homepage. Mid-market owners don't browse agency sites like catalogs; they skim one page and decide whether you sound competent. Every section below exists to move them one step closer to the calendar embed at the bottom. The hospitality/retail offer lives on its own vertical landing page (`venues.html`) with its original copy untouched.

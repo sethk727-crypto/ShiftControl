@@ -3,104 +3,52 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SK ShiftControl | Operational Automation</title>
+    <title>SK ShiftControl | Operational Automation for Venues & Retail</title>
     <meta
       name="description"
       content="We build invisible backend systems that handle your paperwork and plug financial leaks automatically. Operational automation for hospitality and retail operators."
     />
-    <meta name="theme-color" content="#030303" />
-
-    <!-- Open Graph / Social -->
+    <meta name="theme-color" content="#fafaf8" />
+    <link rel="canonical" href="https://skshiftcontrol.com/venues.html" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="SK ShiftControl | Operational Automation" />
-    <meta
-      property="og:description"
-      content="We build invisible backend systems that handle your paperwork and plug financial leaks automatically."
-    />
-    <meta property="og:image" content="logo.png" />
-    <meta name="twitter:card" content="summary" />
-
+    <meta property="og:url" content="https://skshiftcontrol.com/venues.html" />
+    <meta property="og:title" content="SK ShiftControl | Operational Automation for Venues & Retail" />
+    <meta property="og:description" content="Stop letting administrative chaos eat your profits. Watch the night closeout run itself." />
+    <meta property="og:image" content="https://skshiftcontrol.com/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" type="image/png" href="logo.png" />
-    <link rel="apple-touch-icon" href="logo.png" />
     <link rel="stylesheet" href="styles.css" />
     <script>
       document.documentElement.classList.replace("no-js", "js");
     </script>
     <script src="script.js" defer></script>
+    <script src="demos.js" defer></script>
   </head>
-  <body>
+  <body class="theme-light">
     <a class="skip-link" href="#main">Skip to content</a>
 
-    <!-- FIXED HEADER -->
     <header class="site-nav" id="site-nav">
       <div class="container">
         <a href="index.html" class="logo-link" aria-label="SK ShiftControl — Home">
-          <img
-            src="logo.png"
-            alt="SK ShiftControl"
-            class="logo"
-            id="logo"
-            width="168"
-            height="160"
-            fetchpriority="high"
-          />
-          <span class="fallback-logo" id="fallback-logo" aria-hidden="true">
-            SK <span>ShiftControl</span>
-          </span>
+          <img src="logo.png" alt="SK ShiftControl" class="logo" id="logo" width="168" height="160" fetchpriority="high" />
+          <span class="fallback-logo" id="fallback-logo" aria-hidden="true">SK <span>ShiftControl</span></span>
         </a>
-        <nav class="nav-links" aria-label="Primary">
+        <nav class="nav-links nav-links--persist" aria-label="Primary">
           <a href="index.html">Home</a>
-          <a href="#features">How It Works</a>
-          <a href="#compare">Compare</a>
-          <a href="#about">About</a>
+          <a href="index.html#industries">All Industries</a>
           <a href="#signup" class="nav-cta">Get Started</a>
         </nav>
-        <button
-          class="hamburger"
-          id="hamburger"
-          aria-label="Open menu"
-          aria-expanded="false"
-          aria-controls="mobile-menu"
-        >
-          ☰
-        </button>
       </div>
     </header>
 
-    <!-- MOBILE MENU OVERLAY -->
-    <div class="mobile-menu" id="mobile-menu">
-      <button class="hamburger" id="mobile-menu-close" aria-label="Close menu">
-        ✕
-      </button>
-      <nav class="mobile-menu-links" aria-label="Mobile">
-        <a href="index.html">Home</a>
-        <a href="#features" data-menu-link>How It Works</a>
-        <a href="#compare" data-menu-link>Compare</a>
-        <a href="#about" data-menu-link>About</a>
-        <a href="#signup" class="menu-cta" data-menu-link>Get Started</a>
-
-        <div class="sub-links">
-          <a href="#" data-modal-open="modal-privacy" data-menu-link
-            >Privacy Protocol</a
-          >
-          <a href="#" data-modal-open="modal-terms" data-menu-link
-            >Terms of Service</a
-          >
-          <a href="#" data-modal-open="modal-status" data-menu-link
-            >System Status</a
-          >
-        </div>
-      </nav>
-    </div>
-
     <main id="main">
-      <!-- HERO SECTION -->
-      <section class="hero">
+      <!-- HERO -->
+      <section class="hero vertical-hero">
         <div class="container">
           <div class="hero-content">
             <div class="hero-badge">
               <span class="status-dot" aria-hidden="true"></span>
-              Systems Online
+              IND 01 // Hospitality &amp; Retail
             </div>
             <h1>Stop Letting Administrative Chaos Eat Your Profits.</h1>
             <p class="hero-lede">
@@ -111,18 +59,72 @@
               tonight. We build invisible backend systems that handle your
               paperwork and plug financial leaks automatically.
             </p>
-            <a href="#signup" class="cta-button"
-              >Request a Risk-Free 7-Day Pilot Run</a
-            >
+            <div class="hero-actions">
+              <a href="#signup" class="cta-button">Request a Risk-Free 7-Day Pilot Run</a>
+              <a href="#demo" class="ghost-button">Watch the closeout run ↓</a>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- LIVE REVENUE RECOVERY DASHBOARD -->
-      <section class="section section--surface" id="accelerator">
+      <!-- LIVE SIMULATION -->
+      <section class="section slab" id="demo">
         <div class="container">
           <div class="section-head reveal">
             <span class="eyebrow">// Live Simulation</span>
+            <h2>It's 11:41 PM. You Talk for 60 Seconds. The System Does the Rest.</h2>
+            <p class="section-lede">
+              One voice note on the walk to your car — and the manager log,
+              register audit, supply orders, roster, and partner brief close
+              themselves out.
+            </p>
+          </div>
+          <div class="console reveal" id="demo-venues">
+            <div class="console-head">
+              <div class="console-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+              <span class="console-title">Night Closeout Agent</span>
+              <span class="console-sim">Live Simulation // Sample Data</span>
+            </div>
+            <div class="console-body">
+              <div>
+                <div class="console-col-label">Tonight's Closeout</div>
+                <div class="sched">
+                  <div class="sched-slot" data-task="log"><span class="who">Manager Log</span><span class="k-badge">PENDING</span></div>
+                  <div class="sched-slot" data-task="register"><span class="who">Register Audit</span><span class="k-badge">PENDING</span></div>
+                  <div class="sched-slot" data-task="supply"><span class="who">Supply Orders</span><span class="k-badge">PENDING</span></div>
+                  <div class="sched-slot" data-task="roster"><span class="who">Roster Sync</span><span class="k-badge">PENDING</span></div>
+                  <div class="sched-slot" data-task="brief"><span class="who">Partner Brief</span><span class="k-badge">PENDING</span></div>
+                </div>
+              </div>
+              <div>
+                <div class="console-col-label">Agent Activity</div>
+                <div class="feed">
+                  <div class="feed-line"><span class="t">23:41</span>🎙 Voice note ingested — <em>"Uhh yeah, Jake stayed an extra hour closing, register 2 is short 14.50, and we are critically low on napkins for tomorrow..."</em></div>
+                  <div class="feed-line"><span class="t">23:41</span><span class="ok">→ Manager log structured</span> — incidents, staffing, notes filed</div>
+                  <div class="feed-line"><span class="t">23:41</span><span class="bad">⚑ Variance flagged</span> — Register 2 short $14.50 · audit trail opened</div>
+                  <div class="feed-line"><span class="t">23:42</span><span class="ok">→ Supply alert</span> — napkins critical · purchase order drafted</div>
+                  <div class="feed-line"><span class="t">23:42</span><span class="ok">→ Overtime logged</span> — Jake +1.0 hr · roster synced</div>
+                  <div class="feed-line"><span class="t">23:43</span><span class="ok">✓ Partner brief emailed</span> — crisp financial summary, out the door</div>
+                </div>
+              </div>
+              <div>
+                <div class="console-col-label">Instrumentation</div>
+                <div class="stat-rail">
+                  <div class="stat-tile"><div class="stat-label">Admin Time Tonight</div><div class="stat-value" data-stat-admin>—</div></div>
+                  <div class="stat-tile"><div class="stat-label">Leaks Flagged</div><div class="stat-value" data-stat-leaks>0</div></div>
+                  <div class="stat-tile"><div class="stat-label">Back Office After Close</div><div class="stat-value glow" data-stat-night>—</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- LIVE REVENUE RECOVERY DASHBOARD (interactive calculator) -->
+      <section class="section section--surface" id="accelerator">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">// Run Your Numbers</span>
             <h2>Live Revenue Recovery Dashboard</h2>
           </div>
           <div class="dashboard reveal">
@@ -131,27 +133,12 @@
                 Current Weekly Guest Count
                 <output id="val-guests" for="slider-guests">1,500</output>
               </label>
-              <input
-                type="range"
-                id="slider-guests"
-                min="500"
-                max="5000"
-                value="1500"
-                step="50"
-              />
-
+              <input type="range" id="slider-guests" min="500" max="5000" value="1500" step="50" />
               <label for="slider-bill">
                 Average Guest Bill Size
                 <output id="val-bill" for="slider-bill">$45</output>
               </label>
-              <input
-                type="range"
-                id="slider-bill"
-                min="15"
-                max="100"
-                value="45"
-                step="1"
-              />
+              <input type="range" id="slider-bill" min="15" max="100" value="45" step="1" />
             </div>
             <div class="dashboard-outputs" aria-live="polite">
               <div class="dash-card">
@@ -171,58 +158,20 @@
         </div>
       </section>
 
-      <!-- CONTROL CENTER TABS -->
+      <!-- HOW IT WORKS -->
       <section class="section" id="features">
         <div class="container">
           <div class="section-head reveal">
             <span class="eyebrow">// The System</span>
             <h2>How It Works</h2>
           </div>
-
-          <div class="tabs-nav reveal" role="tablist" aria-label="How It Works">
-            <button
-              class="tab-btn active"
-              id="tab-btn-1"
-              role="tab"
-              aria-selected="true"
-              aria-controls="tab-1"
-              data-target="tab-1"
-            >
-              [01 // Automated Marketing]
-            </button>
-            <button
-              class="tab-btn"
-              id="tab-btn-2"
-              role="tab"
-              aria-selected="false"
-              aria-controls="tab-2"
-              data-target="tab-2"
-              tabindex="-1"
-            >
-              [02 // Margin Protection]
-            </button>
-            <button
-              class="tab-btn"
-              id="tab-btn-3"
-              role="tab"
-              aria-selected="false"
-              aria-controls="tab-3"
-              data-target="tab-3"
-              tabindex="-1"
-            >
-              [03 // Hands-Free Closeouts]
-            </button>
-          </div>
-
-          <div class="tab-content-container reveal">
-            <div
-              class="tab-panel active"
-              id="tab-1"
-              role="tabpanel"
-              aria-labelledby="tab-btn-1"
-              tabindex="0"
-            >
-              <div class="tab-text">
+          <div class="deploy-list reveal">
+            <div class="deploy-row">
+              <div class="deploy-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H5.2L4 17.2V4z"/><path d="M8 8h8M8 11h5"/></svg>
+              </div>
+              <div>
+                <h3>[01 // Automated Marketing]</h3>
                 <p>
                   The system automatically tracks when high-value guests
                   haven't visited in a while and text messages them
@@ -230,108 +179,40 @@
                   thousands in extra revenue completely hands-free.
                 </p>
               </div>
-              <div class="tab-demo" aria-hidden="true">
-                <div class="demo-title">Loyalty Engine // Win-Back Sequence</div>
-                <div class="demo-code-line demo-item">
-                  > SCAN: Guest visit gaps [rolling 30 days]
-                </div>
-                <div class="demo-code-line demo-item">
-                  > FLAGGED: High-value guest inactive 24 days
-                </div>
-                <div class="demo-code-line demo-code-block demo-item">
-                  Guest: VIP #0447<br />
-                  Lifetime Spend: $1,840<br />
-                  Reward: Personalized Comp
-                </div>
-                <div class="demo-code-line demo-item">
-                  > <span class="demo-code-highlight">LOYALTY.SMS</span>
-                  Dispatched
-                </div>
-                <div class="demo-code-line demo-item demo-footer">
-                  <span class="demo-pulse"></span> Guest Rebooked
-                </div>
-              </div>
             </div>
-
-            <div
-              class="tab-panel"
-              id="tab-2"
-              role="tabpanel"
-              aria-labelledby="tab-btn-2"
-              tabindex="0"
-            >
-              <div class="tab-text">
+            <div class="deploy-row">
+              <div class="deploy-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
+              </div>
+              <div>
+                <h3>[02 // Margin Protection]</h3>
                 <p>
-                  The system automatically scans POS registers and schedules to
-                  instantly catch hidden cash shortages, inventory waste, and
-                  unapproved overtime before it drains your bank account.
+                  The system automatically scans POS registers and schedules
+                  to instantly catch hidden cash shortages, inventory waste,
+                  and unapproved overtime before it drains your bank account.
                 </p>
               </div>
-              <div class="tab-demo" aria-hidden="true">
-                <div class="demo-title">Margin Shield // Nightly Audit</div>
-                <div class="demo-code-line demo-item">
-                  > SCAN: POS Registers + Schedules
-                </div>
-                <div class="demo-code-line demo-item">
-                  > CROSS-REF: Clock-ins vs. Roster...
-                </div>
-                <div class="demo-code-line demo-code-block demo-item">
-                  Register 2: <span class="sim-alert">−$14.50</span> Variance<br />
-                  Overtime: 1.5 unapproved hrs<br />
-                  Inventory Drift: 2.1%
-                </div>
-                <div class="demo-code-line demo-item">
-                  > <span class="demo-code-highlight">OWNER.ALERT</span>
-                  Dispatched
-                </div>
-                <div class="demo-code-line demo-item demo-footer">
-                  <span class="demo-pulse"></span> Leak Sealed
-                </div>
-              </div>
             </div>
-
-            <div
-              class="tab-panel"
-              id="tab-3"
-              role="tabpanel"
-              aria-labelledby="tab-btn-3"
-              tabindex="0"
-            >
-              <div class="tab-text">
+            <div class="deploy-row">
+              <div class="deploy-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v10"/><path d="M8 7a4 4 0 1 0 8 0"/><path d="M12 17a5 5 0 0 0 5-5M12 17a5 5 0 0 1-5-5M12 17v4M9 21h6"/></svg>
+              </div>
+              <div>
+                <h3>[03 // Hands-Free Closeouts]</h3>
                 <p>
                   Simply speak a 60-second voice note into your phone as you
                   walk to your car at night. The system automatically
-                  structures it into a beautiful manager log and emails a crisp
-                  financial summary straight to your partners.
+                  structures it into a beautiful manager log and emails a
+                  crisp financial summary straight to your partners.
                 </p>
-              </div>
-              <div class="tab-demo" aria-hidden="true">
-                <div class="demo-title">Voice Engine // Manager Log</div>
-                <div class="demo-code-line demo-item">
-                  > INGEST_AUDIO: 60s voice note...
-                </div>
-                <div class="demo-code-line demo-code-block demo-item">
-                  Shift Recap: Logged<br />
-                  Incidents: 2 structured<br />
-                  Partner Brief: Emailed
-                </div>
-                <div class="demo-bar-chart demo-item">
-                  <div class="demo-bar bar-1"></div>
-                  <div class="demo-bar bar-2"></div>
-                  <div class="demo-bar bar-3"></div>
-                  <div class="demo-bar bar-4"></div>
-                </div>
-                <div class="demo-code-line demo-item demo-footer">
-                  <span class="demo-code-highlight">Net Margin: +14.2%</span>
-                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- REALITY COMPARE GRID -->
-      <section class="section" id="compare">
+      <!-- COMPARE -->
+      <section class="section section--surface" id="compare">
         <div class="container">
           <div class="section-head reveal">
             <span class="eyebrow">// Side by Side</span>
@@ -360,17 +241,17 @@
         </div>
       </section>
 
-      <!-- ABOUT US -->
-      <section class="section section--surface" id="about">
+      <!-- ABOUT -->
+      <section class="section" id="about">
         <div class="container">
           <div class="about-content reveal">
             <span class="eyebrow">// The Operators</span>
             <h2>Engineered by Operators. Built for Freedom.</h2>
             <p>
               We aren't tech nerds. We are experienced venue operators who
-              spent years managing busy, chaotic hospitality and retail floors.
-              We know firsthand the pain of watching hard-earned profit slip
-              through the cracks of a fragmented business.
+              spent years managing busy, chaotic hospitality and retail
+              floors. We know firsthand the pain of watching hard-earned
+              profit slip through the cracks of a fragmented business.
             </p>
             <p>
               We engineered these tools to ensure independent operators make
@@ -380,239 +261,67 @@
         </div>
       </section>
 
-      <!-- FRICTIONLESS SIGNUP -->
-      <section class="section signup-section" id="signup">
+      <!-- SIGNUP -->
+      <section class="section section--surface signup-section" id="signup">
         <div class="container">
           <div class="reveal">
             <span class="eyebrow">// Deployment</span>
             <h2>Ready to reclaim your time?</h2>
           </div>
-
           <div class="form-wrapper reveal">
-            <div
-              class="form-success"
-              id="success-message"
-              role="status"
-              aria-live="polite"
-            >
+            <div class="form-success" id="success-message" role="status" aria-live="polite">
               <div class="success-icon" aria-hidden="true">✓</div>
               <h3>Protocol Initiated.</h3>
               <p>Our lead architect will text you shortly.</p>
             </div>
-
             <form id="pilot-form">
               <div class="input-group">
                 <label class="sr-only" for="field-name">Your Name</label>
-                <input
-                  type="text"
-                  id="field-name"
-                  name="name"
-                  placeholder="Your Name"
-                  autocomplete="name"
-                  required
-                />
+                <input type="text" id="field-name" name="name" placeholder="Your Name" autocomplete="name" required />
               </div>
               <div class="input-group">
                 <label class="sr-only" for="field-venue">Venue Name</label>
-                <input
-                  type="text"
-                  id="field-venue"
-                  name="venue"
-                  placeholder="Venue Name (e.g., Champs)"
-                  autocomplete="organization"
-                  required
-                />
+                <input type="text" id="field-venue" name="venue" placeholder="Venue Name (e.g., Champs)" autocomplete="organization" required />
               </div>
               <div class="input-group">
                 <label class="sr-only" for="field-phone">Mobile Number</label>
-                <input
-                  type="tel"
-                  id="field-phone"
-                  name="phone"
-                  placeholder="Mobile Number"
-                  autocomplete="tel"
-                  required
-                />
+                <input type="tel" id="field-phone" name="phone" placeholder="Mobile Number" autocomplete="tel" required />
               </div>
-              <button type="submit" class="cta-button cta-button--block">
-                Initiate Protocol
-              </button>
+              <button type="submit" class="cta-button cta-button--block">Initiate Protocol</button>
             </form>
-
             <div class="guardrail">
               Zero setup fees. Zero system risk. If the system doesn't buy you
               back five hours of your life and uncover hidden revenue this
               week, we turn it off and it costs you nothing.
             </div>
           </div>
+          <div class="sibling-row reveal">
+            <a class="sibling-chip" href="legal.html">Law Firms →</a>
+            <a class="sibling-chip" href="medical.html">Clinics &amp; Practices →</a>
+            <a class="sibling-chip" href="realestate.html">Real Estate →</a>
+            <a class="sibling-chip" href="ecommerce.html">E-commerce →</a>
+            <a class="sibling-chip" href="trades.html">Trades &amp; Field →</a>
+          </div>
         </div>
       </section>
     </main>
 
-    <!-- MODALS -->
-    <div
-      class="modal-overlay"
-      id="modal-privacy"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="modal-privacy-title"
-    >
-      <div class="modal-container">
-        <button class="modal-close" data-modal-close aria-label="Close dialog">
-          ×
-        </button>
-        <div class="modal-body">
-          <h2 id="modal-privacy-title">Privacy Protocol</h2>
-          <p>Last Updated: October 2026</p>
-          <p>
-            At SK ShiftControl, we treat your operational data with the same
-            strict security standards as financial institutions. Our entire
-            model is built on protecting your venue's internal mechanics.
-          </p>
-
-          <h3>1. Data Collection</h3>
-          <p>
-            We only collect the essential information required to automate
-            your operations. This includes, but is not limited to: shift logs,
-            schedule parameters, vendor invoice scans, and communication
-            routing numbers.
-          </p>
-
-          <h3>2. Zero-Sell Guarantee</h3>
-          <p>
-            We never sell, rent, or distribute your operational data to third
-            parties, competitors, or marketing agencies. Your venue's
-            performance metrics are strictly confidential and encrypted at
-            rest.
-          </p>
-
-          <h3>3. Data Residency &amp; Encryption</h3>
-          <p>
-            All voice memos, text logs, and employee rosters are encrypted
-            using industry-standard protocols. We utilize robust access
-            controls, ensuring only your authorized personnel can view
-            sensitive outputs.
-          </p>
-
-          <h3>4. Contact</h3>
-          <p>
-            For privacy inquiries, contact our data protection team directly
-            at secure@skshiftcontrol.com.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <div
-      class="modal-overlay"
-      id="modal-terms"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="modal-terms-title"
-    >
-      <div class="modal-container">
-        <button class="modal-close" data-modal-close aria-label="Close dialog">
-          ×
-        </button>
-        <div class="modal-body">
-          <h2 id="modal-terms-title">Terms of Service</h2>
-          <p>
-            By deploying the SK ShiftControl platform, you agree to these
-            operational terms.
-          </p>
-
-          <h3>1. Pilot Period &amp; Guarantee</h3>
-          <p>
-            New venues are eligible for a 7-day risk-free pilot. If the system
-            does not demonstrably reduce your administrative workload by at
-            least five hours within this timeframe, the service will be
-            deactivated at zero cost to you.
-          </p>
-
-          <h3>2. Acceptable Use</h3>
-          <p>
-            Our autonomous pipelines are designed strictly for internal venue
-            management. You agree not to reverse-engineer, exploit, or deploy
-            the system for illegal activities, unauthorized surveillance, or
-            non-compliance evasion.
-          </p>
-
-          <h3>3. Service Availability</h3>
-          <p>
-            While we target 99.9% uptime, we are not liable for incidental
-            losses resulting from temporary connectivity issues, third-party
-            API outages, or operator input errors. Always maintain baseline
-            analog protocols for critical emergencies.
-          </p>
-
-          <h3>4. Termination</h3>
-          <p>
-            You may pause or terminate your deployment at any time. Upon
-            termination, your operational data will be archived for 30 days
-            before permanent deletion from our active processing nodes.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <div
-      class="modal-overlay"
-      id="modal-status"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="modal-status-title"
-    >
-      <div class="modal-container">
-        <button class="modal-close" data-modal-close aria-label="Close dialog">
-          ×
-        </button>
-        <div class="modal-body">
-          <h2 id="modal-status-title">System Status</h2>
-          <p>All core processing pipelines are currently operating nominally.</p>
-
-          <ul>
-            <li>
-              <strong class="status-online">● Online:</strong> Voice-to-Text
-              Processing Engine
-            </li>
-            <li>
-              <strong class="status-online">● Online:</strong> Automated
-              Roster Syncing
-            </li>
-            <li>
-              <strong class="status-online">● Online:</strong> Vendor Invoice
-              OCR
-            </li>
-            <li>
-              <strong class="status-online">● Online:</strong> SMS
-              Notification Gateway
-            </li>
-          </ul>
-
-          <p class="status-note">
-            Next scheduled maintenance window: Sunday, 3:00 AM EST (Zero
-            downtime expected).
-          </p>
-        </div>
-      </div>
-    </div>
-
     <!-- FOOTER -->
     <footer class="site-footer">
-      <div class="container footer-content">
-        <div class="footer-brand">
-          <div class="fallback-logo">SK <span>ShiftControl</span></div>
-          <p>Operational automation for hospitality and retail operators.</p>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-brand">
+            <div class="fallback-logo">SK <span>ShiftControl</span></div>
+            <p>Operational automation for hospitality and retail operators.</p>
+          </div>
+          <nav class="footer-links" aria-label="Site">
+            <a href="index.html">Home</a>
+            <a href="index.html#industries">All Industries</a>
+            <a href="index.html#book">Book the Systems Audit</a>
+          </nav>
         </div>
-        <nav class="footer-links" aria-label="Legal">
-          <a href="#" data-modal-open="modal-privacy">Privacy Protocol</a>
-          <a href="#" data-modal-open="modal-terms">Terms of Service</a>
-          <a href="#" data-modal-open="modal-status">System Status</a>
-        </nav>
       </div>
-      <div class="footer-bottom">
-        &copy; 2026 SK ShiftControl. All rights reserved.
-      </div>
+      <div class="footer-bottom">&copy; 2026 SK ShiftControl. All rights reserved.</div>
     </footer>
   </body>
 </html>

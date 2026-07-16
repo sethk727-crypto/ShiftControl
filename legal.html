@@ -9,9 +9,51 @@
       content="AI Staff Automation Ecosystems for law firms — automated client intake, document drafting, and follow-up systems. Fixed plans, custom workflow audits."
     />
     <meta name="theme-color" content="#fafaf8" />
+    <link rel="canonical" href="https://skshiftcontrol.com/legal.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://skshiftcontrol.com/legal.html" />
+    <meta
+      property="og:title"
+      content="SK ShiftControl | AI Staff Automation Ecosystems for Law Firms"
+    />
+    <meta
+      property="og:description"
+      content="Automated client intake, document drafting, and follow-up systems for law firms. Fixed plans or a custom workflow audit."
+    />
+    <meta property="og:image" content="https://skshiftcontrol.com/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" type="image/png" href="logo.png" />
+    <link rel="stylesheet" href="styles.css" />
+    <script>
+      document.documentElement.classList.add("js");
+    </script>
+    <script src="script.js" defer></script>
   </head>
-  <body style="margin: 0">
+  <body class="theme-light">
+    <!-- FIXED HEADER -->
+    <header class="site-nav" id="site-nav">
+      <div class="container">
+        <a href="index.html" class="logo-link" aria-label="SK ShiftControl — Home">
+          <img
+            src="logo.png"
+            alt="SK ShiftControl"
+            class="logo"
+            id="logo"
+            width="168"
+            height="160"
+          />
+          <span class="fallback-logo" id="fallback-logo" aria-hidden="true">
+            SK <span>ShiftControl</span>
+          </span>
+        </a>
+        <nav class="nav-links nav-links--persist" aria-label="Primary">
+          <a href="index.html">Home</a>
+          <a href="venues.html">For Venues</a>
+          <a href="index.html#book" class="nav-cta">Book the Systems Audit</a>
+        </nav>
+      </div>
+    </header>
+    <div style="height: 76px" aria-hidden="true"></div>
     <!-- ================================================================
          SK SHIFTCONTROL — LEGAL AUTOMATION SUITE
          Modular drop-in block. To embed in any site builder, copy from
@@ -445,5 +487,25 @@
       </div>
     </section>
     <!-- ==================== DROP-IN END ==================== -->
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-brand">
+            <div class="fallback-logo">SK <span>ShiftControl</span></div>
+            <p>Advanced AI agents for operators who intend to stay ahead.</p>
+          </div>
+          <nav class="footer-links" aria-label="Site">
+            <a href="index.html">Home</a>
+            <a href="venues.html">For Venues</a>
+            <a href="index.html#book">Book the Systems Audit</a>
+          </nav>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; 2026 SK ShiftControl. All rights reserved.
+      </div>
+    </footer>
   </body>
 </html>

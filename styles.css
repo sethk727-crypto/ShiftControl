@@ -2699,3 +2699,408 @@ h3 {
 .theme-light .callback-form-shell {
   max-width: 100%;
 }
+
+/* ==========================================================================
+   V4 — EXTREME PASS
+   Switcher rebuild · industries grid · FAQ · command palette · scroll
+   progress · mobile CTA dock · calendly skeleton · 404. All scoped to
+   theme-light pages; venues.html remains untouched.
+   ========================================================================== */
+
+/* ---- Before/After switcher: rebuilt on a grid stack (no absolute panes,
+       no min-height hacks — container always fits the tallest pane) ---- */
+.ba-panes {
+  display: grid;
+  min-height: 0;
+}
+
+.ba-pane {
+  position: static;
+  inset: auto;
+  grid-area: 1 / 1;
+}
+
+.ba-pane.active {
+  position: static;
+}
+
+@media (max-width: 640px) {
+  .ba-tabs {
+    flex-direction: column;
+  }
+
+  .ba-tab {
+    width: 100%;
+    padding: var(--space-4) var(--space-5);
+    border-bottom: 1px solid var(--border-glass);
+    text-align: left;
+  }
+
+  .ba-tabs .ba-tab:last-child {
+    border-bottom: none;
+  }
+}
+
+/* ---- Industries grid ---- */
+.industry-link {
+  margin-top: auto;
+  padding-top: var(--space-5);
+  font-weight: 700;
+  font-size: var(--text-sm);
+  text-decoration: none;
+  color: var(--lt-accent-deep);
+  transition: color var(--dur-fast) ease;
+}
+
+.industry-link:hover {
+  color: var(--lt-ink);
+}
+
+.industry-link--soft {
+  color: var(--lt-ink-faint);
+  font-weight: 600;
+}
+
+.industry-link--soft:hover {
+  color: var(--lt-accent-deep);
+}
+
+/* ---- FAQ accordion (native details/summary, fully accessible) ---- */
+.faq-list {
+  max-width: var(--track-read);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.faq-item {
+  background: var(--lt-raised);
+  border: 1px solid var(--lt-line);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: border-color var(--dur-base) ease;
+}
+
+.faq-item:hover,
+.faq-item[open] {
+  border-color: rgba(6, 118, 71, 0.4);
+}
+
+.faq-item summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-6);
+  font-weight: 700;
+  color: var(--lt-ink);
+  font-size: var(--text-md);
+}
+
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-chevron {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  stroke: var(--lt-accent-deep);
+  transition: transform var(--dur-base) var(--ease-out-expo);
+}
+
+.faq-item[open] .faq-chevron {
+  transform: rotate(180deg);
+}
+
+.faq-body {
+  padding: 0 var(--space-6) var(--space-6);
+  color: var(--lt-ink-muted);
+  line-height: var(--leading-body);
+}
+
+/* ---- Scroll progress bar ---- */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  z-index: calc(var(--z-nav) + 1);
+  background: linear-gradient(90deg, var(--lt-accent-deep), var(--lt-accent));
+  transform: scaleX(0);
+  transform-origin: left;
+  pointer-events: none;
+}
+
+/* ---- Command palette (⌘K) ---- */
+.pal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-modal) + 100);
+  background: rgba(250, 250, 248, 0.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 15vh var(--space-4) var(--space-4);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--dur-fast) ease,
+    visibility var(--dur-fast);
+}
+
+.pal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.pal-box {
+  width: min(92vw, 560px);
+  background: var(--lt-raised, #fff);
+  border: 1px solid var(--lt-line-strong, rgba(10, 10, 12, 0.22));
+  border-radius: var(--radius-lg);
+  box-shadow: 0 30px 90px rgba(10, 10, 12, 0.22);
+  overflow: hidden;
+  transform: translateY(-8px);
+  transition: transform var(--dur-fast) var(--ease-out-expo);
+}
+
+.pal-overlay.active .pal-box {
+  transform: translateY(0);
+}
+
+.pal-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: var(--text-md);
+  color: var(--lt-ink, #0b0b0c);
+  padding: var(--space-5) var(--space-6);
+  border-bottom: 1px solid var(--lt-line, rgba(10, 10, 12, 0.1));
+}
+
+.pal-input::placeholder {
+  color: var(--lt-ink-faint, #8a8a93);
+}
+
+.pal-list {
+  max-height: 320px;
+  overflow-y: auto;
+  padding: var(--space-3);
+}
+
+.pal-group {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--lt-ink-faint, #8a8a93);
+  padding: var(--space-3) var(--space-3) var(--space-1);
+}
+
+.pal-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: var(--space-3);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--lt-ink, #0b0b0c);
+  cursor: pointer;
+}
+
+.pal-item .pal-hint {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--lt-ink-faint, #8a8a93);
+}
+
+.pal-item.is-active {
+  background: rgba(0, 230, 92, 0.1);
+}
+
+.pal-item.is-active .pal-hint {
+  color: var(--lt-accent-deep, #067647);
+}
+
+.pal-empty {
+  padding: var(--space-6);
+  text-align: center;
+  color: var(--lt-ink-faint, #8a8a93);
+  font-size: var(--text-sm);
+}
+
+.pal-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid var(--lt-line-strong);
+  border-radius: var(--radius-sm);
+  color: var(--lt-ink-faint);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.pal-chip:hover {
+  color: var(--lt-ink);
+  border-color: var(--lt-ink);
+}
+
+@media (max-width: 900px) {
+  .pal-chip {
+    display: none;
+  }
+}
+
+/* ---- Mobile CTA dock ---- */
+.cta-dock {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: var(--z-nav);
+  display: none;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4)
+    calc(var(--space-3) + env(safe-area-inset-bottom));
+  background: rgba(250, 250, 248, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid var(--lt-line);
+  transform: translateY(110%);
+  transition: transform var(--dur-base) var(--ease-out-expo);
+}
+
+.cta-dock.is-visible {
+  transform: translateY(0);
+}
+
+.cta-dock .cta-button {
+  flex: 1;
+  padding: 14px 18px;
+  font-size: var(--text-base);
+}
+
+.cta-dock .dock-call {
+  flex: none;
+  width: 52px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--lt-line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--lt-raised);
+  text-decoration: none;
+}
+
+.cta-dock .dock-call svg {
+  width: 22px;
+  height: 22px;
+  stroke: var(--lt-accent-deep);
+}
+
+@media (max-width: 900px) {
+  .cta-dock {
+    display: flex;
+  }
+}
+
+/* ---- Calendly loading skeleton ---- */
+.calendly-wrap {
+  position: relative;
+}
+
+.calendly-skeleton {
+  position: absolute;
+  inset: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--obsidian-surface);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-8);
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity var(--dur-slow) ease;
+}
+
+.calendly-wrap.is-loaded .calendly-skeleton {
+  opacity: 0;
+}
+
+.calendly-skeleton span {
+  display: block;
+  height: 14px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.06);
+  animation: skeleton-pulse 1.6s ease-in-out infinite;
+}
+
+.calendly-skeleton span:nth-child(1) {
+  width: 45%;
+}
+.calendly-skeleton span:nth-child(2) {
+  width: 70%;
+  animation-delay: 0.15s;
+}
+.calendly-skeleton span:nth-child(3) {
+  width: 55%;
+  animation-delay: 0.3s;
+}
+.calendly-skeleton span:nth-child(4) {
+  width: 80%;
+  animation-delay: 0.45s;
+  margin-top: auto;
+}
+
+@keyframes skeleton-pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ---- 404 ---- */
+.nf-code {
+  font-family: var(--font-mono);
+  font-size: clamp(0.8rem, 0.7rem + 0.5vw, 1rem);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--lt-accent-deep);
+  margin-bottom: var(--space-5);
+}
+
+/* Minimal navs (legal / thank-you / 404) keep their links on mobile */
+.nav-links--persist {
+  display: flex !important;
+  gap: var(--space-5);
+}
+
+@media (max-width: 600px) {
+  .nav-links--persist a:not(.nav-cta) {
+    display: none;
+  }
+}

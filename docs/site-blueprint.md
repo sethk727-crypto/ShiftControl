@@ -1,5 +1,7 @@
 # SK ShiftControl — Agency Website Blueprint
 
+> **Revision 3 (extreme pass):** Fixed the Before/After switcher (grid-stacked panes; stacked full-width tabs on mobile). De-centered the law-firm skew with a 6-vertical **Industries** grid (venues + legal live, four scoped-through-audit). Added: FAQ accordion + FAQPage/ProfessionalService JSON-LD, ⌘K command palette, scroll-progress bar, mobile CTA dock, Calendly loading skeleton, branded 404 (server-wired), robots.txt + sitemap.xml, generated 1200×630 `og.png` share card, and site chrome (nav/footer) on `legal.html`. **Domain flag:** absolute URLs in meta/sitemap/robots assume `skshiftcontrol.com` — swap once if the real domain differs.
+>
 > **Revision 2 (perception-engineering pass):** The live homepage has evolved past v1 of this document. It now runs a bright "panoramic" light theme with obsidian slab anchors, sells three named AI-Agent transformations (Current State → Future State), presents a three-tier "Choice of Yeses" engagement section, and uses VAK/comparative-deletion copy patterns throughout. The seller-side framework (why-ladder, ROI pricing, proposal structure) lives in `docs/sales-playbook.md`. Sections below remain valid for structure and for the bracketed fill-in slots (case studies, Calendly event URL, checklist wiring).
 
 **Positioning:** AI Automation Agency (AIAA) for mid-market operators.

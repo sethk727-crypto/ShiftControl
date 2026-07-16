@@ -20,6 +20,11 @@ app.use(
   })
 );
 
+// Branded 404 for any route the static handler didn't resolve
+app.use((req, res) => {
+  res.status(404).sendFile(path.join(__dirname, '404.html'));
+});
+
 app.listen(port, '0.0.0.0', () => {
   console.log(`SK ShiftControl serving on port ${port}`);
 });

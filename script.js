@@ -312,6 +312,20 @@
     s.src = "https://assets.calendly.com/assets/external/widget.js";
     s.async = true;
     document.head.appendChild(s);
+
+    // Fade the loading skeleton once the widget's iframe actually renders
+    const wrap = document.querySelector(".calendly-wrap");
+    if (wrap) {
+      const started = performance.now();
+      const poll = setInterval(() => {
+        if (wrap.querySelector("iframe")) {
+          wrap.classList.add("is-loaded");
+          clearInterval(poll);
+        } else if (performance.now() - started > 20000) {
+          clearInterval(poll);
+        }
+      }, 300);
+    }
   }
 
   if (calendlyWidget) {
@@ -412,11 +426,224 @@
     });
   });
 
+  /* ==================================================================
+     LIGHT-THEME PAGE SYSTEMS — progress bar, command palette, CTA dock.
+     Gated so the dark venues page stays byte-identical in behavior.
+     ================================================================== */
+  const isLightPage = document.body.classList.contains("theme-light");
+
+  /* ---- Scroll progress bar ---- */
+  let progressBar = null;
+  if (isLightPage) {
+    progressBar = document.createElement("div");
+    progressBar.className = "scroll-progress";
+    progressBar.setAttribute("aria-hidden", "true");
+    document.body.appendChild(progressBar);
+
+    let progressTicking = false;
+    const paintProgress = () => {
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - window.innerHeight;
+      const ratio = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
+      progressBar.style.transform = `scaleX(${ratio})`;
+      progressTicking = false;
+    };
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (!progressTicking) {
+          progressTicking = true;
+          requestAnimationFrame(paintProgress);
+        }
+      },
+      { passive: true },
+    );
+    paintProgress();
+  }
+
+  /* ---- Command palette (⌘K / Ctrl+K) ---- */
+  let paletteOverlay = null;
+
+  if (isLightPage) {
+    const onHome = !!document.querySelector("#transformations");
+    const prefix = onHome ? "" : "index.html";
+    const PALETTE_ITEMS = [
+      { group: "Sections", label: "Transformations", href: prefix + "#transformations" },
+      { group: "Sections", label: "Industries", href: prefix + "#industries" },
+      { group: "Sections", label: "Engagement — A Choice of Yeses", href: prefix + "#engagement" },
+      { group: "Sections", label: "Process — The Protocol", href: prefix + "#process" },
+      { group: "Sections", label: "Proof — Case Files", href: prefix + "#proof" },
+      { group: "Sections", label: "FAQ — Straight Answers", href: prefix + "#faq" },
+      { group: "Pages", label: "ShiftControl for Venues", href: "venues.html" },
+      { group: "Pages", label: "AI Automation for Law Firms", href: "legal.html" },
+      { group: "Actions", label: "Book the Systems Audit", href: prefix + "#book", hint: "30 min" },
+      { group: "Actions", label: "Request an Instant Callback", href: prefix + "#callback" },
+      { group: "Actions", label: "Call the Direct Hotline", href: "tel:+15550198472", hint: "(555) 019-8472" },
+    ];
+
+    paletteOverlay = document.createElement("div");
+    paletteOverlay.className = "pal-overlay";
+    paletteOverlay.innerHTML =
+      '<div class="pal-box" role="dialog" aria-modal="true" aria-label="Quick navigation">' +
+      '<input class="pal-input" type="text" placeholder="Jump to a section, page, or action…" ' +
+      'aria-label="Search site" autocomplete="off" spellcheck="false" />' +
+      '<div class="pal-list" role="listbox"></div></div>';
+    document.body.appendChild(paletteOverlay);
+
+    const palInput = paletteOverlay.querySelector(".pal-input");
+    const palList = paletteOverlay.querySelector(".pal-list");
+    let palIndex = 0;
+    let palMatches = [];
+
+    function renderPalette(query) {
+      const q = (query || "").trim().toLowerCase();
+      palMatches = PALETTE_ITEMS.filter(
+        (item) => !q || item.label.toLowerCase().includes(q),
+      );
+      palIndex = Math.min(palIndex, Math.max(palMatches.length - 1, 0));
+      if (!palMatches.length) {
+        palList.innerHTML =
+          '<div class="pal-empty">No matches. Try "book", "venues", or "faq".</div>';
+        return;
+      }
+      let html = "";
+      let lastGroup = null;
+      palMatches.forEach((item, i) => {
+        if (item.group !== lastGroup) {
+          html += `<div class="pal-group">${item.group}</div>`;
+          lastGroup = item.group;
+        }
+        html +=
+          `<button type="button" class="pal-item${i === palIndex ? " is-active" : ""}" data-pal-index="${i}" role="option" aria-selected="${i === palIndex}">` +
+          `${item.label}${item.hint ? `<span class="pal-hint">${item.hint}</span>` : ""}</button>`;
+      });
+      palList.innerHTML = html;
+    }
+
+    function openPalette() {
+      palIndex = 0;
+      palInput.value = "";
+      renderPalette("");
+      paletteOverlay.classList.add("active");
+      // Focus can no-op until the overlay finishes leaving
+      // visibility:hidden — try now, next frame, and post-transition
+      palInput.focus();
+      requestAnimationFrame(() => palInput.focus());
+      setTimeout(() => palInput.focus(), 220);
+    }
+
+    // Any printable keystroke while the palette is open routes into the
+    // filter input, wherever focus happens to be
+    document.addEventListener("keydown", (e) => {
+      if (!paletteOverlay.classList.contains("active")) return;
+      if (document.activeElement === palInput) return;
+      if (e.key.length === 1 && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        palInput.focus();
+      } else if (["ArrowDown", "ArrowUp", "Enter"].includes(e.key)) {
+        palInput.focus();
+      }
+    });
+
+    function closePalette() {
+      paletteOverlay.classList.remove("active");
+    }
+
+    function activatePaletteItem(i) {
+      const item = palMatches[i];
+      if (!item) return;
+      closePalette();
+      if (item.href.startsWith("tel:")) {
+        window.location.href = item.href;
+      } else if (item.href.startsWith("#")) {
+        document.querySelector(item.href)?.scrollIntoView({ behavior: "smooth" });
+      } else {
+        window.location.href = item.href;
+      }
+    }
+
+    palInput.addEventListener("input", () => {
+      palIndex = 0;
+      renderPalette(palInput.value);
+    });
+
+    palInput.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        palIndex = Math.min(palIndex + 1, palMatches.length - 1);
+        renderPalette(palInput.value);
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        palIndex = Math.max(palIndex - 1, 0);
+        renderPalette(palInput.value);
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        activatePaletteItem(palIndex);
+      }
+    });
+
+    palList.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-pal-index]");
+      if (btn) activatePaletteItem(parseInt(btn.dataset.palIndex, 10));
+    });
+
+    paletteOverlay.addEventListener("click", (e) => {
+      if (e.target === paletteOverlay) closePalette();
+    });
+
+    document.querySelectorAll("[data-palette-open]").forEach((btn) => {
+      btn.addEventListener("click", openPalette);
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        if (paletteOverlay.classList.contains("active")) closePalette();
+        else openPalette();
+      }
+    });
+  }
+
+  /* ---- Mobile CTA dock: appears after the hero, retires at booking ---- */
+  const ctaDock = document.getElementById("cta-dock");
+  if (ctaDock && "IntersectionObserver" in window) {
+    let pastHero = false;
+    let bookInView = false;
+    const syncDock = () => {
+      const show = pastHero && !bookInView;
+      ctaDock.classList.toggle("is-visible", show);
+      ctaDock.setAttribute("aria-hidden", String(!show));
+    };
+    const hero = document.querySelector(".hero");
+    const bookSection = document.getElementById("book");
+    if (hero) {
+      new IntersectionObserver(
+        (entries) => {
+          pastHero = !entries[0].isIntersecting;
+          syncDock();
+        },
+        { threshold: 0.05 },
+      ).observe(hero);
+    }
+    if (bookSection) {
+      new IntersectionObserver(
+        (entries) => {
+          bookInView = entries[0].isIntersecting;
+          syncDock();
+        },
+        { threshold: 0.15 },
+      ).observe(bookSection);
+    }
+  }
+
   /* ------------------------------------------------------------------
-     GLOBAL — Escape closes any open layer
+     GLOBAL — Escape closes the topmost open layer
      ------------------------------------------------------------------ */
   document.addEventListener("keydown", (e) => {
     if (e.key !== "Escape") return;
+    if (paletteOverlay?.classList.contains("active")) {
+      paletteOverlay.classList.remove("active");
+      return;
+    }
     if (mobileMenu?.classList.contains("open")) {
       setMenu(false);
       return;

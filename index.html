@@ -10,8 +10,12 @@
     />
     <meta name="theme-color" content="#fafaf8" />
 
-    <!-- Open Graph / Social -->
+    <!-- Open Graph / Social.
+         NOTE: absolute URLs assume skshiftcontrol.com — swap the domain
+         here, in sitemap.xml, and in robots.txt if yours differs. -->
+    <link rel="canonical" href="https://skshiftcontrol.com/" />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://skshiftcontrol.com/" />
     <meta
       property="og:title"
       content="SK ShiftControl | Advanced AI Agents for Operators"
@@ -20,8 +24,90 @@
       property="og:description"
       content="Scale faster. See clearer. Carry less. Advanced AI agents that close the gap between your current state and your future state."
     />
-    <meta property="og:image" content="logo.png" />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content="https://skshiftcontrol.com/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:image"
+      content="https://skshiftcontrol.com/og.png"
+    />
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "SK ShiftControl",
+        "url": "https://skshiftcontrol.com/",
+        "logo": "https://skshiftcontrol.com/logo.png",
+        "description": "Advanced AI agents for operators — custom CRM, data, and AI automation systems priced against outcomes.",
+        "slogan": "Scale Faster. See Clearer. Carry Less.",
+        "knowsAbout": [
+          "AI automation",
+          "CRM automation",
+          "database consolidation",
+          "AI agents",
+          "workflow automation"
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What does an engagement actually cost?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Every engagement is fixed-fee, priced against the ROI model built in your Systems Audit — never hourly. You choose between three options of increasing scope (Diagnose, Deploy, Command), and you see the return math before you commit to anything."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How fast does deployment happen?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The Systems Audit is one 30-minute call. From there, deployment is staged: data consolidation first, then agents tested against your live operation and rolled out in phases. Your exact scope and timeline are fixed in the pitch before any build starts."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do we have to replace our current tools?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. The architecture is vendor-agnostic — agents are built on n8n around the CRM and data stack you already run. We integrate what you have and build only what doesn't exist."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What happens to our data?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Client file streams are processed in-memory under a Zero-Data-Retention posture — never sold, never distributed, and never used to train public models."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Will AI agents replace my team?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "They replace the manual load, not the people. Payroll hours return to judgment work only humans can do, and every system is designed with adoption psychology so your team actually uses it."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "We're not in hospitality or law — can you still build for us?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. The Systems Audit maps any operation that runs on intake, follow-up, and reporting. And if the audit shows automation isn't worth it for you yet, we say so — you keep the map either way."
+            }
+          }
+        ]
+      }
+    </script>
 
     <link rel="icon" type="image/png" href="logo.png" />
     <link rel="apple-touch-icon" href="logo.png" />
@@ -53,14 +139,22 @@
         </a>
         <nav class="nav-links" aria-label="Primary">
           <a href="#transformations">Transformations</a>
+          <a href="#industries">Industries</a>
           <a href="#engagement">Engagement</a>
           <a href="#process">Process</a>
-          <a href="#proof">Proof</a>
           <!-- Replace with your real number before launch (also in the mobile menu) -->
           <a href="tel:+15550198472" class="nav-hotline">
             <span class="ping-dot" aria-hidden="true"><span class="ping"></span></span>
             Direct Hotline: (555) 019-8472
           </a>
+          <button
+            type="button"
+            class="pal-chip"
+            data-palette-open
+            aria-label="Open quick navigation"
+          >
+            ⌘K
+          </button>
           <a href="#book" class="nav-cta">Book the Systems Audit</a>
         </nav>
         <button
@@ -82,9 +176,11 @@
       </button>
       <nav class="mobile-menu-links" aria-label="Mobile">
         <a href="#transformations" data-menu-link>Transformations</a>
+        <a href="#industries" data-menu-link>Industries</a>
         <a href="#engagement" data-menu-link>Engagement</a>
         <a href="#process" data-menu-link>Process</a>
         <a href="#proof" data-menu-link>Proof</a>
+        <a href="#faq" data-menu-link>FAQ</a>
         <a href="#book" class="menu-cta" data-menu-link
           >Book the Systems Audit</a
         >
@@ -423,8 +519,92 @@
         </div>
       </section>
 
+      <!-- INDUSTRIES — every operation that runs on systems -->
+      <section class="section" id="industries">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">// Deployed Across Industries</span>
+            <h2>Not One Industry. Every Operation That Runs on Systems.</h2>
+            <p class="section-lede">
+              Intake, follow-up, reconciliation, and reporting leak the same
+              way everywhere — the agents don't care what your invoices are
+              for. Two vertical builds are live today; the rest get scoped
+              through the audit.
+            </p>
+          </div>
+          <div class="panel-grid panel-grid--3">
+            <div class="panel-card reveal">
+              <div class="panel-tag">[IND 01 // Hospitality &amp; Retail]</div>
+              <h3 class="panel-title">Venues &amp; Retail Floors</h3>
+              <p>
+                Shift closeouts, register variance, roster syncing, and
+                loyalty win-backs — handled while you lock the doors.
+              </p>
+              <a class="industry-link" href="venues.html"
+                >Explore the live build →</a
+              >
+            </div>
+            <div class="panel-card reveal">
+              <div class="panel-tag">[IND 02 // Legal]</div>
+              <h3 class="panel-title">Law Firms</h3>
+              <p>
+                Client intake, document drafting, and deadline follow-through
+                — so billable hours stay billable.
+              </p>
+              <a class="industry-link" href="legal.html"
+                >Explore the live build →</a
+              >
+            </div>
+            <div class="panel-card reveal">
+              <div class="panel-tag">[IND 03 // Medical &amp; Dental]</div>
+              <h3 class="panel-title">Clinics &amp; Practices</h3>
+              <p>
+                Patient intake, recall sequences, no-show recovery, and the
+                insurance paperwork chase.
+              </p>
+              <a class="industry-link industry-link--soft" href="#book"
+                >Scoped through the audit →</a
+              >
+            </div>
+            <div class="panel-card reveal">
+              <div class="panel-tag">[IND 04 // Real Estate]</div>
+              <h3 class="panel-title">Brokerages &amp; Teams</h3>
+              <p>
+                Lead routing, showing follow-ups, and transaction paperwork
+                that advances itself.
+              </p>
+              <a class="industry-link industry-link--soft" href="#book"
+                >Scoped through the audit →</a
+              >
+            </div>
+            <div class="panel-card reveal">
+              <div class="panel-tag">[IND 05 // E-commerce]</div>
+              <h3 class="panel-title">Stores &amp; Brands</h3>
+              <p>
+                Order operations, support triage, inventory reconciliation,
+                and review loops that run themselves.
+              </p>
+              <a class="industry-link industry-link--soft" href="#book"
+                >Scoped through the audit →</a
+              >
+            </div>
+            <div class="panel-card reveal">
+              <div class="panel-tag">[IND 06 // Trades &amp; Field Services]</div>
+              <h3 class="panel-title">Contractors &amp; Crews</h3>
+              <p>
+                Quote follow-ups, job scheduling, dispatch notes, and the
+                invoice chase — off your evening plate.
+              </p>
+              <a class="industry-link industry-link--soft" href="#book"
+                >Scoped through the audit →</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- ENGAGEMENT — the Choice of Yeses -->
-      <section class="section" id="engagement">
+      <section class="section section--surface" id="engagement">
         <div class="container">
           <div class="section-head reveal">
             <span class="eyebrow">// The Choice of Yeses</span>
@@ -486,7 +666,7 @@
       </section>
 
       <!-- PROCESS (DURING → AFTER) -->
-      <section class="section section--surface" id="process">
+      <section class="section" id="process">
         <div class="container">
           <div class="section-head reveal">
             <span class="eyebrow">// The Protocol</span>
@@ -542,7 +722,7 @@
       </section>
 
       <!-- PROOF -->
-      <section class="section" id="proof">
+      <section class="section section--surface" id="proof">
         <div class="container">
           <div class="section-head reveal">
             <span class="eyebrow">// Authority</span>
@@ -581,6 +761,89 @@
         </div>
       </section>
 
+      <!-- FAQ -->
+      <section class="section" id="faq">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">// Straight Answers</span>
+            <h2>Everything Operators Ask Before They Deploy.</h2>
+          </div>
+          <div class="faq-list reveal">
+            <details class="faq-item">
+              <summary>
+                What does an engagement actually cost?
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+              </summary>
+              <p class="faq-body">
+                Every engagement is fixed-fee, priced against the ROI model
+                built in your Systems Audit — never hourly. You choose between
+                three options of increasing scope (Diagnose, Deploy, Command),
+                and you see the return math before you commit to anything.
+              </p>
+            </details>
+            <details class="faq-item">
+              <summary>
+                How fast does deployment happen?
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+              </summary>
+              <p class="faq-body">
+                The Systems Audit is one 30-minute call. From there,
+                deployment is staged: data consolidation first, then agents
+                tested against your live operation and rolled out in phases.
+                Your exact scope and timeline are fixed in the pitch before
+                any build starts.
+              </p>
+            </details>
+            <details class="faq-item">
+              <summary>
+                Do we have to replace our current tools?
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+              </summary>
+              <p class="faq-body">
+                No. The architecture is vendor-agnostic — agents are built on
+                n8n around the CRM and data stack you already run. We
+                integrate what you have and build only what doesn't exist.
+              </p>
+            </details>
+            <details class="faq-item">
+              <summary>
+                What happens to our data?
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+              </summary>
+              <p class="faq-body">
+                Client file streams are processed in-memory under a
+                Zero-Data-Retention posture — never sold, never distributed,
+                and never used to train public models.
+              </p>
+            </details>
+            <details class="faq-item">
+              <summary>
+                Will AI agents replace my team?
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+              </summary>
+              <p class="faq-body">
+                They replace the manual load, not the people. Payroll hours
+                return to judgment work only humans can do, and every system
+                is designed with adoption psychology so your team actually
+                uses it.
+              </p>
+            </details>
+            <details class="faq-item">
+              <summary>
+                We're not in hospitality or law — can you still build for us?
+                <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+              </summary>
+              <p class="faq-body">
+                Yes. The Systems Audit maps any operation that runs on intake,
+                follow-up, and reporting. And if the audit shows automation
+                isn't worth it for you yet, we say so — you keep the map
+                either way.
+              </p>
+            </details>
+          </div>
+        </div>
+      </section>
+
       <!-- BOOKING — obsidian slab, the anchor (AFTER) -->
       <section class="section slab" id="book">
         <div class="container">
@@ -597,6 +860,9 @@
             </p>
           </div>
           <div class="calendly-wrap reveal">
+            <div class="calendly-skeleton" aria-hidden="true">
+              <span></span><span></span><span></span><span></span>
+            </div>
             <div
               class="calendly-inline-widget"
               data-url="https://calendly.com/sethk727?hide_gdpr_banner=1&background_color=141416&text_color=fafafa&primary_color=00ff66"
@@ -889,5 +1155,19 @@
         &copy; 2026 SK ShiftControl. All rights reserved.
       </div>
     </footer>
+
+    <!-- MOBILE CTA DOCK -->
+    <div class="cta-dock" id="cta-dock" aria-hidden="true">
+      <a href="#book" class="cta-button">Book the Systems Audit</a>
+      <a
+        href="tel:+15550198472"
+        class="dock-call"
+        aria-label="Call the direct hotline"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.7 2z"/>
+        </svg>
+      </a>
+    </div>
   </body>
 </html>

@@ -417,8 +417,10 @@
             </div>
 
             <!-- Sheet Monkey utilities: timestamp + post-submit redirect.
-                 SWAP the redirect value below for your real thank-you page
-                 URL before launch. -->
+                 Redirect points at thank-you.html (same domain). If your
+                 host serves clean URLs, "/thank-you" also works; if Sheet
+                 Monkey requires an absolute URL on your setup, prefix your
+                 domain: https://YOURDOMAIN/thank-you.html -->
             <input
               type="hidden"
               name="Created"
@@ -427,7 +429,7 @@
             <input
               type="hidden"
               name="x-sheetmonkey-redirect"
-              value="https://yourdomain.com/thank-you"
+              value="/thank-you.html"
             />
 
             <button type="submit" class="sk-ls-submit">

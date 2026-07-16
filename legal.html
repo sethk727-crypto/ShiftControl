@@ -28,6 +28,7 @@
       document.documentElement.classList.add("js");
     </script>
     <script src="script.js" defer></script>
+    <script src="demos.js" defer></script>
   </head>
   <body class="theme-light">
     <!-- FIXED HEADER -->
@@ -53,7 +54,140 @@
         </nav>
       </div>
     </header>
-    <div style="height: 76px" aria-hidden="true"></div>
+    <main id="main">
+      <!-- HERO -->
+      <section class="hero vertical-hero">
+        <div class="container">
+          <div class="hero-content">
+            <div class="hero-badge">
+              <span class="status-dot" aria-hidden="true"></span>
+              IND 02 // Legal
+            </div>
+            <h1>Stop Bleeding Billable Hours Into Administrative Static.</h1>
+            <p class="hero-lede">
+              Top-producing partners know that an automated pipeline easily
+              handles client intake and document drafting. As you experience
+              this frictionless deadline follow-through, your firm will
+              operate more securely, because protecting your attorneys' time
+              guarantees a rock-solid bottom line.
+            </p>
+            <div class="hero-actions">
+              <a href="#legal-suite" class="cta-button">See Plans &amp; Pricing</a>
+              <a href="#demo" class="ghost-button">Watch the agent work ↓</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- LIVE SIMULATION -->
+      <section class="section slab" id="demo">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">// Live Simulation</span>
+            <h2>A New Client Emails at 9:14 AM. No Attorney Touches It Until It's Ready.</h2>
+            <p class="section-lede">
+              Intake parsed, conflicts checked, engagement letter drafted and
+              sent for signature, deadlines docketed — the matter arrives on
+              the partner's desk already standing up.
+            </p>
+          </div>
+          <div class="console reveal" id="demo-legal">
+            <div class="console-head">
+              <div class="console-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+              <span class="console-title">Intake &amp; Drafting Agent</span>
+              <span class="console-sim">Live Simulation // Sample Data</span>
+            </div>
+            <div class="console-body">
+              <div>
+                <div class="console-col-label">Matter Pipeline</div>
+                <div class="pipe-steps">
+                  <div class="pipe-step"><span class="mark">01</span><span>Inquiry parsed<span class="sub">family law · custody · referral source logged</span></span></div>
+                  <div class="pipe-step"><span class="mark">02</span><span>Conflict check run<span class="sub">parties screened against firm records</span></span></div>
+                  <div class="pipe-step"><span class="mark">03</span><span>Engagement letter drafted<span class="sub">firm template · e-signature sent</span></span></div>
+                  <div class="pipe-step"><span class="mark">04</span><span>Docketed &amp; partner notified<span class="sub">deadlines calendared · full context attached</span></span></div>
+                </div>
+              </div>
+              <div>
+                <div class="console-col-label">Agent Activity</div>
+                <div class="feed">
+                  <div class="feed-line"><span class="t">09:14</span>✉ New inquiry received — "I need help with a custody modification. Sarah at Hollis &amp; Marsh referred me."</div>
+                  <div class="feed-line"><span class="t">09:14</span><span class="ok">→ Matter classified</span> — family law · custody · same-week urgency</div>
+                  <div class="feed-line"><span class="t">09:15</span><span class="ok">✓ Conflict check clear</span> — no adverse party matches</div>
+                  <div class="feed-line"><span class="t">09:16</span><span class="ok">→ Engagement letter drafted</span> — sent for e-signature</div>
+                  <div class="feed-line"><span class="t">09:17</span><span class="ok">✓ Deadlines docketed</span> — partner pinged with the full file</div>
+                </div>
+              </div>
+              <div>
+                <div class="console-col-label">Instrumentation</div>
+                <div class="stat-rail">
+                  <div class="stat-tile"><div class="stat-label">Attorney Minutes Spent</div><div class="stat-value">0</div></div>
+                  <div class="stat-tile"><div class="stat-label">Inquiry → Ready Matter</div><div class="stat-value" data-stat-response>—</div></div>
+                  <div class="stat-tile"><div class="stat-label">Deadlines Docketed</div><div class="stat-value glow" data-stat-docketed>—</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- WHAT WE DEPLOY -->
+      <section class="section" id="deploy">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">// What We Deploy</span>
+            <h2>The System Behind the Simulation.</h2>
+          </div>
+          <div class="deploy-list reveal">
+            <div class="deploy-row">
+              <div class="deploy-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H5.2L4 17.2V4z"/><path d="M8 8h8M8 11h5"/></svg>
+              </div>
+              <div>
+                <h3>Client intake that qualifies itself</h3>
+                <p>
+                  Every inquiry — email, web form, phone — is parsed for
+                  matter type, urgency, and referral source, screened for
+                  conflicts, and standing in your pipeline before anyone
+                  checks an inbox.
+                </p>
+              </div>
+            </div>
+            <div class="deploy-row">
+              <div class="deploy-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h5"/></svg>
+              </div>
+              <div>
+                <h3>Document drafting on your templates</h3>
+                <p>
+                  Engagement letters, standard motions, and client
+                  correspondence drafted from your firm's own templates and
+                  routed for e-signature — DocuSign-class execution without
+                  the copy-paste hour.
+                </p>
+              </div>
+            </div>
+            <div class="deploy-row">
+              <div class="deploy-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 9h18M12 13v4M10 15h4"/></svg>
+              </div>
+              <div>
+                <h3>Deadline follow-through that never sleeps</h3>
+                <p>
+                  Every matter's dates docketed automatically, follow-ups
+                  fired on cadence, and the partner pinged with full context —
+                  frictionless deadline follow-through, guaranteed by
+                  architecture instead of memory.
+                </p>
+              </div>
+            </div>
+          </div>
+          <p class="stack-note">
+            Integrates with your practice management, e-signature, and
+            calendar stack — mapped in the audit.
+          </p>
+        </div>
+      </section>
+    </main>
     <!-- ================================================================
          SK SHIFTCONTROL — LEGAL AUTOMATION SUITE
          Modular drop-in block. To embed in any site builder, copy from
@@ -487,6 +621,31 @@
       </div>
     </section>
     <!-- ==================== DROP-IN END ==================== -->
+
+    <!-- SIBLING INDUSTRIES -->
+    <section class="section slab" id="cta">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">// Deployment Begins Here</span>
+          <h2>Prefer to Talk First? Thirty Minutes. A Map of Every Billable-Hour Leak.</h2>
+          <p class="section-lede">
+            Book the Systems Audit because the map of your operational leaks
+            is yours to keep — either way.
+          </p>
+        </div>
+        <div class="hero-actions reveal">
+          <a href="index.html#book" class="cta-button">Book the Systems Audit</a>
+          <a href="index.html#callback" class="ghost-button">Request an instant callback</a>
+        </div>
+        <div class="sibling-row reveal">
+          <a class="sibling-chip" href="venues.html">Venues &amp; Retail →</a>
+          <a class="sibling-chip" href="medical.html">Clinics &amp; Practices →</a>
+          <a class="sibling-chip" href="realestate.html">Real Estate →</a>
+          <a class="sibling-chip" href="ecommerce.html">E-commerce →</a>
+          <a class="sibling-chip" href="trades.html">Trades &amp; Field →</a>
+        </div>
+      </div>
+    </section>
 
     <!-- FOOTER -->
     <footer class="site-footer">

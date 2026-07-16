@@ -282,6 +282,125 @@
   }
 
   /* ==================================================================
+     VENUES — Night Closeout Agent
+     ================================================================== */
+  const ven = document.getElementById("demo-venues");
+  if (ven) {
+    const feed = $$(ven, ".feed-line");
+    const task = (name) => $(ven, `[data-task="${name}"]`);
+    const setTask = (name, state, label) => {
+      const slot = task(name);
+      slot.classList.remove("is-canceled", "is-filled");
+      if (state) slot.classList.add(state);
+      $(slot, ".k-badge").textContent = label;
+    };
+    const admin = $(ven, "[data-stat-admin]");
+    const leaks = $(ven, "[data-stat-leaks]");
+    const night = $(ven, "[data-stat-night]");
+    let leakCount = 0;
+
+    runTimeline(
+      ven,
+      [
+        [400, () => on(feed[0])],
+        [
+          1800,
+          () => {
+            on(feed[1]);
+            setTask("log", "is-filled", "DONE");
+          },
+        ],
+        [
+          3000,
+          () => {
+            on(feed[2]);
+            setTask("register", "is-canceled", "FLAGGED");
+            leakCount += 1;
+            leaks.textContent = String(leakCount);
+          },
+        ],
+        [
+          4200,
+          () => {
+            on(feed[3]);
+            setTask("supply", "is-filled", "PO DRAFTED");
+            leakCount += 1;
+            leaks.textContent = String(leakCount);
+          },
+        ],
+        [
+          5400,
+          () => {
+            on(feed[4]);
+            setTask("roster", "is-filled", "SYNCED");
+          },
+        ],
+        [
+          6600,
+          () => {
+            on(feed[5]);
+            setTask("brief", "is-filled", "SENT");
+            admin.textContent = "60 seconds";
+            night.textContent = "Empty";
+          },
+        ],
+      ],
+      {
+        reset: () => {
+          leakCount = 0;
+          feed.forEach((l) => l.classList.remove("on"));
+          ["log", "register", "supply", "roster", "brief"].forEach((n) =>
+            setTask(n, null, "PENDING"),
+          );
+          admin.textContent = "—";
+          leaks.textContent = "0";
+          night.textContent = "—";
+        },
+      },
+    );
+  }
+
+  /* ==================================================================
+     LEGAL — Intake & Drafting Agent
+     ================================================================== */
+  const leg = document.getElementById("demo-legal");
+  if (leg) {
+    const steps = $$(leg, ".pipe-step");
+    const feed = $$(leg, ".feed-line");
+    const response = $(leg, "[data-stat-response]");
+    const docketed = $(leg, "[data-stat-docketed]");
+
+    runTimeline(
+      leg,
+      [
+        [400, () => on(feed[0])],
+        [1600, () => { on(steps[0]); on(feed[1]); }],
+        [3200, () => { on(steps[1]); on(feed[2]); }],
+        [4800, () => { on(steps[2]); on(feed[3]); }],
+        [
+          6400,
+          () => {
+            on(steps[3]);
+            on(feed[4]);
+            response.textContent = "3m 40s";
+            response.classList.add("glow");
+            countUp(docketed, 4, { fmt: (v) => String(Math.round(v)) });
+          },
+        ],
+      ],
+      {
+        reset: () => {
+          steps.forEach((s) => s.classList.remove("on"));
+          feed.forEach((l) => l.classList.remove("on"));
+          response.textContent = "—";
+          response.classList.remove("glow");
+          docketed.textContent = "—";
+        },
+      },
+    );
+  }
+
+  /* ==================================================================
      TRADES & FIELD SERVICES — Dispatch Command
      ================================================================== */
   const tra = document.getElementById("demo-trades");

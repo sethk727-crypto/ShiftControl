@@ -3104,3 +3104,95 @@ h3 {
     display: none;
   }
 }
+
+/* ==========================================================================
+   EXTENDED CAPABILITIES + PATHWAY LINK PHYSICS
+   ========================================================================== */
+.cap-block {
+  margin-top: clamp(3.5rem, 3rem + 2vw, 5rem);
+}
+
+.cap-head {
+  text-align: center;
+  margin-bottom: var(--space-8);
+}
+
+.cap-head h3 {
+  font-size: var(--text-xl);
+  color: var(--lt-ink);
+}
+
+.cap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-5);
+}
+
+.cap-card {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  background: var(--lt-raised);
+  border: 1px solid var(--lt-line);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  box-shadow: 0 8px 28px rgba(10, 10, 12, 0.05);
+  transition:
+    border-color var(--dur-base) var(--ease-out-expo),
+    box-shadow var(--dur-base) var(--ease-out-expo);
+}
+
+.cap-card:hover {
+  border-color: rgba(6, 118, 71, 0.45);
+  box-shadow: 0 14px 40px rgba(6, 118, 71, 0.12);
+}
+
+.cap-icon {
+  flex: none;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  background: rgba(0, 230, 92, 0.09);
+  border: 1px solid rgba(6, 118, 71, 0.25);
+}
+
+.cap-icon svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--lt-accent-deep);
+}
+
+.cap-title {
+  font-weight: 700;
+  color: var(--lt-ink);
+  margin-bottom: var(--space-1);
+  line-height: var(--leading-snug);
+}
+
+.cap-text {
+  font-size: var(--text-sm);
+  color: var(--lt-ink-muted);
+  line-height: 1.6;
+}
+
+/* Pathway links: anchored scale + emerald shift on hover (GPU transform) */
+.industry-link {
+  display: inline-block;
+  transform-origin: left center;
+  transition:
+    color var(--dur-fast) ease,
+    transform var(--dur-base) var(--ease-out-expo);
+  will-change: transform;
+}
+
+.industry-link:hover {
+  transform: scale(1.02) translateX(2px);
+  color: #045a37;
+}
+
+.industry-link--soft:hover {
+  color: var(--lt-accent-deep);
+}

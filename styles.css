@@ -2643,3 +2643,59 @@ h3 {
   gap: var(--space-5);
   flex-wrap: wrap;
 }
+
+/* ==========================================================================
+   LAYOUT ALIGNMENT SYSTEM  (theme-light pages: index / legal / thank-you)
+   Collapses every content block onto two shared tracks so the page has a
+   single stable vertical spine. venues.html (dark theme) is unaffected.
+   ========================================================================== */
+.theme-light {
+  --track-read: 720px; /* prose, headings, forms — one narrow column */
+}
+
+/* Reading track — all share the same centered column (one left edge) */
+.theme-light .section-head,
+.theme-light .mission-statement,
+.theme-light .process-list,
+.theme-light .callback-wrap {
+  max-width: var(--track-read);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Wide track — fill the container so major blocks align edge-to-edge with
+   the card grids above and below them (one strong spine) */
+.theme-light .zdr-card,
+.theme-light .ba-switcher,
+.theme-light .calendly-wrap {
+  max-width: 100%;
+}
+
+/* Equal-height cards with bottom-aligned footers across every row */
+.theme-light .panel-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.theme-light .panel-card .state-split {
+  margin-top: var(--space-5);
+}
+
+.theme-light .outcome-line {
+  margin-top: auto;
+  padding-top: var(--space-6);
+}
+
+/* Consistent inner rhythm: the two state boxes in a card match height */
+.theme-light .state-split {
+  align-content: start;
+}
+
+.theme-light .state {
+  height: 100%;
+}
+
+/* Callback form fills its (now aligned) reading column */
+.theme-light .callback-form-shell {
+  max-width: 100%;
+}

@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SK ShiftControl | AI Staff Automation Ecosystems for Law Firms</title>
+    <meta
+      name="description"
+      content="AI Staff Automation Ecosystems for law firms — automated client intake, document drafting, and follow-up systems. Fixed plans, custom workflow audits."
+    />
+    <meta name="theme-color" content="#fafaf8" />
+    <link rel="icon" type="image/png" href="logo.png" />
+  </head>
+  <body style="margin: 0">
+    <!-- ================================================================
+         SK SHIFTCONTROL — LEGAL AUTOMATION SUITE
+         Modular drop-in block. To embed in any site builder, copy from
+         DROP-IN START to DROP-IN END into a custom HTML block. All
+         styles are scoped under .sk-ls — nothing leaks in or out.
+         ================================================================ -->
+
+    <!-- ==================== DROP-IN START ==================== -->
+    <section class="sk-ls" id="legal-suite">
+      <style>
+        .sk-ls {
+          --ls-page: #fafaf8;
+          --ls-card: #ffffff;
+          --ls-tint: #f2f4f0;
+          --ls-ink: #0b0b0c;
+          --ls-ink-muted: #52525b;
+          --ls-ink-faint: #8a8a93;
+          --ls-line: rgba(10, 10, 12, 0.1);
+          --ls-line-strong: rgba(10, 10, 12, 0.22);
+          --ls-accent: #00e65c;
+          --ls-accent-deep: #067647;
+          --ls-ease: cubic-bezier(0.16, 1, 0.3, 1);
+          --ls-font:
+            "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Display",
+            "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+          --ls-mono:
+            ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas,
+            monospace;
+
+          background: var(--ls-page);
+          color: var(--ls-ink);
+          font-family: var(--ls-font);
+          line-height: 1.7;
+          padding: clamp(4rem, 3rem + 5vw, 7.5rem) 1.5rem;
+          -webkit-font-smoothing: antialiased;
+        }
+
+        .sk-ls *,
+        .sk-ls *::before,
+        .sk-ls *::after {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+        }
+
+        .sk-ls-container {
+          max-width: 1120px;
+          margin: 0 auto;
+        }
+
+        /* ---- Section header ---- */
+        .sk-ls-head {
+          text-align: center;
+          max-width: 760px;
+          margin: 0 auto clamp(2.5rem, 2rem + 2vw, 4rem);
+        }
+
+        .sk-ls-eyebrow {
+          display: inline-block;
+          font-family: var(--ls-mono);
+          font-size: 0.75rem;
+          font-weight: 600;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: var(--ls-accent-deep);
+          margin-bottom: 1rem;
+        }
+
+        .sk-ls-head h2 {
+          font-size: clamp(1.9rem, 1.4rem + 2.2vw, 3rem);
+          font-weight: 800;
+          line-height: 1.12;
+          letter-spacing: -0.02em;
+        }
+
+        .sk-ls-head .sk-ls-lede {
+          margin-top: 1.25rem;
+          font-size: clamp(1.05rem, 1rem + 0.3vw, 1.2rem);
+          color: var(--ls-ink-muted);
+        }
+
+        /* ---- Stripe pricing table container ---- */
+        .sk-ls-stripe {
+          position: relative;
+          width: 100%;
+          max-width: 1080px;
+          margin: 0 auto;
+          background: var(--ls-card);
+          border: 1px solid var(--ls-line);
+          border-radius: 16px;
+          padding: clamp(1.25rem, 1rem + 1.5vw, 2.5rem);
+          box-shadow: 0 20px 60px rgba(10, 10, 12, 0.07);
+        }
+
+        .sk-ls-stripe stripe-pricing-table {
+          display: block;
+          width: 100%;
+        }
+
+        .sk-ls-stripe-note {
+          text-align: center;
+          margin-top: 1rem;
+          font-family: var(--ls-mono);
+          font-size: 0.75rem;
+          color: var(--ls-ink-faint);
+          letter-spacing: 0.04em;
+        }
+
+        /* ---- Divider ---- */
+        .sk-ls-divider {
+          display: flex;
+          align-items: center;
+          gap: 1.25rem;
+          max-width: 760px;
+          margin: clamp(3rem, 2.5rem + 3vw, 5rem) auto;
+        }
+
+        .sk-ls-divider::before,
+        .sk-ls-divider::after {
+          content: "";
+          flex: 1;
+          height: 1px;
+          background: var(--ls-line-strong);
+        }
+
+        .sk-ls-divider span {
+          font-family: var(--ls-mono);
+          font-size: 0.75rem;
+          font-weight: 600;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: var(--ls-ink-faint);
+          white-space: nowrap;
+        }
+
+        /* ---- Intake form card ---- */
+        .sk-ls-form-card {
+          max-width: 760px;
+          margin: 0 auto;
+          background: var(--ls-card);
+          border: 1px solid var(--ls-line);
+          border-radius: 16px;
+          padding: clamp(1.75rem, 1.25rem + 2.5vw, 3.25rem);
+          box-shadow: 0 20px 60px rgba(10, 10, 12, 0.07);
+          transition: border-color 0.4s var(--ls-ease);
+        }
+
+        .sk-ls-form-card:hover {
+          border-color: rgba(6, 118, 71, 0.35);
+        }
+
+        .sk-ls-form-card h3 {
+          font-size: clamp(1.35rem, 1.2rem + 0.8vw, 1.75rem);
+          font-weight: 800;
+          letter-spacing: -0.02em;
+          line-height: 1.2;
+          text-align: center;
+        }
+
+        .sk-ls-form-sub {
+          text-align: center;
+          color: var(--ls-ink-muted);
+          margin-top: 0.75rem;
+          margin-bottom: 2rem;
+          font-size: 1rem;
+        }
+
+        .sk-ls-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1.25rem;
+        }
+
+        .sk-ls-field {
+          display: flex;
+          flex-direction: column;
+          gap: 0.45rem;
+        }
+
+        .sk-ls-field--full {
+          grid-column: 1 / -1;
+        }
+
+        .sk-ls-field label {
+          font-size: 0.82rem;
+          font-weight: 700;
+          letter-spacing: 0.02em;
+          color: var(--ls-ink);
+        }
+
+        .sk-ls-field input,
+        .sk-ls-field select,
+        .sk-ls-field textarea {
+          width: 100%;
+          font-family: var(--ls-font);
+          font-size: 1rem;
+          color: var(--ls-ink);
+          background: var(--ls-tint);
+          border: 1px solid var(--ls-line-strong);
+          border-radius: 10px;
+          padding: 0.9rem 1rem;
+          outline: none;
+          transition:
+            border-color 0.3s var(--ls-ease),
+            box-shadow 0.3s var(--ls-ease),
+            background 0.3s var(--ls-ease);
+          appearance: none;
+          -webkit-appearance: none;
+        }
+
+        .sk-ls-field input::placeholder,
+        .sk-ls-field textarea::placeholder {
+          color: var(--ls-ink-faint);
+        }
+
+        .sk-ls-field select {
+          background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2352525b' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-position: right 1rem center;
+          padding-right: 2.6rem;
+          cursor: pointer;
+        }
+
+        .sk-ls-field select:invalid {
+          color: var(--ls-ink-faint);
+        }
+
+        .sk-ls-field textarea {
+          min-height: 130px;
+          resize: vertical;
+        }
+
+        .sk-ls-field input:focus,
+        .sk-ls-field select:focus,
+        .sk-ls-field textarea:focus {
+          background: var(--ls-card);
+          border-color: var(--ls-accent-deep);
+          box-shadow: 0 0 0 3px rgba(6, 118, 71, 0.14);
+        }
+
+        .sk-ls-submit {
+          grid-column: 1 / -1;
+          margin-top: 0.5rem;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+          width: 100%;
+          background: var(--ls-accent);
+          color: var(--ls-ink);
+          font-family: var(--ls-font);
+          font-size: 1.1rem;
+          font-weight: 800;
+          letter-spacing: -0.01em;
+          border: 1px solid rgba(10, 10, 12, 0.28);
+          border-radius: 10px;
+          padding: 1.1rem 2rem;
+          cursor: pointer;
+          box-shadow: 0 10px 28px rgba(6, 118, 71, 0.26);
+          transition:
+            transform 0.3s var(--ls-ease),
+            box-shadow 0.3s var(--ls-ease);
+          will-change: transform;
+        }
+
+        .sk-ls-submit:hover {
+          transform: scale(1.02);
+          box-shadow: 0 0 25px rgba(0, 230, 92, 0.45);
+        }
+
+        .sk-ls-submit:active {
+          transform: scale(0.99);
+          box-shadow: 0 4px 14px rgba(6, 118, 71, 0.3);
+        }
+
+        .sk-ls-trust {
+          grid-column: 1 / -1;
+          text-align: center;
+          font-family: var(--ls-mono);
+          font-size: 0.75rem;
+          letter-spacing: 0.04em;
+          color: var(--ls-ink-faint);
+          margin-top: 0.75rem;
+        }
+
+        @media (max-width: 640px) {
+          .sk-ls-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+      </style>
+
+      <div class="sk-ls-container">
+        <!-- Section header -->
+        <div class="sk-ls-head">
+          <span class="sk-ls-eyebrow">// AI Staff Automation Ecosystems</span>
+          <h2>Deploy Your Firm's Automated Back Office.</h2>
+          <p class="sk-ls-lede">
+            Client intake, document drafting, and follow-up systems that run
+            themselves — so billable hours stay billable. Choose a deployment
+            plan below, or request a custom workflow audit for your practice.
+          </p>
+        </div>
+
+        <!-- ============ ELEMENT 1: STRIPE PRICING TABLE ============ -->
+        <div class="sk-ls-stripe">
+          <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
+          <stripe-pricing-table pricing-table-id="prctbl_1TtesxDO9ZavBZmwueJjN8i6"
+          publishable-key="pk_live_51Tt5cPDO9ZavBZmw8i3BGZMNqV1tgGXubNZirYMCptObMKY0RIrvYCTnmiqa3XsmTUu0oCZYHtXlHRunOLnXVDRa006O87oQdQ">
+          </stripe-pricing-table>
+        </div>
+        <p class="sk-ls-stripe-note">
+          Secure checkout processed by Stripe · Cancel or upgrade any time
+        </p>
+
+        <div class="sk-ls-divider">
+          <span>Prefer a tailored deployment?</span>
+        </div>
+
+        <!-- ============ ELEMENT 2: LEGAL AUTOMATION AUDIT INTAKE ============ -->
+        <div class="sk-ls-form-card">
+          <h3>Request a Custom Workflow Audit &amp; Pitch</h3>
+          <p class="sk-ls-form-sub">
+            Tell us where the friction lives. A systems architect reviews your
+            workflow and returns a custom automation pitch — scoped to your
+            firm, priced against the outcome.
+          </p>
+
+          <form
+            action="https://api.sheetmonkey.io/form/4SdDjgH3BMRnj3saiPbJPM"
+            method="POST"
+            class="sk-ls-grid"
+          >
+            <div class="sk-ls-field">
+              <label for="sk-ls-firm">Firm Name</label>
+              <input
+                type="text"
+                id="sk-ls-firm"
+                name="Firm Name"
+                placeholder="e.g., Harper & Cole LLP"
+                autocomplete="organization"
+                required
+              />
+            </div>
+
+            <div class="sk-ls-field">
+              <label for="sk-ls-contact">Contact Name</label>
+              <input
+                type="text"
+                id="sk-ls-contact"
+                name="Contact Name"
+                placeholder="Your full name"
+                autocomplete="name"
+                required
+              />
+            </div>
+
+            <div class="sk-ls-field sk-ls-field--full">
+              <label for="sk-ls-email">Business Email</label>
+              <input
+                type="email"
+                id="sk-ls-email"
+                name="Business Email"
+                placeholder="you@yourfirm.com"
+                autocomplete="email"
+                required
+              />
+            </div>
+
+            <div class="sk-ls-field">
+              <label for="sk-ls-revenue">Current Revenue Range</label>
+              <select id="sk-ls-revenue" name="Current Revenue Range" required>
+                <option value="" disabled selected>Select range…</option>
+                <option>Under $150k</option>
+                <option>$150k-$250k</option>
+                <option>$250k-$500k</option>
+                <option>$500k+</option>
+              </select>
+            </div>
+
+            <div class="sk-ls-field">
+              <label for="sk-ls-bottleneck">Primary Friction Bottleneck</label>
+              <select
+                id="sk-ls-bottleneck"
+                name="Primary Friction Bottleneck"
+                required
+              >
+                <option value="" disabled selected>Select bottleneck…</option>
+                <option>Client Intake</option>
+                <option>Document Drafting</option>
+                <option>Lead Follow-ups</option>
+                <option>Calendar/Scheduling</option>
+              </select>
+            </div>
+
+            <div class="sk-ls-field sk-ls-field--full">
+              <label for="sk-ls-message">Message / Special Requirements</label>
+              <textarea
+                id="sk-ls-message"
+                name="Message / Special Requirements"
+                placeholder="Describe your current workflow, tooling, or anything a systems architect should know before the pitch…"
+              ></textarea>
+            </div>
+
+            <!-- Sheet Monkey utilities: timestamp + post-submit redirect.
+                 SWAP the redirect value below for your real thank-you page
+                 URL before launch. -->
+            <input
+              type="hidden"
+              name="Created"
+              value="x-sheetmonkey-current-date-time"
+            />
+            <input
+              type="hidden"
+              name="x-sheetmonkey-redirect"
+              value="https://yourdomain.com/thank-you"
+            />
+
+            <button type="submit" class="sk-ls-submit">
+              Request the Audit &amp; Pitch →
+            </button>
+
+            <p class="sk-ls-trust">
+              Reviewed within one business day · Zero obligation · Your
+              workflow data stays confidential
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
+    <!-- ==================== DROP-IN END ==================== -->
+  </body>
+</html>

@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Automation for Contractors & Crews | SK ShiftControl</title>
+    <meta
+      name="description"
+      content="A voice/text AI assistant on your field software: books emergency jobs onto a live dispatch map, texts invoices, and chases quotes — so your evenings come back. Watch the live simulation."
+    />
+    <meta name="theme-color" content="#fafaf8" />
+    <link rel="canonical" href="https://skshiftcontrol.com/trades.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://skshiftcontrol.com/trades.html" />
+    <meta property="og:title" content="AI Automation for Contractors & Crews | SK ShiftControl" />
+    <meta property="og:description" content="You didn't start a business to do paperwork at 11 PM. Watch the dispatch agent take the call." />
+    <meta property="og:image" content="https://skshiftcontrol.com/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/png" href="logo.png" />
+    <link rel="stylesheet" href="styles.css" />
+    <script>
+      document.documentElement.classList.replace("no-js", "js");
+    </script>
+    <script src="script.js" defer></script>
+    <script src="demos.js" defer></script>
+  </head>
+  <body class="theme-light">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-nav" id="site-nav">
+      <div class="container">
+        <a href="index.html" class="logo-link" aria-label="SK ShiftControl — Home">
+          <img src="logo.png" alt="SK ShiftControl" class="logo" id="logo" width="168" height="160" />
+          <span class="fallback-logo" id="fallback-logo" aria-hidden="true">SK <span>ShiftControl</span></span>
+        </a>
+        <nav class="nav-links nav-links--persist" aria-label="Primary">
+          <a href="index.html">Home</a>
+          <a href="index.html#industries">All Industries</a>
+          <a href="index.html#book" class="nav-cta">Book the Systems Audit</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- HERO -->
+      <section class="hero vertical-hero">
+        <div class="container">
+          <div class="hero-content">
+            <div class="hero-badge">
+              <span class="status-dot" aria-hidden="true"></span>
+              IND 06 // Trades &amp; Field Services
+            </div>
+            <h1>You Didn't Start a Business to Do Paperwork at 11 PM.</h1>
+            <p class="hero-lede">
+              Every smart contractor knows that the late-night invoice chase
+              creates massive friction after a heavy day in the field. Before
+              you spend another evening on dispatch notes and job scheduling,
+              our systems easily take over your quote follow-ups, because
+              anchoring your back-office to an automated pipeline naturally
+              gives you your personal time back.
+            </p>
+            <div class="hero-actions">
+              <a href="index.html#book" class="cta-button">Book the Systems Audit</a>
+              <a href="#demo" class="ghost-button">Watch the agent work ↓</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- LIVE SIMULATION -->
+      <section class="section slab" id="demo">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">// Live Simulation</span>
+            <h2>An Emergency Call Comes In. You're Still on the Roof.</h2>
+            <p class="section-lede">
+              The agent answers, books the job, dispatches the nearest tech,
+              and texts the invoice — while your hands stay on the work.
+            </p>
+          </div>
+          <div class="console reveal" id="demo-trades">
+            <div class="console-head">
+              <div class="console-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+              <span class="console-title">Dispatch Command — Field Ops</span>
+              <span class="console-sim">Live Simulation // Sample Data</span>
+            </div>
+            <div class="console-body">
+              <div>
+                <div class="console-col-label">Live Dispatch Map</div>
+                <div class="dmap">
+                  <svg viewBox="0 0 300 260" role="img" aria-label="Simulated dispatch map">
+                    <path class="street" d="M0 40h300M0 100h300M0 160h300M0 220h300M50 0v260M120 0v260M190 0v260M260 0v260" />
+                    <circle class="tech" cx="70" cy="210" r="6" />
+                    <circle class="tech" cx="245" cy="60" r="6" />
+                    <circle class="tech-ring" data-tech-ring cx="120" cy="160" r="8" />
+                    <circle class="tech" data-tech-active cx="120" cy="160" r="6" />
+                    <path class="route" d="M120 160 L190 160 L190 100 L228 100" />
+                    <g class="job-pin">
+                      <circle cx="228" cy="100" r="7" />
+                      <circle cx="228" cy="100" r="13" fill="none" stroke="rgba(255,68,68,.5)" stroke-width="1.5" />
+                    </g>
+                  </svg>
+                </div>
+                <div class="stat-rail" style="margin-top: 12px">
+                  <div class="stat-tile"><div class="stat-label">Tech ETA</div><div class="stat-value" data-stat-eta>—</div></div>
+                  <div class="stat-tile"><div class="stat-label">Invoice</div><div class="stat-value" data-stat-invoice>—</div></div>
+                </div>
+              </div>
+              <div>
+                <div class="console-col-label">Incoming Call — Transcribed</div>
+                <div class="feed">
+                  <div class="feed-line"><span class="t">14:12</span>☎ "Our AC just died and we've got a newborn — can anyone come today? We're near Maple &amp; 5th."</div>
+                  <div class="feed-line"><span class="t">14:12</span><span class="ok">→ Job created</span> — HVAC · EMERGENCY · Maple &amp; 5th</div>
+                  <div class="feed-line"><span class="t">14:12</span><span class="warn">● Priority: same-day</span> — customer confirmed by text</div>
+                  <div class="feed-line"><span class="t">14:13</span><span class="ok">→ Nearest tech matched</span> — D. Reyes, 2.1 mi, finishing current job</div>
+                  <div class="feed-line"><span class="t">14:13</span><span class="ok">✓ Dispatched</span> — route pushed to phone, customer got ETA text</div>
+                  <div class="feed-line"><span class="t">16:41</span><span class="ok">✓ Job closed</span> — invoice texted, quote follow-up scheduled</div>
+                </div>
+              </div>
+              <div>
+                <div class="console-col-label">Back Office</div>
+                <div class="stat-rail">
+                  <div class="stat-tile"><div class="stat-label">Calls Missed</div><div class="stat-value">0</div></div>
+                  <div class="stat-tile"><div class="stat-label">Dispatch Notes Written By You</div><div class="stat-value">0</div></div>
+                  <div class="stat-tile"><div class="stat-label">Your Evening</div><div class="stat-value glow">Yours</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- WHAT WE DEPLOY -->
+      <section class="section" id="deploy">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">// What We Deploy</span>
+            <h2>The System Behind the Simulation.</h2>
+          </div>
+          <div class="deploy-list reveal">
+            <div class="deploy-row">
+              <div class="deploy-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.7 2z"/></svg>
+              </div>
+              <div>
+                <h3>A voice/text assistant that answers every call</h3>
+                <p>
+                  Wired directly into Jobber/Housecall Pro-class field
+                  software. It speaks with incoming customers, qualifies the
+                  job, and books it — including the emergency that calls while
+                  you're elbow-deep in a unit.
+                </p>
+              </div>
+            </div>
+            <div class="deploy-row">
+              <div class="deploy-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              </div>
+              <div>
+                <h3>Live digital dispatch — nearest tech, routed</h3>
+                <p>
+                  Emergency repairs land on a live dispatch map; the closest
+                  available technician gets the route pushed to their phone,
+                  and the customer gets an honest ETA by text.
+                </p>
+              </div>
+            </div>
+            <div class="deploy-row">
+              <div class="deploy-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h4"/></svg>
+              </div>
+              <div>
+                <h3>Invoices texted, quotes chased — automatically</h3>
+                <p>
+                  Professional invoices go out by text the moment a job
+                  closes, and every open quote gets followed up on a cadence —
+                  the late-night paperwork shift, deleted from your life.
+                </p>
+              </div>
+            </div>
+          </div>
+          <p class="stack-note">
+            Integrates with Jobber, Housecall Pro, and the phone stack you
+            already run — mapped in the audit.
+          </p>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="section slab" id="cta">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">// Deployment Begins Here</span>
+            <h2>Thirty Minutes. A Map of Every After-Hours Leak.</h2>
+            <p class="section-lede">
+              Book the Systems Audit because the map of your operational leaks
+              is yours to keep — either way.
+            </p>
+          </div>
+          <div class="hero-actions reveal">
+            <a href="index.html#book" class="cta-button">Book the Systems Audit</a>
+            <a href="index.html#callback" class="ghost-button">Request an instant callback</a>
+          </div>
+          <div class="sibling-row reveal">
+            <a class="sibling-chip" href="venues.html">Venues &amp; Retail →</a>
+            <a class="sibling-chip" href="legal.html">Law Firms →</a>
+            <a class="sibling-chip" href="medical.html">Clinics &amp; Practices →</a>
+            <a class="sibling-chip" href="realestate.html">Real Estate →</a>
+            <a class="sibling-chip" href="ecommerce.html">E-commerce →</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-brand">
+            <div class="fallback-logo">SK <span>ShiftControl</span></div>
+            <p>Advanced AI agents for operators who intend to stay ahead.</p>
+          </div>
+          <nav class="footer-links" aria-label="Site">
+            <a href="index.html">Home</a>
+            <a href="index.html#industries">All Industries</a>
+            <a href="index.html#book">Book the Systems Audit</a>
+          </nav>
+        </div>
+      </div>
+      <div class="footer-bottom">&copy; 2026 SK ShiftControl. All rights reserved.</div>
+    </footer>
+  </body>
+</html>

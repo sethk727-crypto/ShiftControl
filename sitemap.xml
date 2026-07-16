@@ -12,4 +12,20 @@
     <loc>https://skshiftcontrol.com/venues.html</loc>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://skshiftcontrol.com/medical.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://skshiftcontrol.com/realestate.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://skshiftcontrol.com/ecommerce.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://skshiftcontrol.com/trades.html</loc>
+    <priority>0.8</priority>
+  </url>
 </urlset>

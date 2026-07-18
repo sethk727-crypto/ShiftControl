@@ -36,8 +36,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid request." }, { status: 400 });
   }
 
-  const { email, password } = parsed.data;
-  const user = await prisma.user.findUnique({ where: { email } });
+  const { identifier, password } = parsed.data;
+  const user = identifier.includes("@")
+    ? await prisma.user.findUnique({ where: { email: identifier } })
+    : await prisma.user.findUnique({ where: { username: identifier } });
 
   // Constant-shape failure: same message whether the user exists or not,
   // and bcrypt always runs so timing doesn't leak account existence.

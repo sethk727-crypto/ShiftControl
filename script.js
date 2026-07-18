@@ -483,7 +483,7 @@
       { group: "Actions", label: "Book the Systems Audit", href: prefix + "#book", hint: "30 min" },
       { group: "Actions", label: "Request an Instant Callback", href: prefix + "#callback" },
       { group: "Actions", label: "Call the Direct Hotline", href: "tel:+12674554075", hint: "(267) 455-4075" },
-      { group: "Actions", label: "Client Login — Portal", href: "https://portal.skshiftcontrol.com/login", hint: "portal" },
+      { group: "Actions", label: "Client Login — Portal", href: "client-login.html", hint: "portal" },
     ];
 
     paletteOverlay = document.createElement("div");

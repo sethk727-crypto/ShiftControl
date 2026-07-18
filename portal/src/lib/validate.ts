@@ -1,9 +1,28 @@
 import { z } from "zod";
 
+/** Sign-in accepts an email address OR a username. */
 export const loginSchema = z.object({
-  email: z.string().trim().toLowerCase().email().max(254),
+  identifier: z
+    .string()
+    .trim()
+    .toLowerCase()
+    .min(3)
+    .max(254)
+    .refine(
+      (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) || /^[a-z0-9._-]{3,32}$/.test(v),
+      "Enter a valid email or username",
+    ),
   password: z.string().min(1).max(200),
 });
+
+export const usernameSchema = z
+  .string()
+  .trim()
+  .toLowerCase()
+  .regex(
+    /^[a-z0-9._-]{3,32}$/,
+    "Username must be 3–32 characters: letters, numbers, dots, dashes",
+  );
 
 export const createClientSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(120),

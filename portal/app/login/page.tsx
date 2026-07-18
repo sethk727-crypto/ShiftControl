@@ -7,7 +7,7 @@ import { Button, Card, ErrorBanner, Input, Label } from "@/src/components/ui";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -19,8 +19,9 @@ export default function LoginPage() {
 
   function validate(): boolean {
     const next: typeof fieldErrors = {};
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-      next.email = "Enter a valid email address.";
+    const id = identifier.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(id) && !/^[A-Za-z0-9._-]{3,32}$/.test(id)) {
+      next.email = "Enter a valid email or username.";
     }
     if (password.length === 0) {
       next.password = "Password is required.";
@@ -38,7 +39,7 @@ export default function LoginPage() {
       const res = await fetch("/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email.trim(), password }),
+        body: JSON.stringify({ identifier: identifier.trim(), password }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
@@ -79,14 +80,14 @@ export default function LoginPage() {
             <ErrorBanner message={error} />
 
             <div>
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">Email or Username</Label>
               <Input
                 id="email"
-                type="email"
-                autoComplete="email"
-                placeholder="you@company.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                type="text"
+                autoComplete="username"
+                placeholder="you@company.com or username"
+                value={identifier}
+                onChange={(e) => setIdentifier(e.target.value)}
                 aria-invalid={!!fieldErrors.email}
               />
               {fieldErrors.email && (

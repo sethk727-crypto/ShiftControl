@@ -1,0 +1,5 @@
+Contact: mailto:secure@skshiftcontrol.com
+Contact: tel:+1-267-455-4075
+Preferred-Languages: en
+Policy: https://skshiftcontrol.com/#faq
+Expires: 2027-07-01T00:00:00.000Z

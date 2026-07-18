@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Client Login | SK ShiftControl</title>
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#030303" />
+    <link rel="icon" type="image/png" href="logo.png" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="stylesheet" href="styles.css" />
+    <script>
+      document.documentElement.classList.replace("no-js", "js");
+    </script>
+  </head>
+  <body class="theme-light">
+    <main class="login-split">
+      <!-- Brand panel -->
+      <section class="login-brand" aria-label="SK ShiftControl">
+        <a href="index.html" aria-label="Back to SK ShiftControl home">
+          <img src="logo.png" alt="SK ShiftControl" class="logo" width="168" height="160" />
+        </a>
+        <h1>The Portal Behind Your Deployment.</h1>
+        <p>
+          Every client gets a secure, personal dashboard — your active
+          services, your systems, your numbers. Credentials are issued when
+          your deployment goes live.
+        </p>
+        <span class="login-status">
+          <span class="ping-dot" aria-hidden="true"><span class="ping"></span></span>
+          Systems Online
+        </span>
+      </section>
+
+      <!-- Form panel -->
+      <section class="login-form-side" aria-label="Sign in">
+        <div class="login-card">
+          <h2>Sign in</h2>
+          <p class="login-sub">Use the credentials issued with your deployment.</p>
+
+          <div
+            id="login-notice"
+            class="notice-banner notice-banner--warn"
+            role="status"
+            hidden
+          ></div>
+
+          <form id="login-form" novalidate>
+            <div class="field">
+              <label for="lf-id">Email or Username</label>
+              <input
+                type="text"
+                id="lf-id"
+                name="identifier"
+                autocomplete="username"
+                placeholder="you@company.com or username"
+                required
+              />
+              <p class="field-error" id="lf-id-err" hidden></p>
+            </div>
+
+            <div class="field">
+              <label for="lf-pw">Password</label>
+              <div class="pw-wrap">
+                <input
+                  type="password"
+                  id="lf-pw"
+                  name="password"
+                  autocomplete="current-password"
+                  placeholder="••••••••••••"
+                  required
+                  style="padding-right: 48px"
+                />
+                <button type="button" class="pw-toggle" id="lf-toggle" aria-label="Show password">
+                  <svg id="lf-eye" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+              <p class="caps-note" id="lf-caps">CAPS LOCK IS ON</p>
+              <p class="field-error" id="lf-pw-err" hidden></p>
+            </div>
+
+            <button type="submit" class="cta-button cta-button--block" id="lf-submit">
+              Sign in
+            </button>
+          </form>
+
+          <p class="login-foot">
+            Accounts are provisioned by SK ShiftControl.<br />
+            Lost access or need in now? Call
+            <a href="tel:+12674554075">(267) 455-4075</a>
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      (() => {
+        "use strict";
+        // ============================================================
+        // PORTAL_URL — set this to your deployed portal origin, e.g.
+        //   const PORTAL_URL = "https://portal.YOURDOMAIN.com";
+        // While empty, submissions are NOT sent anywhere; the form
+        // shows an honest provisioning notice instead.
+        // ============================================================
+        const PORTAL_URL = "";
+
+        // Once the portal is live, this page hands off to its login
+        if (PORTAL_URL) {
+          window.location.replace(PORTAL_URL.replace(/\/$/, "") + "/login");
+          return;
+        }
+
+        const form = document.getElementById("login-form");
+        const idInput = document.getElementById("lf-id");
+        const pwInput = document.getElementById("lf-pw");
+        const idErr = document.getElementById("lf-id-err");
+        const pwErr = document.getElementById("lf-pw-err");
+        const notice = document.getElementById("login-notice");
+        const toggle = document.getElementById("lf-toggle");
+        const caps = document.getElementById("lf-caps");
+
+        // Remember the identifier (never the password)
+        try {
+          const saved = localStorage.getItem("sk_login_id");
+          if (saved) idInput.value = saved;
+        } catch {}
+
+        toggle.addEventListener("click", () => {
+          const show = pwInput.type === "password";
+          pwInput.type = show ? "text" : "password";
+          toggle.setAttribute("aria-label", show ? "Hide password" : "Show password");
+        });
+
+        pwInput.addEventListener("keyup", (e) => {
+          if (typeof e.getModifierState === "function") {
+            caps.classList.toggle("on", e.getModifierState("CapsLock"));
+          }
+        });
+        pwInput.addEventListener("blur", () => caps.classList.remove("on"));
+
+        function setErr(el, msg) {
+          el.textContent = msg || "";
+          el.hidden = !msg;
+        }
+
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const id = idInput.value.trim();
+          const pw = pwInput.value;
+          let ok = true;
+
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(id) && !/^[A-Za-z0-9._-]{3,32}$/.test(id)) {
+            setErr(idErr, "Enter a valid email or username.");
+            ok = false;
+          } else setErr(idErr, "");
+
+          if (!pw) {
+            setErr(pwErr, "Password is required.");
+            ok = false;
+          } else setErr(pwErr, "");
+
+          if (!ok) return;
+
+          try {
+            localStorage.setItem("sk_login_id", id);
+          } catch {}
+
+          // No backend configured yet — nothing is transmitted.
+          notice.innerHTML =
+            "The portal backend is being brought online — your credentials " +
+            "will work here the moment it is. Need access today? Call " +
+            '<a href="tel:+12674554075" style="font-weight:700">(267) 455-4075</a> — direct line.';
+          notice.hidden = false;
+          notice.focus?.();
+        });
+      })();
+    </script>
+  </body>
+</html>

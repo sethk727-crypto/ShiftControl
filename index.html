@@ -121,6 +121,7 @@
     </script>
 
     <link rel="icon" type="image/png" href="logo.png" />
+    <link rel="manifest" href="manifest.json" />
     <link rel="apple-touch-icon" href="logo.png" />
     <link rel="stylesheet" href="styles.css" />
     <script>
@@ -156,7 +157,7 @@
           <!-- INTERIM: points at client-login.html until the portal app is
                deployed — then swap all four links (nav, mobile menu, footer,
                palette in script.js) to the live portal URL -->
-          <a href="client-login.html">Client Login</a>
+          <a href="login.html">Client Login</a>
           <a href="tel:+12674554075" class="nav-hotline">
             <span class="ping-dot" aria-hidden="true"><span class="ping"></span></span>
             Direct Hotline: (267) 455-4075
@@ -200,7 +201,7 @@
         >
 
         <div class="sub-links">
-          <a href="client-login.html">Client Login</a>
+          <a href="login.html">Client Login</a>
           <a href="tel:+12674554075">Direct Hotline: (267) 455-4075</a>
           <a href="venues.html">ShiftControl for Venues</a>
           <a href="#" data-modal-open="modal-privacy" data-menu-link
@@ -1341,7 +1342,7 @@
             </p>
           </div>
           <nav class="footer-links" aria-label="Legal">
-            <a href="client-login.html">Client Login</a>
+            <a href="login.html">Client Login</a>
             <a href="#" data-modal-open="modal-privacy">Privacy Protocol</a>
             <a href="#" data-modal-open="modal-terms">Terms of Service</a>
             <a href="#" data-modal-open="modal-status">System Status</a>
@@ -1352,6 +1353,25 @@
         &copy; 2026 SK ShiftControl. All rights reserved.
       </div>
     </footer>
+
+    <!-- EXIT-INTENT — once per session, desktop only -->
+    <div class="modal-overlay exit-modal" id="modal-exit" role="dialog" aria-modal="true" aria-labelledby="exit-title">
+      <div class="modal-container">
+        <button class="modal-close" data-modal-close aria-label="Close dialog">×</button>
+        <div class="modal-body">
+          <h2 id="exit-title">Before You Go — Take the Map.</h2>
+          <p>
+            The Operations Leak Checklist locates the manual processes
+            silently taxing your margin. One email, no spam — because leaving
+            with the map beats leaving empty-handed.
+          </p>
+          <div class="hero-actions" style="justify-content:center; margin-top:1.5rem">
+            <a href="#checklist-form" class="cta-button" data-modal-close>Get the Checklist</a>
+            <button class="ghost-button" data-modal-close type="button">No thanks</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- MOBILE CTA DOCK -->
     <div class="cta-dock" id="cta-dock" aria-hidden="true">

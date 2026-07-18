@@ -483,7 +483,7 @@
       { group: "Actions", label: "Book the Systems Audit", href: prefix + "#book", hint: "30 min" },
       { group: "Actions", label: "Request an Instant Callback", href: prefix + "#callback" },
       { group: "Actions", label: "Call the Direct Hotline", href: "tel:+12674554075", hint: "(267) 455-4075" },
-      { group: "Actions", label: "Client Login — Portal", href: "client-login.html", hint: "portal" },
+      { group: "Actions", label: "Client Login — Portal", href: "login.html", hint: "portal" },
     ];
 
     paletteOverlay = document.createElement("div");
@@ -638,6 +638,29 @@
         { threshold: 0.15 },
       ).observe(bookSection);
     }
+  }
+
+  /* ------------------------------------------------------------------
+     EXIT-INTENT — one tasteful checklist offer per session (desktop)
+     ------------------------------------------------------------------ */
+  const exitModal = document.getElementById("modal-exit");
+  if (exitModal && window.matchMedia("(min-width: 901px)").matches) {
+    let armed = true;
+    try {
+      if (sessionStorage.getItem("sk_exit_shown")) armed = false;
+    } catch {}
+    document.addEventListener("mouseout", (e) => {
+      if (!armed) return;
+      if (e.relatedTarget || e.clientY > 24) return;
+      if (document.querySelector(".modal-overlay.active, .pal-overlay.active"))
+        return;
+      armed = false;
+      try {
+        sessionStorage.setItem("sk_exit_shown", "1");
+      } catch {}
+      exitModal.classList.add("active");
+      document.body.style.overflow = "hidden";
+    });
   }
 
   /* ------------------------------------------------------------------

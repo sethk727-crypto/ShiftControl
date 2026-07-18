@@ -3991,3 +3991,225 @@ h3 {
   font-size: 0.68rem;
   color: var(--lt-ink-faint);
 }
+
+/* ==========================================================================
+   LOGIN PAGE — split-panel portal entrance
+   ========================================================================== */
+.login-split {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.login-brand {
+  background: var(--obsidian);
+  color: var(--platinum);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(2rem, 1.5rem + 3vw, 5rem);
+  position: relative;
+  overflow: hidden;
+}
+
+.login-brand::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(0, 255, 102, 0.12), transparent 65%),
+    linear-gradient(var(--border-glass) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border-glass) 1px, transparent 1px);
+  background-size: 100% 100%, 64px 64px, 64px 64px;
+  pointer-events: none;
+}
+
+.login-brand > * {
+  position: relative;
+}
+
+.login-brand .logo {
+  height: 56px;
+  border-radius: 12px;
+  margin-bottom: var(--space-8);
+}
+
+.login-brand h1 {
+  font-size: var(--text-2xl);
+  margin-bottom: var(--space-4);
+}
+
+.login-brand p {
+  color: var(--text-muted);
+  max-width: 40ch;
+  line-height: var(--leading-body);
+}
+
+.login-brand .login-status {
+  margin-top: var(--space-10);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.login-form-side {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: clamp(2rem, 1.5rem + 3vw, 5rem) var(--space-6);
+}
+
+.login-card {
+  width: min(100%, 400px);
+}
+
+.login-card h2 {
+  font-size: var(--text-xl);
+  color: var(--lt-ink);
+  margin-bottom: var(--space-2);
+}
+
+.login-card .login-sub {
+  color: var(--lt-ink-muted);
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-6);
+}
+
+.field {
+  margin-bottom: var(--space-5);
+}
+
+.field label {
+  display: block;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--lt-ink);
+  margin-bottom: var(--space-2);
+}
+
+.field input {
+  width: 100%;
+  background: var(--lt-tint);
+  border: 1px solid var(--lt-line-strong);
+  color: var(--lt-ink);
+  padding: 14px 16px;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  border-radius: var(--radius-sm);
+  transition: var(--transition-smooth);
+}
+
+.field input:focus {
+  outline: none;
+  background: var(--lt-raised);
+  border-color: var(--lt-accent-deep);
+  box-shadow: 0 0 0 3px rgba(6, 118, 71, 0.14);
+}
+
+.field .pw-wrap {
+  position: relative;
+}
+
+.field .pw-toggle {
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--lt-ink-faint);
+}
+
+.field .pw-toggle:hover {
+  color: var(--lt-ink);
+}
+
+.field .pw-toggle svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+}
+
+.field-error {
+  margin-top: var(--space-1);
+  font-size: var(--text-xs);
+  color: #b42318;
+}
+
+.notice-banner {
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm);
+  line-height: 1.55;
+  margin-bottom: var(--space-5);
+}
+
+.notice-banner--info {
+  background: rgba(0, 230, 92, 0.08);
+  border: 1px solid rgba(6, 118, 71, 0.3);
+  color: var(--lt-ink);
+}
+
+.notice-banner--warn {
+  background: rgba(255, 176, 32, 0.1);
+  border: 1px solid rgba(180, 120, 0, 0.35);
+  color: var(--lt-ink);
+}
+
+.caps-note {
+  display: none;
+  margin-top: var(--space-1);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: #8a6d00;
+}
+
+.caps-note.on {
+  display: block;
+}
+
+.login-foot {
+  margin-top: var(--space-6);
+  text-align: center;
+  font-size: var(--text-xs);
+  color: var(--lt-ink-faint);
+}
+
+.login-foot a {
+  color: var(--lt-accent-deep);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+@media (max-width: 860px) {
+  .login-split {
+    grid-template-columns: 1fr;
+  }
+
+  .login-brand {
+    min-height: 34vh;
+    padding: var(--space-8) var(--space-6);
+  }
+}
+
+/* ---- Exit-intent capture ---- */
+.exit-modal .modal-container {
+  max-width: 520px;
+  text-align: center;
+}
+
+.exit-modal h2 {
+  border: none !important;
+  margin-bottom: var(--space-3) !important;
+  padding-bottom: 0 !important;
+}

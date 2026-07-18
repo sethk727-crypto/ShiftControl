@@ -20,6 +20,11 @@ app.use(
   })
 );
 
+// security.txt (express.static ignores dotfile paths by default)
+app.get(['/.well-known/security.txt', '/security.txt'], (req, res) => {
+  res.type('text/plain').sendFile(path.join(__dirname, 'security.txt'));
+});
+
 // Branded 404 for any route the static handler didn't resolve
 app.use((req, res) => {
   res.status(404).sendFile(path.join(__dirname, '404.html'));

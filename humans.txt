@@ -1,0 +1,8 @@
+/* TEAM */
+Founder & Systems Architect: Seth K
+Site: SK ShiftControl — Advanced AI Agents for Operators
+Contact: (267) 455-4075
+
+/* SITE */
+Stack: Hand-built HTML/CSS/JS design system. No frameworks, no build step.
+Standards: Semantic HTML5, WCAG-conscious, reduced-motion aware.

@@ -482,7 +482,7 @@
       { group: "Pages", label: "Contractors & Crews — Dispatch Demo", href: "trades.html" },
       { group: "Actions", label: "Book the Systems Audit", href: prefix + "#book", hint: "30 min" },
       { group: "Actions", label: "Request an Instant Callback", href: prefix + "#callback" },
-      { group: "Actions", label: "Call the Direct Hotline", href: "tel:+15550198472", hint: "(555) 019-8472" },
+      { group: "Actions", label: "Call the Direct Hotline", href: "tel:+12674554075", hint: "(267) 455-4075" },
     ];
 
     paletteOverlay = document.createElement("div");

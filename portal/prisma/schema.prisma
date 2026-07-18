@@ -1,0 +1,21 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Dev runs on SQLite. For production Postgres:
+//   provider = "postgresql"  and set DATABASE_URL accordingly.
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String   @id @default(cuid())
+  name           String
+  email          String   @unique
+  passwordHash   String
+  role           String   @default("CLIENT") // "ADMIN" | "CLIENT"
+  serviceDetails String   @default("{}")     // JSON: what the client purchased
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}

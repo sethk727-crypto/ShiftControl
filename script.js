@@ -427,39 +427,10 @@
   });
 
   /* ==================================================================
-     LIGHT-THEME PAGE SYSTEMS — progress bar, command palette, CTA dock.
+     LIGHT-THEME PAGE SYSTEMS — command palette, CTA dock.
      Gated so the dark venues page stays byte-identical in behavior.
      ================================================================== */
   const isLightPage = document.body.classList.contains("theme-light");
-
-  /* ---- Scroll progress bar ---- */
-  let progressBar = null;
-  if (isLightPage) {
-    progressBar = document.createElement("div");
-    progressBar.className = "scroll-progress";
-    progressBar.setAttribute("aria-hidden", "true");
-    document.body.appendChild(progressBar);
-
-    let progressTicking = false;
-    const paintProgress = () => {
-      const doc = document.documentElement;
-      const max = doc.scrollHeight - window.innerHeight;
-      const ratio = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
-      progressBar.style.transform = `scaleX(${ratio})`;
-      progressTicking = false;
-    };
-    window.addEventListener(
-      "scroll",
-      () => {
-        if (!progressTicking) {
-          progressTicking = true;
-          requestAnimationFrame(paintProgress);
-        }
-      },
-      { passive: true },
-    );
-    paintProgress();
-  }
 
   /* ---- Command palette (⌘K / Ctrl+K) ---- */
   let paletteOverlay = null;
@@ -639,29 +610,6 @@
         { threshold: 0.15 },
       ).observe(bookSection);
     }
-  }
-
-  /* ------------------------------------------------------------------
-     EXIT-INTENT — one tasteful checklist offer per session (desktop)
-     ------------------------------------------------------------------ */
-  const exitModal = document.getElementById("modal-exit");
-  if (exitModal && window.matchMedia("(min-width: 901px)").matches) {
-    let armed = true;
-    try {
-      if (sessionStorage.getItem("sk_exit_shown")) armed = false;
-    } catch {}
-    document.addEventListener("mouseout", (e) => {
-      if (!armed) return;
-      if (e.relatedTarget || e.clientY > 24) return;
-      if (document.querySelector(".modal-overlay.active, .pal-overlay.active"))
-        return;
-      armed = false;
-      try {
-        sessionStorage.setItem("sk_exit_shown", "1");
-      } catch {}
-      exitModal.classList.add("active");
-      document.body.style.overflow = "hidden";
-    });
   }
 
   /* ------------------------------------------------------------------

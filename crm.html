@@ -186,7 +186,7 @@
         <div><div class="lbl">Source</div><div class="vl" id="dr-src">—</div></div>
       </div>
       <a class="ghost-button" id="dr-call" href="#" style="width:100%; margin-bottom: 1rem; text-decoration:none">
-        📞 Call <span id="dr-phone">—</span>
+        Call <span id="dr-phone">—</span>
       </a>
       <label for="dr-stage">Stage</label>
       <select id="dr-stage"></select>
@@ -263,7 +263,7 @@
 
         const INDUSTRIES = {
           trades: {
-            label: "Trades & Roofing", icon: "🛠️", desc: "HVAC · Roofing · Plumbing",
+            label: "Trades & Roofing", icon: "TR", desc: "HVAC · Roofing · Plumbing",
             leads: [
               ["Tom Castellano", "Castellano Roofing", 9800, 2],
               ["Omar Haddad", "Haddad HVAC", 11100, 3],
@@ -281,7 +281,7 @@
             pool: [["Priya N.", "Northgate homeowner", 7600], ["Big Sky Property Co", "Storm damage inquiry", 18900], ["Al Fontaine", "Gutter replacement", 3400]],
           },
           legal: {
-            label: "Law Firm", icon: "⚖️", desc: "Intake · Drafting · Docketing",
+            label: "Law Firm", icon: "LF", desc: "Intake · Drafting · Docketing",
             leads: [
               ["James Okoro", "Custody modification", 24000, 1],
               ["Sandra Liu", "Estate planning", 8500, 0],
@@ -298,7 +298,7 @@
             pool: [["Referral — Hollis & Marsh", "Custody inquiry", 21000], ["Walk-in intake", "Landlord dispute", 9500], ["Web form", "Trademark filing", 6800]],
           },
           medical: {
-            label: "Clinic & Dental", icon: "🦷", desc: "Intake · Recalls · Chair-fill",
+            label: "Clinic & Dental", icon: "CL", desc: "Intake · Recalls · Chair-fill",
             leads: [
               ["Dana Whitfield", "New patient — hygiene", 1250, 2],
               ["Paul Ngata", "Implant consult", 8400, 1],
@@ -315,7 +315,7 @@
             pool: [["Waitlist patient", "Chair-fill — 1:30 opening", 420], ["Web booking", "Emergency toothache", 650], ["Recall sequence", "Overdue hygiene", 380]],
           },
           venues: {
-            label: "Venue & Retail", icon: "🍸", desc: "Loyalty · Events · Win-backs",
+            label: "Venue & Retail", icon: "VN", desc: "Loyalty · Events · Win-backs",
             leads: [
               ["Maria Reyes", "Private event — 40 guests", 8400, 1],
               ["Copper Kettle Bistro", "Catering partnership", 12000, 0],
@@ -332,7 +332,7 @@
             pool: [["Loyalty ping reply", "VIP rebooking", 240], ["Event inquiry", "Rehearsal dinner — 60", 7400], ["Win-back reply", "Lapsed regular returning", 180]],
           },
           realestate: {
-            label: "Real Estate", icon: "🏠", desc: "Speed-to-lead · Showings",
+            label: "Real Estate", icon: "RE", desc: "Speed-to-lead · Showings",
             leads: [
               ["Priya Shah", "Buyer — $650k Northside", 19500, 1],
               ["The Delgados", "Sell + buy combo", 32000, 2],
@@ -349,7 +349,7 @@
             pool: [["Zillow lead", "Pre-approved · $480k", 14400], ["Sign call", "Corner-lot inquiry", 16200], ["Portal lead", "Condo downsizer", 11800]],
           },
           ecommerce: {
-            label: "E-commerce", icon: "📦", desc: "Wholesale · Support · Reviews",
+            label: "E-commerce", icon: "EC", desc: "Wholesale · Support · Reviews",
             leads: [
               ["Leo Martins", "Wholesale — 2,000 units", 7300, 2],
               ["Bloom & Co.", "Stockist application", 5400, 1],
@@ -484,10 +484,10 @@
           document.getElementById("int-grid").innerHTML = INTEGRATIONS.map(([k, name, cat, color, mono]) => {
             const on = !!S.ints[k];
             return `<div class="int-card${on ? " is-on" : ""}">` +
-              `<span class="int-chip" style="background:${color}">${mono}</span>` +
+              `<span class="int-chip">${mono}</span>` +
               `<span class="int-body"><span class="int-name">${name}</span>` +
               `<span class="int-cat" style="display:block">${cat}</span>` +
-              (on ? `<span class="int-sync">● Synced just now</span>` : "") +
+              (on ? `<span class="int-sync">● Synced</span>` : "") +
               `</span>` +
               `<button class="int-btn${on ? " is-on" : ""}" data-int="${k}">${on ? "CONNECTED ✓" : "CONNECT"}</button></div>`;
           }).join("");
@@ -508,7 +508,7 @@
           `<button class="ind-card" data-ind="${k}"><span class="ic" aria-hidden="true">${v.icon}</span><span class="nm">${v.label}</span><span class="ds">${v.desc}</span></button>`
         ).join("");
         const indSelect = document.getElementById("crm-ind");
-        indSelect.innerHTML = Object.entries(INDUSTRIES).map(([k, v]) => `<option value="${k}">${v.icon} ${v.label}</option>`).join("");
+        indSelect.innerHTML = Object.entries(INDUSTRIES).map(([k, v]) => `<option value="${k}">${v.label}</option>`).join("");
 
         document.getElementById("ind-grid").addEventListener("click", (e) => {
           const card = e.target.closest("[data-ind]");
@@ -629,7 +629,7 @@
               lead.stage += 1;
               log(`You moved ${lead.name} to ${STAGES[lead.stage]}`);
               if (lead.stage === 2) toast("APPOINTMENT SET", `${lead.name} is on the calendar.`);
-              if (lead.stage === 3) toast("CLOSED WON", `${lead.name} — ${fmt(lead.val)} 🎉`);
+              if (lead.stage === 3) toast("CLOSED WON", `${lead.name} — ${fmt(lead.val)}.`);
               persist();
               render();
             }
@@ -675,7 +675,9 @@
           render();
         });
 
-        /* ---------------- live agent simulation ---------------- */
+        /* ---------------- live agent simulation ----------------
+           Routine agent work lands quietly in the activity feed;
+           a toast interrupts only for an appointment landing. */
         const liveBtn = document.getElementById("live-toggle");
         let liveTimer = null;
         function liveTick() {
@@ -686,7 +688,6 @@
             const [name, co, val] = ind.pool[Math.floor(Math.random() * ind.pool.length)];
             S.leads.unshift({ id: ++S.nextId, name, co, val, stage: 0, src: SOURCES[Math.floor(Math.random() * SOURCES.length)], phone: phoneFor(S.nextId) });
             log(`Agent captured a new lead — ${name} (${co})`);
-            toast("AGENT // NEW LEAD", `${name} landed in New Leads.`);
           } else if (roll < 0.8) {
             const candidates = S.leads.filter((l) => l.stage === 0 || l.stage === 1);
             if (candidates.length) {
@@ -694,7 +695,6 @@
               l.stage += 1;
               log(`Agent advanced ${l.name} to ${STAGES[l.stage]} via follow-up`);
               if (l.stage === 2) toast("AGENT // APPOINTMENT SET", `${l.name} booked automatically.`);
-              else toast("AGENT // FOLLOW-UP", `${l.name} responded — moved to Contacted.`);
             }
           } else {
             const on = INTEGRATIONS.filter(([k]) => S.ints && S.ints[k]);
@@ -702,10 +702,8 @@
               const pick = on[Math.floor(Math.random() * on.length)][1];
               const n = 20 + Math.floor(Math.random() * 240);
               log(`Agent synced ${n} records from ${pick} — zero conflicts`);
-              toast("AGENT // SYNC", `${pick}: ${n} records reconciled.`);
             } else {
               log("Agent fired the nightly follow-up sequence — no human touched a phone");
-              toast("AGENT // SEQUENCE", "Follow-ups sent to every quiet lead.");
             }
           }
           persist();
@@ -717,7 +715,7 @@
           liveBtn.classList.toggle("on", on);
           liveBtn.setAttribute("aria-pressed", String(on));
           clearInterval(liveTimer);
-          if (on) liveTimer = setInterval(liveTick, 14000);
+          if (on) liveTimer = setInterval(liveTick, 30000);
         }
         liveBtn.addEventListener("click", () => setLive(!S.live));
         setLive(S.live !== false);

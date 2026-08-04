@@ -84,6 +84,19 @@
             </button>
           </form>
 
+          <div style="display: flex; align-items: center; gap: 1rem; margin: 1.75rem 0">
+            <span style="flex: 1; height: 1px; background: var(--lt-line-strong)"></span>
+            <span style="font-family: var(--font-mono); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--lt-ink-faint); white-space: nowrap">Not a client yet?</span>
+            <span style="flex: 1; height: 1px; background: var(--lt-line-strong)"></span>
+          </div>
+
+          <button type="button" class="ghost-button" id="lf-demo" style="width: 100%">
+            Explore the live CRM demo →
+          </button>
+          <p style="margin-top: 0.5rem; text-align: center; font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.06em; color: var(--lt-ink-faint)">
+            NO SIGNUP · SAMPLE DATA · SEE THE SYSTEM WORK
+          </p>
+
           <p class="login-foot">
             Accounts are provisioned by SK ShiftControl.<br />
             Lost access or need in now? Call
@@ -142,6 +155,14 @@
           el.textContent = msg || "";
           el.hidden = !msg;
         }
+
+        // Demo access — a clearly-labeled sample workspace, no credentials
+        document.getElementById("lf-demo").addEventListener("click", () => {
+          try {
+            sessionStorage.setItem("sk_demo_session", "1");
+          } catch {}
+          window.location.href = "crm.html";
+        });
 
         form.addEventListener("submit", (e) => {
           e.preventDefault();

@@ -93,6 +93,9 @@
           <button type="button" class="ghost-button" id="lf-demo" style="width: 100%">
             Explore the live CRM demo →
           </button>
+          <p class="demo-creds">
+            or sign in with <code>demo</code> / <code>shiftcontrol</code>
+          </p>
           <p style="margin-top: 0.5rem; text-align: center; font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.06em; color: var(--lt-ink-faint)">
             NO SIGNUP · SAMPLE DATA · SEE THE SYSTEM WORK
           </p>
@@ -186,10 +189,22 @@
             localStorage.setItem("sk_login_id", id);
           } catch {}
 
-          // No backend configured yet — nothing is transmitted.
+          // Demo account — public credentials, printed on this page.
+          // Grants access to the sample workspace only.
+          if (id.toLowerCase() === "demo" && pw === "shiftcontrol") {
+            try {
+              sessionStorage.setItem("sk_demo_session", "1");
+            } catch {}
+            window.location.href = "crm.html";
+            return;
+          }
+
+          // All other credentials belong to the portal backend, which
+          // isn't deployed yet — nothing is transmitted from here.
           notice.innerHTML =
-            "The portal backend is being brought online — your credentials " +
-            "will work here the moment it is. Need access today? Call " +
+            "Client &amp; owner sign-in comes online with the portal backend " +
+            "(deploying soon). Want to see the system right now? Use the demo " +
+            "access below, or call " +
             '<a href="tel:+12674554075" style="font-weight:700">(267) 455-4075</a> — direct line.';
           notice.hidden = false;
           notice.focus?.();

@@ -55,11 +55,14 @@
         <div class="crm-topbar">
           <h1 id="crm-title">Dashboard</h1>
           <span class="crm-demo-badge">Demo Environment // Sample Data</span>
+          <select class="crm-ind-select" id="crm-ind" aria-label="Switch business type"></select>
+          <button class="live-toggle on" id="live-toggle" type="button" aria-pressed="true">
+            <span class="dot" aria-hidden="true"></span> LIVE AGENT
+          </button>
           <input class="crm-search" id="crm-search" type="search" placeholder="Search leads…" aria-label="Search leads" />
           <button class="cta-button" id="crm-add" style="padding: 10px 18px; font-size: 0.9rem">+ Add Lead</button>
         </div>
 
-        <!-- Stats (always visible) -->
         <div class="crm-stats" aria-live="polite">
           <div class="crm-stat"><div class="lbl">Active Leads</div><div class="val" id="st-leads">—</div></div>
           <div class="crm-stat"><div class="lbl">Appointments Set</div><div class="val" id="st-appts">—</div></div>
@@ -67,26 +70,32 @@
           <div class="crm-stat"><div class="lbl">Avg. First Response</div><div class="val em">8.4s</div></div>
         </div>
 
-        <!-- DASHBOARD VIEW -->
+        <!-- DASHBOARD -->
         <section class="crm-view on" id="view-dash">
           <div class="crm-grid2">
-            <div class="crm-panel">
-              <h3>Pipeline Snapshot</h3>
-              <div class="kb kb--snapshot" id="kb-dash"></div>
+            <div>
+              <div class="crm-panel" style="margin-bottom: 1rem">
+                <h3>Pipeline by Stage</h3>
+                <div class="chart" id="chart"></div>
+              </div>
+              <div class="crm-panel">
+                <h3>Pipeline Snapshot</h3>
+                <div class="kb kb--snapshot" id="kb-dash"></div>
+              </div>
             </div>
             <div class="crm-panel">
-              <h3>Activity Feed</h3>
+              <h3>Activity Feed — the agent at work</h3>
               <div id="act-feed"></div>
             </div>
           </div>
         </section>
 
-        <!-- PIPELINE VIEW -->
+        <!-- PIPELINE -->
         <section class="crm-view" id="view-pipe">
           <div class="kb" id="kb-full"></div>
         </section>
 
-        <!-- CONTACTS VIEW -->
+        <!-- CONTACTS -->
         <section class="crm-view" id="view-contacts">
           <div class="table-scroll">
             <table class="crm-table">
@@ -96,7 +105,7 @@
           </div>
         </section>
 
-        <!-- APPOINTMENTS VIEW -->
+        <!-- APPOINTMENTS -->
         <section class="crm-view" id="view-appts">
           <div class="crm-panel">
             <h3>Upcoming — Set by the Agent</h3>
@@ -110,6 +119,32 @@
         </section>
       </main>
     </div>
+
+    <!-- INDUSTRY PICKER (first entry) -->
+    <div class="ind-overlay" id="ind-overlay" hidden>
+      <div class="ind-box">
+        <span class="crm-demo-badge">Demo Environment // Sample Data</span>
+        <h2 style="margin-top: 1rem">What kind of business do you run?</h2>
+        <p>The workspace seeds itself with a sample floor that looks like yours. Switch any time from the top bar.</p>
+        <div class="ind-grid" id="ind-grid"></div>
+      </div>
+    </div>
+
+    <!-- LEAD DRAWER -->
+    <aside class="drawer" id="drawer" aria-label="Lead details">
+      <button class="drawer-close" id="drawer-close" aria-label="Close details">×</button>
+      <h2 id="dr-name">—</h2>
+      <div class="co" id="dr-co">—</div>
+      <div class="meta">
+        <div><div class="lbl">Value</div><div class="vl" id="dr-val">—</div></div>
+        <div><div class="lbl">Source</div><div class="vl" id="dr-src">—</div></div>
+      </div>
+      <label for="dr-stage">Stage</label>
+      <select id="dr-stage"></select>
+      <label for="dr-notes">Notes</label>
+      <textarea id="dr-notes" placeholder="Notes save automatically in this demo session…"></textarea>
+      <button class="cta-button cta-button--block" id="dr-save" type="button">Save &amp; Close</button>
+    </aside>
 
     <!-- ADD LEAD MODAL -->
     <div class="modal-overlay" id="modal-lead" role="dialog" aria-modal="true" aria-labelledby="ml-title">
@@ -127,111 +162,245 @@
       </div>
     </div>
 
+    <div class="toast-rack" id="toasts" aria-live="polite"></div>
+
     <script>
       (() => {
         "use strict";
         const STAGES = ["New Leads", "Contacted", "Appointment Set", "Closed Won"];
-        const SEED = [
-          { id: 1, name: "Maria Reyes", co: "Copper Kettle Bistro", ind: "Hospitality", val: 8400, stage: 0 },
-          { id: 2, name: "James Okoro", co: "Okoro & Finch LLP", ind: "Legal", val: 24000, stage: 1 },
-          { id: 3, name: "Dana Whitfield", co: "Brightsmile Dental", ind: "Medical", val: 12500, stage: 1 },
-          { id: 4, name: "Tom Castellano", co: "Castellano Roofing", ind: "Trades", val: 9800, stage: 2 },
-          { id: 5, name: "Priya Shah", co: "Shah Realty Group", ind: "Real Estate", val: 15200, stage: 0 },
-          { id: 6, name: "Leo Martins", co: "Northside Provisions", ind: "E-commerce", val: 7300, stage: 2 },
-          { id: 7, name: "Grace Lindqvist", co: "Lindqvist Interiors", ind: "Retail", val: 5600, stage: 3 },
-          { id: 8, name: "Omar Haddad", co: "Haddad HVAC", ind: "Trades", val: 11100, stage: 3 },
-        ];
-        const APPTS = [
-          ["Tomorrow · 10:15 AM", "Tom Castellano", "Castellano Roofing", "Systems Audit"],
-          ["Tomorrow · 2:30 PM", "Leo Martins", "Northside Provisions", "Deployment Review"],
-          ["Thursday · 9:00 AM", "Dana Whitfield", "Brightsmile Dental", "Systems Audit"],
-        ];
+        const SOURCES = ["Website form", "Missed-call text-back", "Google LSA", "Referral", "Inbound call"];
 
-        let leads;
-        try {
-          leads = JSON.parse(sessionStorage.getItem("sk_crm_leads")) || SEED;
-        } catch { leads = SEED; }
-        let activity;
-        try {
-          activity = JSON.parse(sessionStorage.getItem("sk_crm_activity")) || [
-            ["09:14", "Agent parsed a new inbound inquiry — routed to pipeline"],
-            ["09:16", "Appointment auto-set with Castellano Roofing"],
-            ["09:21", "Follow-up sequence fired for 2 quiet leads"],
-          ];
-        } catch { activity = []; }
+        const INDUSTRIES = {
+          trades: {
+            label: "Trades & Roofing", icon: "🛠️", desc: "HVAC · Roofing · Plumbing",
+            leads: [
+              ["Tom Castellano", "Castellano Roofing", 9800, 2],
+              ["Omar Haddad", "Haddad HVAC", 11100, 3],
+              ["Rick Alvarez", "Alvarez Plumbing", 6400, 1],
+              ["Denise Kowalski", "Maple St. homeowner", 14200, 0],
+              ["Sam Perreira", "Perreira & Sons Siding", 8700, 1],
+              ["Janet Ellison", "Ellison Property Mgmt", 22500, 2],
+              ["Curt Boyd", "Boyd Exteriors", 5200, 0],
+            ],
+            appts: [
+              ["Tomorrow · 8:00 AM", "Denise Kowalski", "Roof inspection"],
+              ["Tomorrow · 1:30 PM", "Janet Ellison", "Multi-unit estimate"],
+              ["Thursday · 9:15 AM", "Tom Castellano", "Contract walk-through"],
+            ],
+            pool: [["Priya N.", "Northgate homeowner", 7600], ["Big Sky Property Co", "Storm damage inquiry", 18900], ["Al Fontaine", "Gutter replacement", 3400]],
+          },
+          legal: {
+            label: "Law Firm", icon: "⚖️", desc: "Intake · Drafting · Docketing",
+            leads: [
+              ["James Okoro", "Custody modification", 24000, 1],
+              ["Sandra Liu", "Estate planning", 8500, 0],
+              ["Marcus Webb", "Business formation", 12000, 2],
+              ["Elena Vasquez", "Personal injury", 45000, 1],
+              ["David Chen", "Contract dispute", 18000, 0],
+              ["Rachel Adams", "Family law retainer", 15000, 3],
+            ],
+            appts: [
+              ["Tomorrow · 10:00 AM", "James Okoro", "Initial consultation"],
+              ["Wednesday · 2:00 PM", "Marcus Webb", "Engagement signing"],
+              ["Friday · 11:30 AM", "Elena Vasquez", "Case review"],
+            ],
+            pool: [["Referral — Hollis & Marsh", "Custody inquiry", 21000], ["Walk-in intake", "Landlord dispute", 9500], ["Web form", "Trademark filing", 6800]],
+          },
+          medical: {
+            label: "Clinic & Dental", icon: "🦷", desc: "Intake · Recalls · Chair-fill",
+            leads: [
+              ["Dana Whitfield", "New patient — hygiene", 1250, 2],
+              ["Paul Ngata", "Implant consult", 8400, 1],
+              ["Farah Aziz", "Invisalign inquiry", 5600, 0],
+              ["Greg Sorensen", "Recall — 6 month", 380, 1],
+              ["Lucia Mendes", "Whitening + exam", 950, 0],
+              ["Hank Rowe", "Crown restoration", 2400, 3],
+            ],
+            appts: [
+              ["Tomorrow · 9:00 AM", "Dana Whitfield", "New patient exam"],
+              ["Tomorrow · 11:30 AM", "Paul Ngata", "Implant consult"],
+              ["Thursday · 3:15 PM", "Greg Sorensen", "Hygiene recall"],
+            ],
+            pool: [["Waitlist patient", "Chair-fill — 1:30 opening", 420], ["Web booking", "Emergency toothache", 650], ["Recall sequence", "Overdue hygiene", 380]],
+          },
+          venues: {
+            label: "Venue & Retail", icon: "🍸", desc: "Loyalty · Events · Win-backs",
+            leads: [
+              ["Maria Reyes", "Private event — 40 guests", 8400, 1],
+              ["Copper Kettle Bistro", "Catering partnership", 12000, 0],
+              ["VIP #0447", "Win-back — 24 days quiet", 1840, 2],
+              ["Northside Runners Club", "Weekly buyout", 5200, 1],
+              ["Grace Lindqvist", "Holiday party hold", 9600, 3],
+              ["Kite & Anchor Co.", "Corporate happy hour", 3800, 0],
+            ],
+            appts: [
+              ["Tomorrow · 4:00 PM", "Maria Reyes", "Event tasting"],
+              ["Wednesday · 10:00 AM", "Copper Kettle Bistro", "Catering scope"],
+              ["Friday · 2:30 PM", "Kite & Anchor Co.", "Site visit"],
+            ],
+            pool: [["Loyalty ping reply", "VIP rebooking", 240], ["Event inquiry", "Rehearsal dinner — 60", 7400], ["Win-back reply", "Lapsed regular returning", 180]],
+          },
+          realestate: {
+            label: "Real Estate", icon: "🏠", desc: "Speed-to-lead · Showings",
+            leads: [
+              ["Priya Shah", "Buyer — $650k Northside", 19500, 1],
+              ["The Delgados", "Sell + buy combo", 32000, 2],
+              ["Kevin Marsh", "Investor — duplexes", 24000, 0],
+              ["Amy Okafor", "First-time buyer", 12800, 1],
+              ["R. & T. Nguyen", "Relocation — 60 days", 21000, 0],
+              ["Sofia Petrov", "Closed — Maple Ct.", 18400, 3],
+            ],
+            appts: [
+              ["Saturday · 10:15 AM", "Priya Shah", "Showing — 3 listings"],
+              ["Tomorrow · 5:30 PM", "The Delgados", "Listing prep"],
+              ["Sunday · 1:00 PM", "Amy Okafor", "Open house tour"],
+            ],
+            pool: [["Zillow lead", "Pre-approved · $480k", 14400], ["Sign call", "Corner-lot inquiry", 16200], ["Portal lead", "Condo downsizer", 11800]],
+          },
+          ecommerce: {
+            label: "E-commerce", icon: "📦", desc: "Wholesale · Support · Reviews",
+            leads: [
+              ["Leo Martins", "Wholesale — 2,000 units", 7300, 2],
+              ["Bloom & Co.", "Stockist application", 5400, 1],
+              ["Jenna Park", "Subscription upgrade", 890, 0],
+              ["Harbor Goods", "Private label inquiry", 15600, 1],
+              ["Miguel Santos", "Bulk corporate gifting", 4200, 0],
+              ["The Daily Shelf", "Marketplace partnership", 9800, 3],
+            ],
+            appts: [
+              ["Tomorrow · 11:00 AM", "Leo Martins", "Wholesale terms call"],
+              ["Wednesday · 3:00 PM", "Harbor Goods", "Private label scope"],
+              ["Friday · 10:30 AM", "Bloom & Co.", "Stockist onboarding"],
+            ],
+            pool: [["Abandoned-cart save", "High-value cart recovered", 640], ["Review follow-up", "5-star + reorder", 320], ["Wholesale form", "Gym chain inquiry", 8800]],
+          },
+        };
+
+        /* ---------------- state ---------------- */
+        const DEFAULT = () => ({ industry: null, leads: [], activity: [], notes: {}, live: true, nextId: 1000 });
+        let S;
+        try { S = JSON.parse(sessionStorage.getItem("sk_crm_v2")) || DEFAULT(); }
+        catch { S = DEFAULT(); }
         let query = "";
-
-        const persist = () => {
-          try {
-            sessionStorage.setItem("sk_crm_leads", JSON.stringify(leads));
-            sessionStorage.setItem("sk_crm_activity", JSON.stringify(activity));
-          } catch {}
-        };
-
+        const persist = () => { try { sessionStorage.setItem("sk_crm_v2", JSON.stringify(S)); } catch {} };
         const fmt = (n) => "$" + n.toLocaleString();
-        const now = () => {
-          const d = new Date();
-          return String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0");
-        };
+        const now = () => { const d = new Date(); return String(d.getHours()).padStart(2,"0") + ":" + String(d.getMinutes()).padStart(2,"0"); };
 
-        function log(msg) {
-          activity.unshift([now(), msg]);
-          activity = activity.slice(0, 12);
+        function seed(key) {
+          const ind = INDUSTRIES[key];
+          S.industry = key;
+          S.nextId = 1000;
+          S.leads = ind.leads.map(([name, co, val, stage], i) => ({
+            id: ++S.nextId, name, co, val, stage,
+            src: SOURCES[i % SOURCES.length],
+          }));
+          S.activity = [
+            [now(), "Agent parsed a new inbound inquiry — routed to pipeline"],
+            [now(), "Appointment auto-set from the follow-up sequence"],
+            [now(), "Quiet leads pinged — 2 replies already in"],
+          ];
+          S.notes = {};
           persist();
         }
 
-        function visibleLeads() {
-          const q = query.toLowerCase();
-          return q
-            ? leads.filter((l) => (l.name + " " + l.co + " " + l.ind).toLowerCase().includes(q))
-            : leads;
+        function log(msg) {
+          S.activity.unshift([now(), msg]);
+          S.activity = S.activity.slice(0, 14);
+          persist();
         }
 
+        function toast(tag, msg) {
+          const rack = document.getElementById("toasts");
+          const el = document.createElement("div");
+          el.className = "toast";
+          el.innerHTML = `<span class="tag">${tag}</span>${msg}`;
+          rack.appendChild(el);
+          setTimeout(() => el.remove(), 4200);
+        }
+
+        const visible = () => {
+          const q = query.toLowerCase();
+          return q ? S.leads.filter((l) => (l.name + " " + l.co + " " + (l.src||"")).toLowerCase().includes(q)) : S.leads;
+        };
+
+        /* ---------------- render ---------------- */
         function render() {
-          const vis = visibleLeads();
-          // stats
-          const open = leads.filter((l) => l.stage < 3);
+          const ind = INDUSTRIES[S.industry];
+          const vis = visible();
+          const open = S.leads.filter((l) => l.stage < 3);
           document.getElementById("st-leads").textContent = open.length;
           document.getElementById("st-appts").textContent =
-            leads.filter((l) => l.stage === 2).length + APPTS.length - 1;
+            S.leads.filter((l) => l.stage === 2).length + (ind ? ind.appts.length - 1 : 0);
           document.getElementById("st-value").textContent = fmt(open.reduce((s, l) => s + l.val, 0));
 
-          // kanban (dash snapshot = counts only; full = cards)
+          // chart
+          const counts = STAGES.map((_, i) => S.leads.filter((l) => l.stage === i).length);
+          const max = Math.max(...counts, 1);
+          document.getElementById("chart").innerHTML = STAGES.map((s, i) =>
+            `<div class="bar${i === 2 ? " em" : ""}"><i style="height:${Math.round((counts[i]/max)*80)+8}px"></i><b>${s.split(" ")[0]} · ${counts[i]}</b></div>`
+          ).join("");
+
+          // kanban snapshot + full
           document.getElementById("kb-dash").innerHTML = STAGES.map((s, i) => {
-            const inStage = vis.filter((l) => l.stage === i);
-            return `<div class="kb-col"><div class="kb-col-head">${s}<span class="kb-count">${inStage.length}</span></div>` +
-              inStage.slice(0, 2).map((l) => `<div class="kb-card"><div class="nm">${l.name}</div><div class="co">${l.co}</div></div>`).join("") +
-              `</div>`;
+            const inS = vis.filter((l) => l.stage === i);
+            return `<div class="kb-col"><div class="kb-col-head">${s}<span class="kb-count">${inS.length}</span></div>` +
+              inS.slice(0, 2).map((l) => `<div class="kb-card" data-open="${l.id}"><div class="nm">${l.name}</div><div class="co">${l.co}</div></div>`).join("") + `</div>`;
           }).join("");
 
           document.getElementById("kb-full").innerHTML = STAGES.map((s, i) => {
-            const inStage = vis.filter((l) => l.stage === i);
-            return `<div class="kb-col"><div class="kb-col-head">${s}<span class="kb-count">${inStage.length}</span></div>` +
-              inStage.map((l) =>
-                `<div class="kb-card"><div class="nm">${l.name}</div><div class="co">${l.co} · ${l.ind}</div>` +
+            const inS = vis.filter((l) => l.stage === i);
+            return `<div class="kb-col"><div class="kb-col-head">${s}<span class="kb-count">${inS.length}</span></div>` +
+              inS.map((l) =>
+                `<div class="kb-card" data-open="${l.id}"><div class="nm">${l.name}</div><div class="co">${l.co}</div>` +
                 `<div class="row"><span class="vl">${fmt(l.val)}</span>` +
-                (i < 3 ? `<button class="kb-move" data-adv="${l.id}">→ ${STAGES[i + 1]}</button>` : `<span class="vl">✓ Won</span>`) +
-                `</div></div>`
-              ).join("") + `</div>`;
+                (i < 3 ? `<button class="kb-move" data-adv="${l.id}">→ ${STAGES[i+1]}</button>` : `<span class="vl">✓ Won</span>`) +
+                `</div></div>`).join("") + `</div>`;
           }).join("");
 
-          // contacts
           document.getElementById("contacts-body").innerHTML = vis.map((l) =>
-            `<tr><td>${l.name}</td><td>${l.co}</td><td>${l.ind}</td><td>${STAGES[l.stage]}</td><td>${fmt(l.val)}</td></tr>`
+            `<tr data-open="${l.id}" style="cursor:pointer"><td>${l.name}</td><td>${l.co}</td><td>${ind ? ind.label : ""}</td><td>${STAGES[l.stage]}</td><td>${fmt(l.val)}</td></tr>`
           ).join("") || `<tr><td colspan="5" style="text-align:center">No matches.</td></tr>`;
 
-          // appointments
-          document.getElementById("appts-body").innerHTML = APPTS.map((a) =>
-            `<tr><td>${a[0]}</td><td>${a[1]}</td><td>${a[2]}</td><td>${a[3]}</td></tr>`
+          document.getElementById("appts-body").innerHTML = (ind ? ind.appts : []).map((a) =>
+            `<tr><td>${a[0]}</td><td>${a[1]}</td><td>${ind.label}</td><td>${a[2]}</td></tr>`
           ).join("");
 
-          // activity
-          document.getElementById("act-feed").innerHTML = activity.map((a) =>
+          document.getElementById("act-feed").innerHTML = S.activity.map((a) =>
             `<div class="act-line"><span class="t">${a[0]}</span>${a[1]}</div>`
           ).join("");
         }
 
-        // View switching
+        /* ---------------- industry picker + switcher ---------------- */
+        const overlay = document.getElementById("ind-overlay");
+        document.getElementById("ind-grid").innerHTML = Object.entries(INDUSTRIES).map(([k, v]) =>
+          `<button class="ind-card" data-ind="${k}"><span class="ic" aria-hidden="true">${v.icon}</span><span class="nm">${v.label}</span><span class="ds">${v.desc}</span></button>`
+        ).join("");
+        const indSelect = document.getElementById("crm-ind");
+        indSelect.innerHTML = Object.entries(INDUSTRIES).map(([k, v]) => `<option value="${k}">${v.icon} ${v.label}</option>`).join("");
+
+        document.getElementById("ind-grid").addEventListener("click", (e) => {
+          const card = e.target.closest("[data-ind]");
+          if (!card) return;
+          seed(card.dataset.ind);
+          indSelect.value = card.dataset.ind;
+          overlay.hidden = true;
+          toast("WORKSPACE READY", `Seeded a sample ${INDUSTRIES[card.dataset.ind].label} floor.`);
+          render();
+        });
+
+        indSelect.addEventListener("change", () => {
+          seed(indSelect.value);
+          toast("WORKSPACE SWITCHED", `Now viewing a ${INDUSTRIES[indSelect.value].label} floor.`);
+          render();
+        });
+
+        if (!S.industry) {
+          overlay.hidden = false;
+        } else {
+          indSelect.value = S.industry;
+        }
+
+        /* ---------------- views ---------------- */
         const titles = { dash: "Dashboard", pipe: "Pipeline", contacts: "Contacts", appts: "Appointments" };
         document.querySelectorAll(".crm-nav button").forEach((btn) => {
           btn.addEventListener("click", () => {
@@ -242,25 +411,65 @@
           });
         });
 
-        // Stage advance (event delegation)
-        document.getElementById("kb-full").addEventListener("click", (e) => {
-          const btn = e.target.closest("[data-adv]");
-          if (!btn) return;
-          const lead = leads.find((l) => l.id === Number(btn.dataset.adv));
-          if (!lead || lead.stage >= 3) return;
-          lead.stage += 1;
-          log(`You moved ${lead.name} to ${STAGES[lead.stage]}`);
+        /* ---------------- lead drawer ---------------- */
+        const drawer = document.getElementById("drawer");
+        const drStage = document.getElementById("dr-stage");
+        drStage.innerHTML = STAGES.map((s, i) => `<option value="${i}">${s}</option>`).join("");
+        let drawerLead = null;
+
+        function openDrawer(id) {
+          drawerLead = S.leads.find((l) => l.id === id);
+          if (!drawerLead) return;
+          document.getElementById("dr-name").textContent = drawerLead.name;
+          document.getElementById("dr-co").textContent = drawerLead.co;
+          document.getElementById("dr-val").textContent = fmt(drawerLead.val);
+          document.getElementById("dr-src").textContent = drawerLead.src || "Inbound";
+          drStage.value = String(drawerLead.stage);
+          document.getElementById("dr-notes").value = S.notes[drawerLead.id] || "";
+          drawer.classList.add("open");
+        }
+
+        function closeDrawer() { drawer.classList.remove("open"); drawerLead = null; }
+        document.getElementById("drawer-close").addEventListener("click", closeDrawer);
+        document.getElementById("dr-save").addEventListener("click", () => {
+          if (!drawerLead) return;
+          const newStage = parseInt(drStage.value, 10);
+          if (newStage !== drawerLead.stage) {
+            drawerLead.stage = newStage;
+            log(`You moved ${drawerLead.name} to ${STAGES[newStage]}`);
+          }
+          S.notes[drawerLead.id] = document.getElementById("dr-notes").value.slice(0, 2000);
           persist();
+          toast("SAVED", `${drawerLead.name} updated.`);
+          closeDrawer();
           render();
         });
 
-        // Search
+        /* ---------------- interactions ---------------- */
+        document.querySelector(".crm-main").addEventListener("click", (e) => {
+          const adv = e.target.closest("[data-adv]");
+          if (adv) {
+            const lead = S.leads.find((l) => l.id === Number(adv.dataset.adv));
+            if (lead && lead.stage < 3) {
+              lead.stage += 1;
+              log(`You moved ${lead.name} to ${STAGES[lead.stage]}`);
+              if (lead.stage === 2) toast("APPOINTMENT SET", `${lead.name} is on the calendar.`);
+              if (lead.stage === 3) toast("CLOSED WON", `${lead.name} — ${fmt(lead.val)} 🎉`);
+              persist();
+              render();
+            }
+            return;
+          }
+          const open = e.target.closest("[data-open]");
+          if (open) openDrawer(Number(open.dataset.open));
+        });
+
         document.getElementById("crm-search").addEventListener("input", (e) => {
           query = e.target.value;
           render();
         });
 
-        // Add lead modal
+        // Add lead
         const modal = document.getElementById("modal-lead");
         document.getElementById("crm-add").addEventListener("click", () => {
           modal.classList.add("active");
@@ -269,7 +478,11 @@
         const closeModal = () => modal.classList.remove("active");
         document.getElementById("ml-close").addEventListener("click", closeModal);
         modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
-        document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
+        document.addEventListener("keydown", (e) => {
+          if (e.key !== "Escape") return;
+          if (drawer.classList.contains("open")) return closeDrawer();
+          closeModal();
+        });
 
         document.getElementById("lead-form").addEventListener("submit", (e) => {
           e.preventDefault();
@@ -277,8 +490,9 @@
           const co = document.getElementById("ml-co").value.trim();
           const val = Math.max(0, parseInt(document.getElementById("ml-val").value, 10) || 0);
           if (!name || !co) return;
-          leads.unshift({ id: Date.now(), name, co, ind: "New", val, stage: 0 });
+          S.leads.unshift({ id: ++S.nextId, name, co, val, stage: 0, src: "Manual entry" });
           log(`You added ${name} (${co}) to New Leads`);
+          toast("LEAD ADDED", `${name} is in the pipeline.`);
           persist();
           e.target.reset();
           document.getElementById("ml-val").value = 5000;
@@ -286,12 +500,50 @@
           render();
         });
 
-        // Sign out of demo
+        /* ---------------- live agent simulation ---------------- */
+        const liveBtn = document.getElementById("live-toggle");
+        let liveTimer = null;
+        function liveTick() {
+          const ind = INDUSTRIES[S.industry];
+          if (!ind) return;
+          const roll = Math.random();
+          if (roll < 0.5 && S.leads.length < 14) {
+            const [name, co, val] = ind.pool[Math.floor(Math.random() * ind.pool.length)];
+            S.leads.unshift({ id: ++S.nextId, name, co, val, stage: 0, src: SOURCES[Math.floor(Math.random() * SOURCES.length)] });
+            log(`Agent captured a new lead — ${name} (${co})`);
+            toast("AGENT // NEW LEAD", `${name} landed in New Leads.`);
+          } else if (roll < 0.8) {
+            const candidates = S.leads.filter((l) => l.stage === 0 || l.stage === 1);
+            if (candidates.length) {
+              const l = candidates[Math.floor(Math.random() * candidates.length)];
+              l.stage += 1;
+              log(`Agent advanced ${l.name} to ${STAGES[l.stage]} via follow-up`);
+              if (l.stage === 2) toast("AGENT // APPOINTMENT SET", `${l.name} booked automatically.`);
+              else toast("AGENT // FOLLOW-UP", `${l.name} responded — moved to Contacted.`);
+            }
+          } else {
+            log("Agent fired the nightly follow-up sequence — no human touched a phone");
+            toast("AGENT // SEQUENCE", "Follow-ups sent to every quiet lead.");
+          }
+          persist();
+          render();
+        }
+        function setLive(on) {
+          S.live = on;
+          persist();
+          liveBtn.classList.toggle("on", on);
+          liveBtn.setAttribute("aria-pressed", String(on));
+          clearInterval(liveTimer);
+          if (on) liveTimer = setInterval(liveTick, 9000);
+        }
+        liveBtn.addEventListener("click", () => setLive(!S.live));
+        setLive(S.live !== false);
+
+        /* ---------------- sign out ---------------- */
         document.getElementById("crm-exit").addEventListener("click", () => {
           try {
             sessionStorage.removeItem("sk_demo_session");
-            sessionStorage.removeItem("sk_crm_leads");
-            sessionStorage.removeItem("sk_crm_activity");
+            sessionStorage.removeItem("sk_crm_v2");
           } catch {}
           location.replace("login.html");
         });

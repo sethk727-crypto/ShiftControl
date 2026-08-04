@@ -5177,3 +5177,119 @@ h3 {
   border-color: var(--lt-accent-deep);
   box-shadow: 0 4px 14px rgba(6, 118, 71, 0.15);
 }
+
+/* ==========================================================================
+   CRM INTEGRATIONS HUB
+   ========================================================================== */
+.int-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--space-4);
+}
+
+.int-card {
+  background: var(--lt-raised);
+  border: 1px solid var(--lt-line);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  transition: border-color var(--dur-fast) ease, box-shadow var(--dur-fast) ease;
+}
+
+.int-card:hover {
+  border-color: var(--lt-line-strong);
+  box-shadow: 0 6px 20px rgba(10, 10, 12, 0.06);
+}
+
+.int-card.is-on {
+  border-color: rgba(6, 118, 71, 0.35);
+}
+
+.int-chip {
+  flex: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+}
+
+.int-body {
+  min-width: 0;
+  flex: 1;
+}
+
+.int-name {
+  font-weight: 700;
+  color: var(--lt-ink);
+  font-size: var(--text-sm);
+  line-height: 1.2;
+}
+
+.int-cat {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--lt-ink-faint);
+}
+
+.int-sync {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--lt-accent-deep);
+  margin-top: 2px;
+}
+
+.int-btn {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  border-radius: var(--radius-pill);
+  padding: 6px 12px;
+  cursor: pointer;
+  border: 1px solid var(--lt-line-strong);
+  background: var(--lt-tint);
+  color: var(--lt-ink-muted);
+  transition: var(--transition-smooth);
+  white-space: nowrap;
+}
+
+.int-btn:hover {
+  border-color: var(--lt-accent-deep);
+  color: var(--lt-accent-deep);
+}
+
+.int-btn.is-on {
+  background: rgba(0, 230, 92, 0.1);
+  border-color: rgba(6, 118, 71, 0.35);
+  color: var(--lt-accent-deep);
+}
+
+.int-note {
+  margin-top: var(--space-5);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  color: var(--lt-ink-faint);
+  line-height: 1.6;
+}
+
+.int-sync {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+.int-card {
+  min-height: 96px;
+}

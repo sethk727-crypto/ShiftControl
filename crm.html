@@ -46,6 +46,10 @@
             <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.7 2z"/></svg>
             <span>Calls</span>
           </button>
+          <button data-view="ints">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 7V4a1 1 0 0 1 2 0v3M15 7V4a1 1 0 0 1 2 0v3"/><path d="M7 7h12v4a6 6 0 0 1-6 6 6 6 0 0 1-6-6V7z"/><path d="M13 17v4"/></svg>
+            <span>Integrations</span>
+          </button>
         </nav>
         <div class="crm-work">
           <div class="crm-work-lbl">Workspace</div>
@@ -145,6 +149,20 @@
             <p class="calls-note">Missed nothing. Booked while you worked. Sample data — your real call log connects to your Vapi/Bland-class voice line.</p>
           </div>
         </section>
+
+        <!-- INTEGRATIONS HUB -->
+        <section class="crm-view" id="view-ints">
+          <div class="crm-panel">
+            <h3>Connected Platforms — the agent syncs them all</h3>
+            <div class="int-grid" id="int-grid"></div>
+            <p class="int-note">
+              Demo environment — connections here are simulated. In production,
+              your agents authenticate into each platform with OAuth and sync
+              through the n8n pipeline; anything not listed gets wired through
+              custom webhooks and REST APIs.
+            </p>
+          </div>
+        </section>
       </main>
     </div>
 
@@ -200,6 +218,26 @@
         "use strict";
         const STAGES = ["New Leads", "Contacted", "Appointment Set", "Closed Won"];
         const SOURCES = ["Website form", "Missed-call text-back", "Google LSA", "Referral", "Inbound call"];
+        const INTEGRATIONS = [
+          ["salesforce", "Salesforce", "CRM", "#00A1E0", "SF"],
+          ["hubspot", "HubSpot", "CRM", "#FF7A59", "H"],
+          ["shopify", "Shopify", "E-commerce", "#5E8E3E", "S"],
+          ["gorgias", "Gorgias", "Support", "#7A5AF8", "G"],
+          ["jobber", "Jobber", "Field Service", "#7DB00E", "J"],
+          ["housecall", "Housecall Pro", "Field Service", "#FF6B35", "HP"],
+          ["zillow", "Zillow", "Lead Source", "#006AFF", "Z"],
+          ["calendly", "Calendly", "Scheduling", "#006BFF", "C"],
+          ["twilio", "Twilio", "Voice & SMS", "#F22F46", "T"],
+          ["stripe", "Stripe", "Payments", "#635BFF", "St"],
+          ["square", "Square", "Payments", "#1A1A1A", "Sq"],
+          ["quickbooks", "QuickBooks", "Accounting", "#2CA01C", "QB"],
+          ["slack", "Slack", "Comms", "#611F69", "Sl"],
+          ["gmail", "Gmail", "Email", "#EA4335", "Gm"],
+          ["n8n", "n8n", "Orchestration", "#EA4B71", "n8"],
+          ["zapier", "Zapier", "Orchestration", "#FF4A00", "Za"],
+        ];
+        const INT_DEFAULT_ON = ["n8n", "calendly", "twilio"];
+
         // Fictional numbers from the reserved 555-01XX block
         const phoneFor = (i) => `(555) 01${String(10 + (i % 90)).padStart(2, "0")}-${String(1000 + ((i * 37) % 9000))}`;
         const CALLS = {
@@ -330,7 +368,7 @@
         };
 
         /* ---------------- state ---------------- */
-        const DEFAULT = () => ({ industry: null, leads: [], activity: [], notes: {}, live: true, nextId: 1000 });
+        const DEFAULT = () => ({ industry: null, leads: [], activity: [], notes: {}, live: true, nextId: 1000, ints: null });
         let S;
         try { S = JSON.parse(sessionStorage.getItem("sk_crm_v2")) || DEFAULT(); }
         catch { S = DEFAULT(); }
@@ -439,6 +477,21 @@
             `<tr><td>${a[0]}</td><td>${a[1]}</td><td>${ind.label}</td><td>${a[2]}</td></tr>`
           ).join("");
 
+          if (!S.ints) {
+            S.ints = {};
+            INT_DEFAULT_ON.forEach((k) => (S.ints[k] = true));
+          }
+          document.getElementById("int-grid").innerHTML = INTEGRATIONS.map(([k, name, cat, color, mono]) => {
+            const on = !!S.ints[k];
+            return `<div class="int-card${on ? " is-on" : ""}">` +
+              `<span class="int-chip" style="background:${color}">${mono}</span>` +
+              `<span class="int-body"><span class="int-name">${name}</span>` +
+              `<span class="int-cat" style="display:block">${cat}</span>` +
+              (on ? `<span class="int-sync">● Synced just now</span>` : "") +
+              `</span>` +
+              `<button class="int-btn${on ? " is-on" : ""}" data-int="${k}">${on ? "CONNECTED ✓" : "CONNECT"}</button></div>`;
+          }).join("");
+
           document.getElementById("calls-body").innerHTML = (CALLS[S.industry] || []).map((c) =>
             `<tr><td>${c[0]}</td><td>${c[1]}</td><td style="font-style:italic">${c[2]}</td>` +
             `<td><span class="call-badge call-badge--${c[3].toLowerCase()}">${c[3]}</span></td><td>${c[4]}</td></tr>`
@@ -480,7 +533,7 @@
         }
 
         /* ---------------- views ---------------- */
-        const titles = { dash: "Dashboard", pipe: "Pipeline", contacts: "Contacts", appts: "Appointments", calls: "Calls" };
+        const titles = { dash: "Dashboard", pipe: "Pipeline", contacts: "Contacts", appts: "Appointments", calls: "Calls", ints: "Integrations" };
         document.querySelectorAll(".crm-nav button").forEach((btn) => {
           btn.addEventListener("click", () => {
             document.querySelectorAll(".crm-nav button").forEach((b) => b.classList.toggle("on", b === btn));
@@ -529,6 +582,30 @@
 
         /* ---------------- interactions ---------------- */
         document.querySelector(".crm-main").addEventListener("click", (e) => {
+          const intBtn = e.target.closest("[data-int]");
+          if (intBtn) {
+            const k = intBtn.dataset.int;
+            const name = INTEGRATIONS.find((x) => x[0] === k)[1];
+            if (S.ints[k]) {
+              S.ints[k] = false;
+              log(`You disconnected ${name}`);
+              toast("DISCONNECTED", `${name} unlinked from the workspace.`);
+            } else {
+              intBtn.textContent = "CONNECTING…";
+              setTimeout(() => {
+                S.ints[k] = true;
+                const records = 200 + Math.floor(Math.random() * 1800);
+                log(`${name} connected — ${records.toLocaleString()} records syncing through n8n`);
+                toast("CONNECTED", `${name} linked — ${records.toLocaleString()} records syncing.`);
+                persist();
+                render();
+              }, 900);
+              return;
+            }
+            persist();
+            render();
+            return;
+          }
           const nbaBtn = e.target.closest("[data-nba]");
           if (nbaBtn) {
             if (nbaBtn.dataset.nba === "followup") {
@@ -620,8 +697,16 @@
               else toast("AGENT // FOLLOW-UP", `${l.name} responded — moved to Contacted.`);
             }
           } else {
-            log("Agent fired the nightly follow-up sequence — no human touched a phone");
-            toast("AGENT // SEQUENCE", "Follow-ups sent to every quiet lead.");
+            const on = INTEGRATIONS.filter(([k]) => S.ints && S.ints[k]);
+            if (on.length && Math.random() < 0.6) {
+              const pick = on[Math.floor(Math.random() * on.length)][1];
+              const n = 20 + Math.floor(Math.random() * 240);
+              log(`Agent synced ${n} records from ${pick} — zero conflicts`);
+              toast("AGENT // SYNC", `${pick}: ${n} records reconciled.`);
+            } else {
+              log("Agent fired the nightly follow-up sequence — no human touched a phone");
+              toast("AGENT // SEQUENCE", "Follow-ups sent to every quiet lead.");
+            }
           }
           persist();
           render();

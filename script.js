@@ -484,6 +484,7 @@
       { group: "Actions", label: "Request an Instant Callback", href: prefix + "#callback" },
       { group: "Actions", label: "Call the Direct Hotline", href: "tel:+12674554075", hint: "(267) 455-4075" },
       { group: "Actions", label: "Client Login — Portal", href: "login.html", hint: "portal" },
+      { group: "Actions", label: "Explore the CRM Demo", href: "login.html", hint: "no signup" },
     ];
 
     paletteOverlay = document.createElement("div");

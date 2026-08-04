@@ -1517,6 +1517,24 @@ h3 {
   color: var(--emerald-bright);
 }
 
+/* One-pager PDF handoff under the booking calendar */
+.onepager-line {
+  text-align: center;
+  margin-top: var(--space-6);
+  font-size: var(--text-sm);
+  color: var(--text-faint);
+}
+
+.onepager-line a {
+  color: var(--neon-emerald);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.onepager-line a:hover {
+  color: var(--emerald-bright);
+}
+
 /* ---- Footer lead capture ---- */
 .footer-capture {
   display: grid;
@@ -4468,6 +4486,45 @@ h3 {
   color: var(--lt-ink);
 }
 
+/* Kanban: move-back + drag affordances */
+.kb-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.kb-step {
+  background: var(--lt-tint);
+  border: 1px solid var(--lt-line-strong);
+  color: var(--lt-ink-muted);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.kb-step:hover {
+  border-color: var(--lt-ink-faint);
+  color: var(--lt-ink);
+}
+
+.kb-card[draggable="true"] {
+  cursor: grab;
+}
+
+.kb-card.dragging {
+  opacity: 0.45;
+  cursor: grabbing;
+}
+
+.kb-col.drop-over {
+  border-color: rgba(6, 118, 71, 0.45);
+  background: rgba(0, 230, 92, 0.05);
+}
+
 /* Tables & lists */
 .crm-table {
   width: 100%;
@@ -4860,6 +4917,7 @@ h3 {
   margin-bottom: var(--space-2);
 }
 
+.drawer input,
 .drawer select,
 .drawer textarea {
   width: 100%;
@@ -4876,6 +4934,34 @@ h3 {
 .drawer textarea {
   min-height: 110px;
   resize: vertical;
+}
+
+.dr-src-line {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.05em;
+  color: var(--lt-ink-faint);
+  margin-bottom: var(--space-5);
+}
+
+.dr-delete {
+  margin-top: var(--space-3);
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--lt-line-strong);
+  border-radius: var(--radius-sm);
+  color: #b42318;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.dr-delete:hover {
+  border-color: rgba(180, 35, 24, 0.4);
+  background: rgba(180, 35, 24, 0.04);
 }
 
 /* Toasts */
@@ -4900,6 +4986,7 @@ h3 {
   box-shadow: 0 14px 40px rgba(10, 10, 12, 0.3);
   animation: toast-in 0.4s var(--ease-out-expo);
   max-width: 320px;
+  pointer-events: auto;
 }
 
 .toast .tag {
@@ -4909,6 +4996,127 @@ h3 {
   letter-spacing: 0.08em;
   color: var(--neon-emerald);
   display: block;
+}
+
+.toast-act {
+  display: block;
+  margin-top: var(--space-2);
+  background: transparent;
+  border: 1px solid rgba(0, 255, 102, 0.45);
+  border-radius: var(--radius-pill);
+  color: var(--neon-emerald);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 4px 14px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.toast-act:hover {
+  background: var(--neon-emerald);
+  color: var(--obsidian);
+}
+
+/* Contacts toolbar: stage filter + sortable headers */
+.contacts-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.contacts-bar select {
+  background: var(--lt-raised);
+  border: 1px solid var(--lt-line-strong);
+  border-radius: var(--radius-sm);
+  color: var(--lt-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  padding: 8px 12px;
+}
+
+.contacts-hint {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.05em;
+  color: var(--lt-ink-faint);
+}
+
+.th-sort {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+}
+
+.th-sort::after {
+  content: "↕";
+  margin-left: 6px;
+  opacity: 0.35;
+}
+
+.th-sort.asc::after {
+  content: "↑";
+  opacity: 1;
+}
+
+.th-sort.desc::after {
+  content: "↓";
+  opacity: 1;
+}
+
+/* Appointments: quick-add + remove */
+.appt-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.4fr auto;
+  gap: var(--space-3);
+  margin: var(--space-4) 0;
+}
+
+.appt-form input {
+  background: var(--lt-tint);
+  border: 1px solid var(--lt-line-strong);
+  border-radius: var(--radius-sm);
+  color: var(--lt-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  padding: 9px 12px;
+  min-width: 0;
+}
+
+.appt-form .ghost-button {
+  padding: 9px 18px;
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .appt-form {
+    grid-template-columns: 1fr;
+  }
+}
+
+.appt-del {
+  background: transparent;
+  border: none;
+  color: var(--lt-ink-faint);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  transition: var(--transition-smooth);
+}
+
+.appt-del:hover {
+  color: #b42318;
+  background: rgba(180, 35, 24, 0.06);
 }
 
 @keyframes toast-in {

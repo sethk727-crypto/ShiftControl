@@ -115,9 +115,21 @@
 
         <!-- CONTACTS -->
         <section class="crm-view" id="view-contacts">
+          <div class="contacts-bar">
+            <select id="stage-filter" aria-label="Filter by stage">
+              <option value="all">All stages</option>
+            </select>
+            <span class="contacts-hint">Click a column to sort · click a row to open</span>
+          </div>
           <div class="table-scroll">
             <table class="crm-table">
-              <thead><tr><th>Name</th><th>Company</th><th>Industry</th><th>Stage</th><th>Value</th></tr></thead>
+              <thead><tr>
+                <th><button class="th-sort" data-sort="name" type="button">Name</button></th>
+                <th><button class="th-sort" data-sort="co" type="button">Company</button></th>
+                <th>Industry</th>
+                <th><button class="th-sort" data-sort="stage" type="button">Stage</button></th>
+                <th><button class="th-sort" data-sort="val" type="button">Value</button></th>
+              </tr></thead>
               <tbody id="contacts-body"></tbody>
             </table>
           </div>
@@ -127,9 +139,15 @@
         <section class="crm-view" id="view-appts">
           <div class="crm-panel">
             <h3>Upcoming — Set by the Agent</h3>
+            <form id="appt-form" class="appt-form">
+              <input id="af-when" placeholder="When — e.g. Friday · 2:00 PM" required maxlength="40" aria-label="When" />
+              <input id="af-who" placeholder="With" required maxlength="60" aria-label="With" />
+              <input id="af-type" placeholder="Type — e.g. Estimate walk-through" required maxlength="60" aria-label="Type" />
+              <button class="ghost-button" type="submit">+ Add</button>
+            </form>
             <div class="table-scroll">
               <table class="crm-table">
-                <thead><tr><th>When</th><th>With</th><th>Company</th><th>Type</th></tr></thead>
+                <thead><tr><th>When</th><th>With</th><th>Company</th><th>Type</th><th></th></tr></thead>
                 <tbody id="appts-body"></tbody>
               </table>
             </div>
@@ -176,15 +194,17 @@
       </div>
     </div>
 
-    <!-- LEAD DRAWER -->
+    <!-- LEAD DRAWER — every field is editable -->
     <aside class="drawer" id="drawer" aria-label="Lead details">
       <button class="drawer-close" id="drawer-close" aria-label="Close details">×</button>
-      <h2 id="dr-name">—</h2>
-      <div class="co" id="dr-co">—</div>
-      <div class="meta">
-        <div><div class="lbl">Value</div><div class="vl" id="dr-val">—</div></div>
-        <div><div class="lbl">Source</div><div class="vl" id="dr-src">—</div></div>
-      </div>
+      <h2>Lead details</h2>
+      <div class="dr-src-line">Source — <span id="dr-src">Inbound</span></div>
+      <label for="dr-name">Contact</label>
+      <input id="dr-name" maxlength="60" />
+      <label for="dr-co">Company</label>
+      <input id="dr-co" maxlength="60" />
+      <label for="dr-val">Value ($)</label>
+      <input id="dr-val" type="number" min="0" max="10000000" />
       <a class="ghost-button" id="dr-call" href="#" style="width:100%; margin-bottom: 1rem; text-decoration:none">
         Call <span id="dr-phone">—</span>
       </a>
@@ -193,6 +213,7 @@
       <label for="dr-notes">Notes</label>
       <textarea id="dr-notes" placeholder="Notes save automatically in this demo session…"></textarea>
       <button class="cta-button cta-button--block" id="dr-save" type="button">Save &amp; Close</button>
+      <button class="dr-delete" id="dr-delete" type="button">Delete this lead</button>
     </aside>
 
     <!-- ADD LEAD MODAL -->
@@ -368,13 +389,16 @@
         };
 
         /* ---------------- state ---------------- */
-        const DEFAULT = () => ({ industry: null, leads: [], activity: [], notes: {}, live: true, nextId: 1000, ints: null });
+        const DEFAULT = () => ({ industry: null, leads: [], activity: [], notes: {}, live: true, nextId: 1000, ints: null, appts: [] });
         let S;
         try { S = JSON.parse(sessionStorage.getItem("sk_crm_v2")) || DEFAULT(); }
         catch { S = DEFAULT(); }
+        if (!Array.isArray(S.appts)) S.appts = [];
         let query = "";
+        let sortKey = null, sortDir = 1, stageFilter = "all";
         const persist = () => { try { sessionStorage.setItem("sk_crm_v2", JSON.stringify(S)); } catch {} };
         const fmt = (n) => "$" + n.toLocaleString();
+        const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
         const now = () => { const d = new Date(); return String(d.getHours()).padStart(2,"0") + ":" + String(d.getMinutes()).padStart(2,"0"); };
 
         function seed(key) {
@@ -392,6 +416,7 @@
             [now(), "Quiet leads pinged — 2 replies already in"],
           ];
           S.notes = {};
+          S.appts = [];
           persist();
         }
 
@@ -401,20 +426,55 @@
           persist();
         }
 
-        function toast(tag, msg) {
+        function toast(tag, msg, action) {
           const rack = document.getElementById("toasts");
           rack.innerHTML = "";
           const el = document.createElement("div");
           el.className = "toast";
           el.innerHTML = `<span class="tag">${tag}</span>${msg}`;
+          if (action) {
+            const btn = document.createElement("button");
+            btn.className = "toast-act";
+            btn.type = "button";
+            btn.textContent = action.label;
+            btn.addEventListener("click", () => { el.remove(); action.fn(); });
+            el.appendChild(btn);
+          }
           rack.appendChild(el);
-          setTimeout(() => el.remove(), 4200);
+          setTimeout(() => el.remove(), action ? 8000 : 4200);
         }
 
         const visible = () => {
           const q = query.toLowerCase();
           return q ? S.leads.filter((l) => (l.name + " " + l.co + " " + (l.src||"")).toLowerCase().includes(q)) : S.leads;
         };
+
+        // Contacts view adds its own stage filter + column sort on top
+        const contactRows = () => {
+          let rows = visible();
+          if (stageFilter !== "all") rows = rows.filter((l) => l.stage === Number(stageFilter));
+          if (sortKey) {
+            rows = rows.slice().sort((a, b) => {
+              const av = a[sortKey], bv = b[sortKey];
+              const cmp = typeof av === "number" ? av - bv : String(av).localeCompare(String(bv));
+              return cmp * sortDir;
+            });
+          }
+          return rows;
+        };
+
+        // Move a lead to any stage, either direction
+        function moveLead(id, stage) {
+          const lead = S.leads.find((l) => l.id === id);
+          if (!lead || stage < 0 || stage > 3 || stage === lead.stage) return;
+          const back = stage < lead.stage;
+          lead.stage = stage;
+          log(`You moved ${lead.name} ${back ? "back " : ""}to ${STAGES[stage]}`);
+          if (!back && stage === 2) toast("APPOINTMENT SET", `${lead.name} is on the calendar.`);
+          if (!back && stage === 3) toast("CLOSED WON", `${lead.name} — ${fmt(lead.val)}.`);
+          persist();
+          render();
+        }
 
         /* ---------------- render ---------------- */
         function render() {
@@ -423,7 +483,7 @@
           const open = S.leads.filter((l) => l.stage < 3);
           document.getElementById("st-leads").textContent = open.length;
           document.getElementById("st-appts").textContent =
-            S.leads.filter((l) => l.stage === 2).length + (ind ? ind.appts.length - 1 : 0);
+            S.leads.filter((l) => l.stage === 2).length + (ind ? ind.appts.length - 1 : 0) + S.appts.length;
           document.getElementById("st-value").textContent = fmt(open.reduce((s, l) => s + l.val, 0));
 
           // chart
@@ -454,28 +514,40 @@
               `<div class="nba-m">Pipeline is healthy — the agent has it covered.</div>`;
           }
 
-          // today's appointments (compact)
-          document.getElementById("appt-mini").innerHTML = (ind ? ind.appts : []).slice(0, 3).map((a) =>
-            `<div class="appt-mini"><span class="w">${a[0]}</span><span>${a[1]}</span><span class="t2">${a[2]}</span></div>`
+          // today's appointments (compact) — yours first, then the agent's
+          const allAppts = [...S.appts.map((a) => [a.when, a.who, a.type]), ...(ind ? ind.appts : [])];
+          document.getElementById("appt-mini").innerHTML = allAppts.slice(0, 3).map((a) =>
+            `<div class="appt-mini"><span class="w">${esc(a[0])}</span><span>${esc(a[1])}</span><span class="t2">${esc(a[2])}</span></div>`
           ).join("");
 
           document.getElementById("kb-full").innerHTML = STAGES.map((s, i) => {
             const inS = vis.filter((l) => l.stage === i);
-            return `<div class="kb-col"><div class="kb-col-head">${s}<span class="kb-count">${inS.length}</span></div>` +
+            return `<div class="kb-col" data-col="${i}"><div class="kb-col-head">${s}<span class="kb-count">${inS.length}</span></div>` +
               inS.map((l) =>
-                `<div class="kb-card" data-open="${l.id}"><div class="nm">${l.name}</div><div class="co">${l.co}</div>` +
-                `<div class="row"><span class="vl">${fmt(l.val)}</span>` +
-                (i < 3 ? `<button class="kb-move" data-adv="${l.id}">→ ${STAGES[i+1]}</button>` : `<span class="vl">✓ Won</span>`) +
-                `</div></div>`).join("") + `</div>`;
+                `<div class="kb-card" draggable="true" data-open="${l.id}" data-drag="${l.id}"><div class="nm">${esc(l.name)}</div><div class="co">${esc(l.co)}</div>` +
+                `<div class="row"><span class="vl">${i === 3 ? "✓ " : ""}${fmt(l.val)}</span><span class="kb-nav">` +
+                (i > 0 ? `<button class="kb-step" data-back="${l.id}" title="Move back to ${STAGES[i-1]}" aria-label="Move ${l.name} back to ${STAGES[i-1]}">←</button>` : "") +
+                (i < 3 ? `<button class="kb-move" data-adv="${l.id}">→ ${STAGES[i+1].split(" ")[0]}</button>` : "") +
+                `</span></div></div>`).join("") + `</div>`;
           }).join("");
 
-          document.getElementById("contacts-body").innerHTML = vis.map((l) =>
-            `<tr data-open="${l.id}" style="cursor:pointer"><td>${l.name}</td><td>${l.co}</td><td>${ind ? ind.label : ""}</td><td>${STAGES[l.stage]}</td><td>${fmt(l.val)}</td></tr>`
+          document.getElementById("contacts-body").innerHTML = contactRows().map((l) =>
+            `<tr data-open="${l.id}" style="cursor:pointer"><td>${esc(l.name)}</td><td>${esc(l.co)}</td><td>${ind ? ind.label : ""}</td><td>${STAGES[l.stage]}</td><td>${fmt(l.val)}</td></tr>`
           ).join("") || `<tr><td colspan="5" style="text-align:center">No matches.</td></tr>`;
 
-          document.getElementById("appts-body").innerHTML = (ind ? ind.appts : []).map((a) =>
-            `<tr><td>${a[0]}</td><td>${a[1]}</td><td>${ind.label}</td><td>${a[2]}</td></tr>`
-          ).join("");
+          document.querySelectorAll(".th-sort").forEach((b) => {
+            b.classList.toggle("asc", b.dataset.sort === sortKey && sortDir === 1);
+            b.classList.toggle("desc", b.dataset.sort === sortKey && sortDir === -1);
+          });
+
+          document.getElementById("appts-body").innerHTML =
+            S.appts.map((a, idx) =>
+              `<tr><td>${esc(a.when)}</td><td>${esc(a.who)}</td><td>${ind ? ind.label : ""}</td><td>${esc(a.type)}</td>` +
+              `<td><button class="appt-del" data-appt-del="${idx}" title="Remove appointment" aria-label="Remove appointment with ${esc(a.who)}">×</button></td></tr>`
+            ).join("") +
+            (ind ? ind.appts : []).map((a) =>
+              `<tr><td>${a[0]}</td><td>${a[1]}</td><td>${ind.label}</td><td>${a[2]}</td><td></td></tr>`
+            ).join("");
 
           if (!S.ints) {
             S.ints = {};
@@ -552,9 +624,9 @@
         function openDrawer(id) {
           drawerLead = S.leads.find((l) => l.id === id);
           if (!drawerLead) return;
-          document.getElementById("dr-name").textContent = drawerLead.name;
-          document.getElementById("dr-co").textContent = drawerLead.co;
-          document.getElementById("dr-val").textContent = fmt(drawerLead.val);
+          document.getElementById("dr-name").value = drawerLead.name;
+          document.getElementById("dr-co").value = drawerLead.co;
+          document.getElementById("dr-val").value = drawerLead.val;
           document.getElementById("dr-src").textContent = drawerLead.src || "Inbound";
           drStage.value = String(drawerLead.stage);
           const phone = drawerLead.phone || phoneFor(drawerLead.id);
@@ -568,6 +640,12 @@
         document.getElementById("drawer-close").addEventListener("click", closeDrawer);
         document.getElementById("dr-save").addEventListener("click", () => {
           if (!drawerLead) return;
+          const name = document.getElementById("dr-name").value.trim();
+          const co = document.getElementById("dr-co").value.trim();
+          const val = Math.max(0, parseInt(document.getElementById("dr-val").value, 10) || 0);
+          if (name) drawerLead.name = name;
+          if (co) drawerLead.co = co;
+          drawerLead.val = val;
           const newStage = parseInt(drStage.value, 10);
           if (newStage !== drawerLead.stage) {
             drawerLead.stage = newStage;
@@ -575,9 +653,33 @@
           }
           S.notes[drawerLead.id] = document.getElementById("dr-notes").value.slice(0, 2000);
           persist();
-          toast("SAVED", `${drawerLead.name} updated.`);
+          toast("SAVED", `${esc(drawerLead.name)} updated.`);
           closeDrawer();
           render();
+        });
+
+        // Delete with an 8-second Undo — no confirm dialog, no lost work
+        document.getElementById("dr-delete").addEventListener("click", () => {
+          if (!drawerLead) return;
+          const removed = drawerLead;
+          const idx = S.leads.indexOf(removed);
+          const note = S.notes[removed.id];
+          S.leads.splice(idx, 1);
+          delete S.notes[removed.id];
+          log(`You removed ${removed.name} (${removed.co}) from the pipeline`);
+          persist();
+          closeDrawer();
+          render();
+          toast("LEAD DELETED", `${esc(removed.name)} removed.`, {
+            label: "Undo",
+            fn: () => {
+              S.leads.splice(Math.min(idx, S.leads.length), 0, removed);
+              if (note !== undefined) S.notes[removed.id] = note;
+              log(`You restored ${removed.name} to the pipeline`);
+              persist();
+              render();
+            },
+          });
         });
 
         /* ---------------- interactions ---------------- */
@@ -625,18 +727,101 @@
           const adv = e.target.closest("[data-adv]");
           if (adv) {
             const lead = S.leads.find((l) => l.id === Number(adv.dataset.adv));
-            if (lead && lead.stage < 3) {
-              lead.stage += 1;
-              log(`You moved ${lead.name} to ${STAGES[lead.stage]}`);
-              if (lead.stage === 2) toast("APPOINTMENT SET", `${lead.name} is on the calendar.`);
-              if (lead.stage === 3) toast("CLOSED WON", `${lead.name} — ${fmt(lead.val)}.`);
-              persist();
-              render();
-            }
+            if (lead) moveLead(lead.id, lead.stage + 1);
+            return;
+          }
+          const back = e.target.closest("[data-back]");
+          if (back) {
+            const lead = S.leads.find((l) => l.id === Number(back.dataset.back));
+            if (lead) moveLead(lead.id, lead.stage - 1);
+            return;
+          }
+          const apDel = e.target.closest("[data-appt-del]");
+          if (apDel) {
+            const removed = S.appts.splice(Number(apDel.dataset.apptDel), 1)[0];
+            if (removed) log(`You removed the appointment with ${removed.who}`);
+            persist();
+            render();
             return;
           }
           const open = e.target.closest("[data-open]");
           if (open) openDrawer(Number(open.dataset.open));
+        });
+
+        /* ---------------- drag & drop — move cards any direction ---------------- */
+        const kb = document.getElementById("kb-full");
+        let dragId = null;
+        kb.addEventListener("dragstart", (e) => {
+          const card = e.target.closest("[data-drag]");
+          if (!card) return;
+          dragId = Number(card.dataset.drag);
+          card.classList.add("dragging");
+          e.dataTransfer.effectAllowed = "move";
+          try { e.dataTransfer.setData("text/plain", card.dataset.drag); } catch {}
+        });
+        kb.addEventListener("dragend", () => {
+          dragId = null;
+          kb.querySelectorAll(".dragging").forEach((c) => c.classList.remove("dragging"));
+          kb.querySelectorAll(".drop-over").forEach((c) => c.classList.remove("drop-over"));
+        });
+        kb.addEventListener("dragover", (e) => {
+          const col = e.target.closest("[data-col]");
+          if (!col || dragId === null) return;
+          e.preventDefault();
+          e.dataTransfer.dropEffect = "move";
+          kb.querySelectorAll(".drop-over").forEach((c) => { if (c !== col) c.classList.remove("drop-over"); });
+          col.classList.add("drop-over");
+        });
+        kb.addEventListener("dragleave", (e) => {
+          const col = e.target.closest("[data-col]");
+          if (col && !col.contains(e.relatedTarget)) col.classList.remove("drop-over");
+        });
+        kb.addEventListener("drop", (e) => {
+          const col = e.target.closest("[data-col]");
+          if (!col || dragId === null) return;
+          e.preventDefault();
+          moveLead(dragId, Number(col.dataset.col));
+          dragId = null;
+        });
+
+        /* ---------------- contacts: sort + stage filter ---------------- */
+        document.querySelectorAll(".th-sort").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const key = btn.dataset.sort;
+            if (sortKey === key) {
+              sortDir *= -1;
+              if (sortDir === 1) sortKey = null; // third click clears the sort
+            } else {
+              sortKey = key;
+              sortDir = 1;
+            }
+            render();
+          });
+        });
+        const stageSel = document.getElementById("stage-filter");
+        STAGES.forEach((s, i) => {
+          const o = document.createElement("option");
+          o.value = String(i);
+          o.textContent = s;
+          stageSel.appendChild(o);
+        });
+        stageSel.addEventListener("change", () => {
+          stageFilter = stageSel.value;
+          render();
+        });
+
+        /* ---------------- appointments: quick add ---------------- */
+        document.getElementById("appt-form").addEventListener("submit", (e) => {
+          e.preventDefault();
+          const when = document.getElementById("af-when").value.trim();
+          const who = document.getElementById("af-who").value.trim();
+          const type = document.getElementById("af-type").value.trim();
+          if (!when || !who || !type) return;
+          S.appts.unshift({ when, who, type });
+          log(`You booked ${who} — ${type}`);
+          persist();
+          e.target.reset();
+          render();
         });
 
         document.getElementById("crm-search").addEventListener("input", (e) => {

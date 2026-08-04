@@ -222,7 +222,7 @@ h3 {
 /* Scroll reveal — only animates when JS is present */
 .js .reveal {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(12px);
   transition:
     opacity var(--dur-slow) var(--ease-out-expo),
     transform var(--dur-slow) var(--ease-out-expo);
@@ -1439,7 +1439,6 @@ h3 {
   font-weight: 700;
   line-height: 1;
   color: var(--neon-emerald);
-  text-shadow: 0 0 24px var(--emerald-glow);
   min-width: 2.6em;
 }
 
@@ -1757,7 +1756,7 @@ h3 {
   background:
     radial-gradient(
       ellipse 75% 50% at 50% -8%,
-      rgba(0, 230, 92, 0.13),
+      rgba(0, 230, 92, 0.07),
       transparent 70%
     ),
     linear-gradient(var(--lt-line) 1px, transparent 1px),
@@ -2056,15 +2055,15 @@ h3 {
   color: var(--neon-emerald);
 }
 
-/* Slab-scoped buttons keep the neon identity */
+/* Slab-scoped buttons keep the emerald identity, quietly */
 .theme-light .slab .cta-button {
   background-color: var(--neon-emerald);
   border-color: transparent;
-  box-shadow: 0 12px 34px rgba(0, 255, 102, 0.28);
+  box-shadow: 0 8px 24px rgba(0, 255, 102, 0.14);
 }
 
 .theme-light .slab .cta-button:hover {
-  box-shadow: 0 16px 40px rgba(0, 255, 102, 0.38);
+  box-shadow: 0 10px 28px rgba(0, 255, 102, 0.2);
 }
 
 /* Calendly wrap inside the dark band */
@@ -2205,19 +2204,19 @@ h3 {
   animation: rise-in 0.8s var(--ease-out-expo) 0.74s both;
 }
 
-/* Scroll-reveal per spec: gentle 15px float-up */
+/* Scroll-reveal: gentle 12px float-up */
 .theme-light .reveal {
-  transform: translateY(15px);
+  transform: translateY(12px);
 }
 
-/* ---- Hover micro-states per spec ---- */
+/* ---- Hover micro-states: quiet lift, no neon bloom ---- */
 .theme-light .cta-button:hover {
-  transform: scale(1.02);
-  box-shadow: 0 0 25px rgba(0, 230, 92, 0.45);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(6, 118, 71, 0.16);
 }
 
 .theme-light .cta-button:active {
-  transform: scale(0.99);
+  transform: translateY(0);
 }
 
 .theme-light .panel-card:hover,
@@ -2820,20 +2819,6 @@ h3 {
   padding: 0 var(--space-6) var(--space-6);
   color: var(--lt-ink-muted);
   line-height: var(--leading-body);
-}
-
-/* ---- Scroll progress bar ---- */
-.scroll-progress {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  z-index: calc(var(--z-nav) + 1);
-  background: linear-gradient(90deg, var(--lt-accent-deep), var(--lt-accent));
-  transform: scaleX(0);
-  transform-origin: left;
-  pointer-events: none;
 }
 
 /* ---- Command palette (⌘K) ---- */
@@ -4202,18 +4187,6 @@ h3 {
   }
 }
 
-/* ---- Exit-intent capture ---- */
-.exit-modal .modal-container {
-  max-width: 520px;
-  text-align: center;
-}
-
-.exit-modal h2 {
-  border: none !important;
-  margin-bottom: var(--space-3) !important;
-  padding-bottom: 0 !important;
-}
-
 /* ==========================================================================
    CRM DEMO — application shell (clearly-badged demo environment)
    ========================================================================== */
@@ -4716,22 +4689,35 @@ h3 {
 }
 
 .ind-card .ic {
-  font-size: 1.6rem;
-  display: block;
-  margin-bottom: var(--space-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin: 0 auto var(--space-3);
+  border-radius: 10px;
+  background: var(--lt-tint);
+  border: 1px solid var(--lt-line-strong);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--lt-accent-deep);
 }
 
 .ind-card .nm {
+  display: block;
   font-weight: 800;
   color: var(--lt-ink);
   font-size: var(--text-sm);
 }
 
 .ind-card .ds {
+  display: block;
   font-family: var(--font-mono);
   font-size: 0.62rem;
   color: var(--lt-ink-faint);
-  margin-top: 2px;
+  margin-top: 4px;
 }
 
 @media (max-width: 640px) {
@@ -5215,10 +5201,18 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
-  font-weight: 800;
-  font-size: 0.85rem;
+  background: var(--lt-tint);
+  border: 1px solid var(--lt-line-strong);
+  color: var(--lt-ink-muted);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.78rem;
   letter-spacing: 0.02em;
+}
+
+.int-card.is-on .int-chip {
+  color: var(--lt-accent-deep);
+  border-color: rgba(6, 118, 71, 0.3);
 }
 
 .int-body {

@@ -43,6 +43,13 @@
             <span>Appointments</span>
           </button>
         </nav>
+        <div class="crm-work">
+          <div class="crm-work-lbl">Workspace</div>
+          <select class="crm-ind-select" id="crm-ind" aria-label="Switch business type"></select>
+          <button class="live-toggle on" id="live-toggle" type="button" aria-pressed="true">
+            <span class="dot" aria-hidden="true"></span> LIVE AGENT
+          </button>
+        </div>
         <div class="crm-side-foot">
           <div class="who">Demo Operator</div>
           <div class="role">Viewing sample workspace</div>
@@ -55,10 +62,6 @@
         <div class="crm-topbar">
           <h1 id="crm-title">Dashboard</h1>
           <span class="crm-demo-badge">Demo Environment // Sample Data</span>
-          <select class="crm-ind-select" id="crm-ind" aria-label="Switch business type"></select>
-          <button class="live-toggle on" id="live-toggle" type="button" aria-pressed="true">
-            <span class="dot" aria-hidden="true"></span> LIVE AGENT
-          </button>
           <input class="crm-search" id="crm-search" type="search" placeholder="Search leads…" aria-label="Search leads" />
           <button class="cta-button" id="crm-add" style="padding: 10px 18px; font-size: 0.9rem">+ Add Lead</button>
         </div>
@@ -67,25 +70,28 @@
           <div class="crm-stat"><div class="lbl">Active Leads</div><div class="val" id="st-leads">—</div></div>
           <div class="crm-stat"><div class="lbl">Appointments Set</div><div class="val" id="st-appts">—</div></div>
           <div class="crm-stat"><div class="lbl">Pipeline Value</div><div class="val em" id="st-value">—</div></div>
-          <div class="crm-stat"><div class="lbl">Avg. First Response</div><div class="val em">8.4s</div></div>
+          <div class="crm-stat"><div class="lbl">Won — Value</div><div class="val em" id="st-won">—</div></div>
         </div>
 
         <!-- DASHBOARD -->
         <section class="crm-view on" id="view-dash">
           <div class="crm-grid2">
             <div>
-              <div class="crm-panel" style="margin-bottom: 1rem">
+              <div class="nba" id="nba"></div>
+              <div class="crm-panel">
                 <h3>Pipeline by Stage</h3>
                 <div class="chart" id="chart"></div>
               </div>
-              <div class="crm-panel">
-                <h3>Pipeline Snapshot</h3>
-                <div class="kb kb--snapshot" id="kb-dash"></div>
-              </div>
             </div>
-            <div class="crm-panel">
-              <h3>Activity Feed — the agent at work</h3>
-              <div id="act-feed"></div>
+            <div>
+              <div class="crm-panel" style="margin-bottom: 1rem">
+                <h3>Today's Appointments</h3>
+                <div id="appt-mini"></div>
+              </div>
+              <div class="crm-panel">
+                <h3>Activity — the agent at work</h3>
+                <div id="act-feed"></div>
+              </div>
             </div>
           </div>
         </section>
@@ -311,6 +317,7 @@
 
         function toast(tag, msg) {
           const rack = document.getElementById("toasts");
+          rack.innerHTML = "";
           const el = document.createElement("div");
           el.className = "toast";
           el.innerHTML = `<span class="tag">${tag}</span>${msg}`;
@@ -340,12 +347,31 @@
             `<div class="bar${i === 2 ? " em" : ""}"><i style="height:${Math.round((counts[i]/max)*80)+8}px"></i><b>${s.split(" ")[0]} · ${counts[i]}</b></div>`
           ).join("");
 
-          // kanban snapshot + full
-          document.getElementById("kb-dash").innerHTML = STAGES.map((s, i) => {
-            const inS = vis.filter((l) => l.stage === i);
-            return `<div class="kb-col"><div class="kb-col-head">${s}<span class="kb-count">${inS.length}</span></div>` +
-              inS.slice(0, 2).map((l) => `<div class="kb-card" data-open="${l.id}"><div class="nm">${l.name}</div><div class="co">${l.co}</div></div>`).join("") + `</div>`;
-          }).join("");
+          // won tile
+          document.getElementById("st-won").textContent =
+            fmt(S.leads.filter((l) => l.stage === 3).reduce((s, l) => s + l.val, 0));
+
+          // next best action — one suggestion, one button
+          const quiet = S.leads.filter((l) => l.stage <= 1).length;
+          const ready = S.leads.filter((l) => l.stage === 2).length;
+          const nba = document.getElementById("nba");
+          if (quiet > 0) {
+            nba.innerHTML = `<div class="nba-t">Next best action</div>` +
+              `<div class="nba-m">${quiet} lead${quiet > 1 ? "s are" : " is"} sitting quiet in the pipeline.</div>` +
+              `<button class="cta-button" data-nba="followup" style="padding:10px 18px;font-size:.9rem">Fire the follow-up sequence</button>`;
+          } else if (ready > 0) {
+            nba.innerHTML = `<div class="nba-t">Next best action</div>` +
+              `<div class="nba-m">${ready} appointment${ready > 1 ? "s" : ""} ready to close.</div>` +
+              `<button class="cta-button" data-nba="pipeline" style="padding:10px 18px;font-size:.9rem">Open the pipeline</button>`;
+          } else {
+            nba.innerHTML = `<div class="nba-t">Next best action</div>` +
+              `<div class="nba-m">Pipeline is healthy — the agent has it covered.</div>`;
+          }
+
+          // today's appointments (compact)
+          document.getElementById("appt-mini").innerHTML = (ind ? ind.appts : []).slice(0, 3).map((a) =>
+            `<div class="appt-mini"><span class="w">${a[0]}</span><span>${a[1]}</span><span class="t2">${a[2]}</span></div>`
+          ).join("");
 
           document.getElementById("kb-full").innerHTML = STAGES.map((s, i) => {
             const inS = vis.filter((l) => l.stage === i);
@@ -365,7 +391,7 @@
             `<tr><td>${a[0]}</td><td>${a[1]}</td><td>${ind.label}</td><td>${a[2]}</td></tr>`
           ).join("");
 
-          document.getElementById("act-feed").innerHTML = S.activity.map((a) =>
+          document.getElementById("act-feed").innerHTML = S.activity.slice(0, 8).map((a) =>
             `<div class="act-line"><span class="t">${a[0]}</span>${a[1]}</div>`
           ).join("");
         }
@@ -447,6 +473,22 @@
 
         /* ---------------- interactions ---------------- */
         document.querySelector(".crm-main").addEventListener("click", (e) => {
+          const nbaBtn = e.target.closest("[data-nba]");
+          if (nbaBtn) {
+            if (nbaBtn.dataset.nba === "followup") {
+              const quietLeads = S.leads.filter((l) => l.stage <= 1).slice(0, 2);
+              quietLeads.forEach((l) => {
+                l.stage += 1;
+                log(`Agent follow-up advanced ${l.name} to ${STAGES[l.stage]}`);
+              });
+              toast("SEQUENCE FIRED", `${quietLeads.length} quiet lead${quietLeads.length > 1 ? "s" : ""} re-engaged.`);
+              persist();
+              render();
+            } else {
+              document.querySelector('.crm-nav button[data-view="pipe"]').click();
+            }
+            return;
+          }
           const adv = e.target.closest("[data-adv]");
           if (adv) {
             const lead = S.leads.find((l) => l.id === Number(adv.dataset.adv));
@@ -534,7 +576,7 @@
           liveBtn.classList.toggle("on", on);
           liveBtn.setAttribute("aria-pressed", String(on));
           clearInterval(liveTimer);
-          if (on) liveTimer = setInterval(liveTick, 9000);
+          if (on) liveTimer = setInterval(liveTick, 14000);
         }
         liveBtn.addEventListener("click", () => setLive(!S.live));
         setLive(S.live !== false);

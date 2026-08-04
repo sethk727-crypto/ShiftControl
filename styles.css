@@ -4999,3 +4999,118 @@ h3 {
 .ind-overlay[hidden] {
   display: none;
 }
+
+/* CRM simplicity pass: sidebar workspace, next-best-action, mini appts */
+.crm-work {
+  margin-top: auto;
+  border-top: 1px solid var(--border-glass);
+  padding-top: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.crm-work + .crm-side-foot {
+  margin-top: var(--space-4);
+}
+
+.crm-work-lbl {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.crm-work .crm-ind-select {
+  width: 100%;
+  background: var(--obsidian-elevated);
+  border-color: var(--border-glass);
+  color: var(--platinum);
+}
+
+.crm-work .live-toggle {
+  width: 100%;
+  justify-content: center;
+  background: var(--obsidian-elevated);
+  border-color: var(--border-glass);
+}
+
+.nba {
+  background: var(--obsidian);
+  color: var(--platinum);
+  border: 1px solid rgba(0, 255, 102, 0.3);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  margin-bottom: 1rem;
+}
+
+.nba-t {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--neon-emerald);
+  margin-bottom: var(--space-2);
+}
+
+.nba-m {
+  font-size: var(--text-md);
+  font-weight: 700;
+  margin-bottom: var(--space-4);
+  line-height: var(--leading-snug);
+}
+
+.appt-mini {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: var(--space-3);
+  align-items: baseline;
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--lt-line);
+  font-size: var(--text-sm);
+  color: var(--lt-ink);
+  font-weight: 600;
+}
+
+.appt-mini:last-child {
+  border-bottom: none;
+}
+
+.appt-mini .w {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 700;
+  color: var(--lt-accent-deep);
+  white-space: nowrap;
+}
+
+.appt-mini .t2 {
+  font-size: var(--text-xs);
+  color: var(--lt-ink-faint);
+  text-align: right;
+}
+
+@media (max-width: 900px) {
+  .crm-work {
+    margin: 0;
+    border: none;
+    padding: 0;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .crm-work-lbl {
+    display: none;
+  }
+
+  .crm-work .crm-ind-select {
+    width: auto;
+  }
+
+  .crm-work .live-toggle {
+    width: auto;
+  }
+}

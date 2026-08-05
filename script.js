@@ -527,9 +527,10 @@
     const onHome = !!document.querySelector("#transformations");
     const prefix = onHome ? "" : "index.html";
     const PALETTE_ITEMS = [
+      { group: "Sections", label: "Product — See It Running", href: prefix + "#product" },
       { group: "Sections", label: "Transformations", href: prefix + "#transformations" },
       { group: "Sections", label: "Industries", href: prefix + "#industries" },
-      { group: "Sections", label: "Engagement — A Choice of Yeses", href: prefix + "#engagement" },
+      { group: "Sections", label: "Plans — A Choice of Yeses", href: prefix + "#engagement" },
       { group: "Sections", label: "Process — The Protocol", href: prefix + "#process" },
       { group: "Sections", label: "Proof — Case Files", href: prefix + "#proof" },
       { group: "Sections", label: "FAQ — Straight Answers", href: prefix + "#faq" },

@@ -15,6 +15,12 @@
   --neon-emerald: #00ff66;
   --emerald-bright: #1aff75;
   --emerald-glow: rgba(0, 255, 102, 0.2);
+
+  /* Elevation — one implicit light source, directly above.
+     elev-1: resting cards · elev-2: raised/hover · elev-3: modals */
+  --elev-1: 0 1px 2px rgba(10, 10, 12, 0.04), 0 2px 8px rgba(10, 10, 12, 0.05);
+  --elev-2: 0 2px 4px rgba(10, 10, 12, 0.05), 0 10px 24px rgba(10, 10, 12, 0.09);
+  --elev-3: 0 8px 16px rgba(10, 10, 12, 0.1), 0 28px 70px rgba(10, 10, 12, 0.22);
   --emerald-soft: rgba(0, 255, 102, 0.12);
   --emerald-dim: rgba(0, 255, 102, 0.05);
   --alert-red: #ff4444;
@@ -5697,4 +5703,142 @@ a.trust-item:hover .trust-v {
 
 .int-card {
   min-height: 96px;
+}
+
+/* ==========================================================================
+   ELEVATION SYSTEM — borderless separation, one light source from above
+   Cards separate by background + shadow, not 1px boxes. Hover elevation
+   is reserved for elements you can actually click (honest affordance).
+   ========================================================================== */
+.theme-light .panel-card,
+.theme-light .cap-card,
+.theme-light .case-card,
+.theme-light .zdr-card,
+.theme-light .faq-item,
+.theme-light .ba-switcher,
+.theme-light .callback-form-shell,
+.theme-light .bento-card,
+.crm-stat,
+.crm-panel,
+.int-card,
+.ind-card,
+.kb-card,
+.crm-table {
+  border-color: transparent;
+  box-shadow: var(--elev-1);
+}
+
+/* Static cards: no hover theater — they aren't clickable */
+.theme-light .panel-card:hover,
+.theme-light .cap-card:hover {
+  border-color: transparent;
+  box-shadow: var(--elev-1);
+}
+
+/* Interactive cards rise toward the light + keep the emerald hairline */
+.theme-light .case-card:hover,
+.theme-light .faq-item:hover,
+.theme-light .bento-card--wide:hover,
+.ind-card:hover,
+.int-card:hover {
+  box-shadow: var(--elev-2);
+}
+
+.kb-card {
+  box-shadow: var(--elev-1);
+}
+
+/* Kanban columns read as recessed wells, not boxes */
+.kb-col {
+  border-color: transparent;
+}
+
+.kb-empty {
+  border: 1px dashed var(--lt-line-strong);
+  border-radius: var(--radius-sm);
+  padding: var(--space-5) var(--space-3);
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  color: var(--lt-ink-faint);
+}
+
+.kb-col.drop-over .kb-empty {
+  border-color: var(--lt-accent-deep);
+  color: var(--lt-accent-deep);
+}
+
+/* Trust strip: tint band, no rules */
+.trust-strip {
+  border-top: none;
+  border-bottom: none;
+}
+
+/* Buttons catch the light on top, cast it below */
+.theme-light .cta-button {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    0 1px 2px rgba(6, 118, 71, 0.18),
+    0 3px 10px rgba(6, 118, 71, 0.12);
+}
+
+.theme-light .cta-button:hover {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    0 2px 4px rgba(6, 118, 71, 0.18),
+    0 6px 16px rgba(6, 118, 71, 0.16);
+}
+
+.theme-light .slab .cta-button,
+.theme-light .slab .cta-button:hover {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 8px 24px rgba(0, 255, 102, 0.14);
+}
+
+/* Modals float highest */
+.theme-light .modal-container,
+.drawer {
+  box-shadow: var(--elev-3);
+}
+
+/* Numbers scan best right-aligned (contacts Value column) */
+#view-contacts .crm-table th:nth-child(5),
+#view-contacts .crm-table td:nth-child(5) {
+  text-align: right;
+}
+
+/* Footer checklist — hidden until asked for (SHE: hide) */
+.footer-capture-details summary {
+  list-style: none;
+  cursor: pointer;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--platinum);
+  padding: var(--space-4) 0;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.footer-capture-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.footer-capture-details summary span {
+  color: var(--neon-emerald);
+  transition: transform var(--dur-fast) ease;
+}
+
+.footer-capture-details[open] summary span {
+  transform: rotate(90deg);
+}
+
+.footer-capture-details summary:hover span {
+  transform: translateX(3px);
+}
+
+.footer-capture-details[open] summary:hover span {
+  transform: rotate(90deg);
 }

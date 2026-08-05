@@ -528,7 +528,8 @@
                 `<div class="row"><span class="vl">${i === 3 ? "✓ " : ""}${fmt(l.val)}</span><span class="kb-nav">` +
                 (i > 0 ? `<button class="kb-step" data-back="${l.id}" title="Move back to ${STAGES[i-1]}" aria-label="Move ${l.name} back to ${STAGES[i-1]}">←</button>` : "") +
                 (i < 3 ? `<button class="kb-move" data-adv="${l.id}">→ ${STAGES[i+1].split(" ")[0]}</button>` : "") +
-                `</span></div></div>`).join("") + `</div>`;
+                `</span></div></div>`).join("") +
+              (inS.length ? "" : `<div class="kb-empty">Drag a lead here</div>`) + `</div>`;
           }).join("");
 
           document.getElementById("contacts-body").innerHTML = contactRows().map((l) =>

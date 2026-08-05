@@ -1517,6 +1517,209 @@ h3 {
   color: var(--emerald-bright);
 }
 
+/* ==========================================================================
+   CONVERSION LAYER — dual CTA microcopy, trust strip, product bento
+   ========================================================================== */
+.hero-actions--stacked {
+  align-items: flex-start;
+}
+
+.hero-cta-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.hero-cta-col .cta-button,
+.hero-cta-col .ghost-button {
+  width: 100%;
+  text-align: center;
+}
+
+.cta-micro {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.05em;
+  color: var(--lt-ink-faint);
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .hero-actions--stacked {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .cta-micro {
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+/* ---- Trust strip: real signals, low contrast, above the fold ---- */
+.trust-strip {
+  border-top: 1px solid var(--lt-line);
+  border-bottom: 1px solid var(--lt-line);
+  background: var(--lt-tint);
+}
+
+.trust-strip-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-6);
+  padding-top: var(--space-5);
+  padding-bottom: var(--space-5);
+}
+
+.trust-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  text-decoration: none;
+  min-width: 0;
+}
+
+.trust-k {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--lt-accent-deep);
+}
+
+.trust-v {
+  font-size: var(--text-xs);
+  line-height: 1.45;
+  color: var(--lt-ink-muted);
+}
+
+a.trust-item:hover .trust-v {
+  color: var(--lt-ink);
+}
+
+@media (max-width: 900px) {
+  .trust-strip-row {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4) var(--space-6);
+  }
+}
+
+/* ---- Product bento ---- */
+.bento {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+}
+
+.bento-card {
+  background: var(--lt-raised);
+  border: 1px solid var(--lt-line-strong);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  min-width: 0;
+}
+
+.bento-card--wide {
+  grid-column: 1 / -1;
+  position: relative;
+  display: block;
+  padding: 0;
+  overflow: hidden;
+  text-decoration: none;
+  transition: border-color var(--dur-fast) ease, box-shadow var(--dur-fast) ease;
+}
+
+.bento-card--wide:hover {
+  border-color: rgba(6, 118, 71, 0.45);
+  box-shadow: 0 14px 40px rgba(10, 10, 12, 0.1);
+}
+
+.bento-card--wide img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.shot-badge {
+  position: absolute;
+  top: var(--space-4);
+  left: var(--space-4);
+  z-index: 2;
+  background: rgba(3, 3, 3, 0.82);
+  color: var(--platinum);
+  border: 1px solid rgba(0, 255, 102, 0.35);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 5px 12px;
+}
+
+.shot-note {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  background: linear-gradient(transparent, rgba(3, 3, 3, 0.78) 42%);
+}
+
+.shot-cue {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.05em;
+  color: rgba(250, 250, 250, 0.75);
+}
+
+.shot-cta {
+  font-weight: 700;
+  font-size: var(--text-sm);
+  color: var(--neon-emerald);
+  white-space: nowrap;
+}
+
+.bento-k {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--lt-accent-deep);
+  margin-bottom: var(--space-2);
+}
+
+.bento-card p {
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+  color: var(--lt-ink-muted);
+}
+
+.bento-card p b {
+  color: var(--lt-ink);
+}
+
+@media (max-width: 900px) {
+  .bento {
+    grid-template-columns: 1fr 1fr;
+  }
+  .shot-cue {
+    display: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .bento {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* One-pager PDF handoff under the booking calendar */
 .onepager-line {
   text-align: center;

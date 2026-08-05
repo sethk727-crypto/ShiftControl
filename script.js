@@ -12,6 +12,91 @@
   ).matches;
 
   /* ------------------------------------------------------------------
+     0. INTENT TRAIL + LEAD CAPTURE
+     Records which signals a visitor fired (CTA clicks, demo launches,
+     deep-section views) and attaches the trail to any form submission.
+     Set N8N_WEBHOOK_URL to your n8n Webhook node's production URL and
+     every capture POSTs there as JSON — until then, nothing leaves
+     the browser. Routing logic lives in docs/conversion-playbook.md.
+     ------------------------------------------------------------------ */
+  const N8N_WEBHOOK_URL = "";
+
+  const INTENT_KEY = "sk_intent";
+  function intentTrail() {
+    try {
+      return JSON.parse(sessionStorage.getItem(INTENT_KEY)) || [];
+    } catch {
+      return [];
+    }
+  }
+  function markIntent(event) {
+    try {
+      const trail = intentTrail();
+      if (trail.length > 40) trail.shift();
+      trail.push([Date.now(), event]);
+      sessionStorage.setItem(INTENT_KEY, JSON.stringify(trail));
+    } catch {}
+  }
+
+  document.addEventListener("click", (e) => {
+    const el = e.target.closest("[data-intent]");
+    if (el) markIntent(el.dataset.intent);
+  });
+
+  // Deep-intent sections: reaching booking or callback is a signal
+  if ("IntersectionObserver" in window) {
+    const deepSections = ["book", "callback"]
+      .map((id) => document.getElementById(id))
+      .filter(Boolean);
+    const deepObserver = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          markIntent("viewed_" + entry.target.id);
+          observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.3 },
+    );
+    deepSections.forEach((s) => deepObserver.observe(s));
+  }
+
+  function captureLead(form, fields) {
+    markIntent("submit_" + form);
+    if (!N8N_WEBHOOK_URL) return; // no backend configured — nothing transmitted
+    try {
+      const payload = {
+        form,
+        fields,
+        intent: intentTrail(),
+        page: location.pathname,
+        submittedAt: new Date().toISOString(),
+      };
+      const body = JSON.stringify(payload);
+      if (!(navigator.sendBeacon && navigator.sendBeacon(N8N_WEBHOOK_URL, new Blob([body], { type: "application/json" })))) {
+        fetch(N8N_WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body,
+          keepalive: true,
+        }).catch(() => {});
+      }
+    } catch {}
+  }
+
+  /* ------------------------------------------------------------------
+     0b. ONE-CLICK DEMO LAUNCH — no login page detour, straight to
+     the workspace. The demo session key is what crm.html gates on.
+     ------------------------------------------------------------------ */
+  document.querySelectorAll("[data-demo-launch]").forEach((link) => {
+    link.addEventListener("click", () => {
+      try {
+        sessionStorage.setItem("sk_demo_session", "1");
+      } catch {}
+    });
+  });
+
+  /* ------------------------------------------------------------------
      1. LOGO FALLBACK — swap to the wordmark if the image fails
      ------------------------------------------------------------------ */
   const logo = document.getElementById("logo");
@@ -220,6 +305,7 @@
       const btn = pilotForm.querySelector("button[type=submit]");
       btn.textContent = "Processing...";
       btn.disabled = true;
+      captureLead("pilot", Object.fromEntries(new FormData(pilotForm)));
 
       setTimeout(() => {
         successMessage.classList.add("active");
@@ -272,6 +358,7 @@
       const btn = callbackForm.querySelector("button[type=submit]");
       btn.textContent = "Queuing...";
       btn.disabled = true;
+      captureLead("callback", Object.fromEntries(new FormData(callbackForm)));
 
       setTimeout(() => {
         callbackSuccess.classList.add("active");
@@ -291,6 +378,7 @@
       const btn = checklistForm.querySelector("button[type=submit]");
       btn.textContent = "Sending...";
       btn.disabled = true;
+      captureLead("checklist", Object.fromEntries(new FormData(checklistForm)));
 
       setTimeout(() => {
         checklistSuccess.classList.add("active");
